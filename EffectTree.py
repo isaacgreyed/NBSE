@@ -5,10 +5,13 @@ class Audio:
 class EffectNode:
     def __init__(self, function, input_amt: int, output_amt: int, inputs, outputs, extra_args=[]):
         self.function   = function   #function to be called to apply effect, should always return audio
+        
         self.input_amt  = input_amt  #number of inputs function requires
         self.output_amt = output_amt #number of outputs function returns
+        
         self.inputs     = inputs     #where inputs to pass to function come from, think of lower nodes lower in the graph. Should be [(EffectNode, int)] and tie directly to inputs
         self.outputs    = outputs    #where function outputs go think of farther along in the graph. Should be [(EffectNode, int)] and tie directly to inputs
+        
         self.extra_args = extra_args #custom arguements to pass when applying
         self.values     = []         #actually values of output function
 
