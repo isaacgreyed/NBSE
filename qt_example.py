@@ -48,7 +48,7 @@ def reverb():
 
     # Change text box
     reverbDesc = "Reverb creates a resounding echo effect."
-    textbox_label.setText(reverb)
+    textbox_label.setText(reverbDesc)
     textbox_label.adjustSize()
 
     # Apply Audio Effect
