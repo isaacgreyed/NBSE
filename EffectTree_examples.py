@@ -18,4 +18,6 @@ passthrough_effect.add_input(0, basic_param) #because basic_param is an EffectPa
 print_effect = EffectNode(print, 1, 0)
 print_effect.add_input(0, passthrough_effect, 0) #since we are getting from another EffectNode we need to specify the output number as it could have multiple
 
+print(print_effect.branch_length())
+
 print_effect.apply()

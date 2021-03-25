@@ -25,6 +25,15 @@ class EffectNode:
         else:
             return vals[value_num]
 
+    def branch_length(self):
+        sub_branch_lengths = [0]
+        for ins in self.inputs:
+            if ins == None:
+                sub_branch_lengths.append(0)
+            else:
+                sub_branch_lengths.append(ins[0].branch_length())
+        return 1 + max(sub_branch_lengths)
+
     #adds input to effect node
     #argument_num is what position the argument should be in starting at 0
     #effect is the EffectNode or EffectParam to get the effect from
@@ -39,6 +48,29 @@ class EffectParam: #class to pass values into EffectNode class without other eff
     def get(self, value_num=None): #value_num is a placeholder value to allow calling from EffectNodes
         return self.value
 
+    def branch_length(self):
+        return 1
+
 class EffectTree:
     def __init__(self, root):
         self.root = root
+
+    def get_height(self):
+        return
+
+    def get_length(self):
+        length = 1
+        effect = self.root
+        while effect.output_amt > 0:
+            length += 1
+            effect.o
+
+
+    def render(self, canvas_x):
+        effects = self.tree_to_list()
+        x_slot_length = canvas_x / len(effects)
+        current_x = 0
+        for effect in effects:
+            effect.draw_node(current_x, x_slot_length)
+            effect.draw_connectors(current_x, x_slot_length)
+            current_x += x_slot_length
