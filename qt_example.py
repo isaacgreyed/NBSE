@@ -47,7 +47,7 @@ class Example(QWidget):
 def reverb():
 
     # Change text box
-    reverb = "Reverb creates a resounding echo effect."
+    reverbDesc = "Reverb creates a resounding echo effect."
     textbox_label.setText(reverb)
     textbox_label.adjustSize()
 
