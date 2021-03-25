@@ -45,6 +45,13 @@ class Example(QWidget):
         self.show()
 
 def reverb():
+
+    # Change text box
+    reverb = "Reverb creates a resounding echo effect."
+    textbox_label.setText(reverb)
+    textbox_label.adjustSize()
+
+    # Apply Audio Effect
     s = Server(audio="offline").boot()
     filedur = sndinfo(file)[1]
     s.recordOptions(dur=filedur, filename=r"sample_reverbed.wav")
