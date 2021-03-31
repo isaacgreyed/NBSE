@@ -19,16 +19,10 @@ file = r"sample.wav"
 class NBSEWindow(QMainWindow):
 
     def __init__(self):
-        super().__init__()
+        super(NBSEWindow, self).__init__()
 
-        self.setWindowTitle("Node Based Sound Editor v1")
-        QWidget.__init__(self)  #What does this do?
-
-        self.initUI()
-
-
-    def initUI(self):
-
+        # Window Visual Design
+        # Set to be unscalable 1920x1080
         QToolTip.setFont(QFont('SansSerif', 10))
         self.setFixedSize(1920, 1080)
         self.setStyleSheet("background-image: url(\"images/pgmtexture.png\");\n")
@@ -36,52 +30,73 @@ class NBSEWindow(QMainWindow):
         winIcon = QIcon("images/icon.png")
         self.setWindowIcon(winIcon)
 
-        reverb_btn = QPushButton('Reverb', self)
-        reverb_btn.clicked.connect(reverb)
-        reverb_btn.resize(reverb_btn.sizeHint())
-        reverb_btn.move(50, 30)
-        reverb_btn.setGeometry(30, 350, 125, 125)
-        reverb_btn.setStyleSheet("border-radius: 25px;\n"
+        # Initialize user interface
+        self.initUI()
+
+
+    def initUI(self):
+
+        # Filename text box
+        # Must modify code to accomodate longer text file names.
+        self.textbox_label = QLabel(self)
+        self.textbox_label.move(20, 0)
+        self.textbox_label.setText("Current filename: " + file)
+        self.textbox_label.setGeometry(0, 0, 300, 300)
+
+        # Reverb button
+        self.reverb_btn = QPushButton('Reverb', self)
+        self.reverb_btn.clicked.connect(reverb)
+        self.reverb_btn.clicked.connect(lambda: self.changeEffectText(1))
+        self.reverb_btn.move(50, 30)
+        self.reverb_btn.setGeometry(30, 350, 125, 125)
+        self.reverb_btn.setStyleSheet("border-radius: 25px;\n"
 "background: #73AD21;\n"
 "padding: 20px;\n"
 "width: 200px;\n"
 "height: 150px;\n"
 "background-image: url(\"images/btntexture.png\");")
 
-        distort_btn = QPushButton('Distortion', self)
-        distort_btn.clicked.connect(distortion)
-        distort_btn.resize(distort_btn.sizeHint())
-        distort_btn.move(50, 55)
-        distort_btn.setGeometry(210, 350, 125, 125)
-        distort_btn.setStyleSheet("border-radius: 25px;\n"
+        # Distort Button
+        self.distort_btn = QPushButton('Distortion', self)
+        self.distort_btn.clicked.connect(distortion)
+        self.distort_btn.clicked.connect(lambda: self.changeEffectText(2))
+        self.distort_btn.move(50, 55)
+        self.distort_btn.setGeometry(210, 350, 125, 125)
+        self.distort_btn.setStyleSheet("border-radius: 25px;\n"
 "background: #73AD21;\n"
 "padding: 20px;\n"
 "width: 200px;\n"
 "height: 150px;\n"
 "background-image: url(\"images/btntexture.png\");")
 
+        # Effect text box
+        # png for background needs to be improved.
+        self.effect_Textbox = QLabel(self, wordWrap=True)
+        self.effect_Textbox.setText("This is an example. ")
+        self.effect_Textbox.setGeometry(9, 600, 350, 400)
+        self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
+"background-image: url(\"images/effectTextbg.png\");")
+        self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
+        #self.effect_Textbox.move(100, 100)
 
-        textbox_label = QLabel(self)
-        textbox_label.move(20,0)
-        textbox_label.setText("Current filename: " + file)
 
-        textbox = QLineEdit(self)
-        textbox.move(20, 80)
-        textbox.resize(140,20)
+    # Changes a label to display what an effect does when clicked.
+    def changeEffectText(self, func):
+        reverb = "Reverb\nThis creates a resounding effect " \
+                 "that simulates a resonance of sound off of a surface."
 
+        distortion = "Distortion\nThis creates an effect that simulates" \
+                     "a sine-wave of data being modified in a particular" \
+                     "direction."
+        if func == 1:
+            self.effect_Textbox.setText(reverb)
+        elif func == 2:
+            self.effect_Textbox.setText(distortion)
+        else:
+            self.effect_Textbox.setText("Error")
 
-        self.show()
-
-def changeTextBox(text):
-    textbox_label.setText(reverbDesc)
-    textbox_label.adjustSize()
 
 def reverb():
-
-    # Change text box
-    reverbDesc = "Reverb creates a resounding echo effect."
-    changeTextBox(reverbDesc)
-
     # Apply Audio Effect
     s = Server(audio="offline").boot()
     filedur = sndinfo(file)[1]
@@ -105,17 +120,19 @@ def distortion():
 
     lfo = Sine(freq=[.2, .25], mul=.5, add=.5)
     filter = Disto(ifile, drive=lfo, slope=.8, mul=.15).out()
-
     s.start()
     filteredFile = r"sample.wav"
     f = open(filteredFile, 'rb')
     f = f.read()
+
     return f
+
 
 def main():
 
     app = QApplication(sys.argv)
     ex = NBSEWindow()
+    ex.show()
     sys.exit(app.exec_())
 
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.2, 2021-03-30T16:12:39. -->
+<!-- Written by QtCreator 4.14.2, 2021-03-31T12:40:44. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -244,6 +244,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">qt_example</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/BaronB/Documents/QtProjects/NBSE/qt_example.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/BaronB/Documents/QtProjects/NBSE/qt_example.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{5d5a0433-13e2-482e-a2f5-449abee57f84}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\BaronB\Documents\QtProjects\NBSE\qt_example.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -315,6 +316,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">EffecTree_examples</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/BaronB/Documents/QtProjects/NBSE/EffecTree_examples.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/BaronB/Documents/QtProjects/NBSE/EffecTree_examples.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{5d5a0433-13e2-482e-a2f5-449abee57f84}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\BaronB\Documents\QtProjects\NBSE\EffecTree_examples.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -386,6 +388,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">NodeTree</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/BaronB/Documents/QtProjects/NBSE/NodeTree.py</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/BaronB/Documents/QtProjects/NBSE/NodeTree.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{5d5a0433-13e2-482e-a2f5-449abee57f84}</value>
     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\BaronB\Documents\QtProjects\NBSE\NodeTree.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
