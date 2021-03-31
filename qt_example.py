@@ -1,19 +1,28 @@
 #!/usr/bin/python
 
 import sys
-from PyQt5.QtWidgets import (QWidget, QToolTip,
-    QPushButton, QApplication, QLineEdit, QLabel)
-from PyQt5.QtGui import QFont
+#from PyQt5.QtWidgets import (QWidget, QToolTip,
+#    QPushButton, QApplication, QLineEdit, QLabel)
+
+#from PyQt5.QtGui import (QImage, QPalette, QBrush, QFont)
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
+from PyQt5 import QtCore, QtWidgets
+
 from pyo import *
 from scipy.io.wavfile import read
 
 file = r"sample.wav"
 
 
-class Example(QWidget):
+class NBSEWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
+        self.setWindowTitle("Node Based Sound Editor v1")
+        QWidget.__init__(self)  #What does this do?
 
         self.initUI()
 
@@ -21,35 +30,57 @@ class Example(QWidget):
     def initUI(self):
 
         QToolTip.setFont(QFont('SansSerif', 10))
-        
-        reverb_btn = QPushButton('Apply Reverb', self)
+        self.setFixedSize(1920, 1080)
+        self.setStyleSheet("background-image: url(\"images/pgmtexture.png\");\n")
+        self.setWindowTitle('Node Based Sound Editor')
+        winIcon = QIcon("images/icon.png")
+        self.setWindowIcon(winIcon)
+
+        reverb_btn = QPushButton('Reverb', self)
         reverb_btn.clicked.connect(reverb)
         reverb_btn.resize(reverb_btn.sizeHint())
         reverb_btn.move(50, 30)
+        reverb_btn.setGeometry(30, 350, 125, 125)
+        reverb_btn.setStyleSheet("border-radius: 25px;\n"
+"background: #73AD21;\n"
+"padding: 20px;\n"
+"width: 200px;\n"
+"height: 150px;\n"
+"background-image: url(\"images/btntexture.png\");")
 
-        distort_btn = QPushButton('Apply Distortion', self)
+        distort_btn = QPushButton('Distortion', self)
         distort_btn.clicked.connect(distortion)
         distort_btn.resize(distort_btn.sizeHint())
         distort_btn.move(50, 55)
+        distort_btn.setGeometry(210, 350, 125, 125)
+        distort_btn.setStyleSheet("border-radius: 25px;\n"
+"background: #73AD21;\n"
+"padding: 20px;\n"
+"width: 200px;\n"
+"height: 150px;\n"
+"background-image: url(\"images/btntexture.png\");")
+
 
         textbox_label = QLabel(self)
         textbox_label.move(20,0)
         textbox_label.setText("Current filename: " + file)
 
-        #textbox = QLineEdit(self)
-        #textbox.move(20, 80)
-        #textbox.resize(140,20)
+        textbox = QLineEdit(self)
+        textbox.move(20, 80)
+        textbox.resize(140,20)
 
-        self.setGeometry(300, 300, 400, 400)
-        self.setWindowTitle('NBSE')
+
         self.show()
+
+def changeTextBox(text):
+    textbox_label.setText(reverbDesc)
+    textbox_label.adjustSize()
 
 def reverb():
 
     # Change text box
     reverbDesc = "Reverb creates a resounding echo effect."
-    textbox_label.setText(reverbDesc)
-    textbox_label.adjustSize()
+    changeTextBox(reverbDesc)
 
     # Apply Audio Effect
     s = Server(audio="offline").boot()
@@ -84,7 +115,7 @@ def distortion():
 def main():
 
     app = QApplication(sys.argv)
-    ex = Example()
+    ex = NBSEWindow()
     sys.exit(app.exec_())
 
 
