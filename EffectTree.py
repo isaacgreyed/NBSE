@@ -9,6 +9,8 @@ class EffectNode:
         self.input_amt  = input_amt  #number of inputs function requires
         self.output_amt = output_amt #number of outputs function returns
         
+        self.x_pos = None
+
         self.inputs     = [None]*input_amt  #where inputs to pass to function come from, think of lower nodes lower in the graph. Should be [(EffectNode, int)] and tie directly to outputs
         self.outputs    = [None]*output_amt #where function outputs go think of farther along in the graph. Should be [(EffectNode, int)] and tie directly to inputs
 
@@ -25,52 +27,90 @@ class EffectNode:
         else:
             return vals[value_num]
 
-    def branch_length(self):
-        sub_branch_lengths = [0]
-        for ins in self.inputs:
-            if ins == None:
-                sub_branch_lengths.append(0)
-            else:
-                sub_branch_lengths.append(ins[0].branch_length())
-        return 1 + max(sub_branch_lengths)
+    def recalculate_x(self):
+        max_previous = -1
+        for (effect, n) in self.inputs:
+            if effect.x_pos == None:
+                effect.recalculate_x()
+        for (effect, n) in self.inputs:
+            if effect.x_pos > max_previous:
+                max_previous = effect.x
+        self.x_pos = max_previous+1
+
+    def get_as_list(self):
+        ls = [self]
+        for o in self.outputs:
+            ls.extend(o.get_as_list())
+        return ls
 
     #adds input to effect node
     #argument_num is what position the argument should be in starting at 0
     #effect is the EffectNode or EffectParam to get the effect from
     #from_output_num tells us what number output we are getting, defaults to none for when it does not apply like in an EffectParam
-    def add_input(self, argument_num, effect, from_output_num=None):
+    def add_input(self, argument_num, effect, from_output_num):
         self.inputs[argument_num] = (effect, from_output_num)
+        self.recalculate_x()
+
+    def add_output(self, return_num, effect, to_input_num):
+        self.outputs[return_num] = (effect, to_input_num)
+
+def connect(a, b, return_num, input_num):
+    a.add_output(return_num, b, input_num)
+    b.add_input(input_num, a, return_num)
 
 class EffectParam: #class to pass values into EffectNode class without other effect nodes
     def __init__(self, value):
         self.value = value
+        self.output = []
 
     def get(self, value_num=None): #value_num is a placeholder value to allow calling from EffectNodes
         return self.value
 
-    def branch_length(self):
-        return 1
+    def add_output(self, return_num, effect, to_input_num):
+        self.outputs[return_num] = (effect, to_input_num)
+
+    def recalculate_x(self):
+        return 0
 
 class EffectTree:
     def __init__(self, root):
         self.root = root
 
     def get_height(self):
-        return
+        ls = self.get_as_list()
+        height_list = [0]*len(ls)
+        for effect in ls:
+            height_list[effect.x_pos] += 1
+        return max(height_list)
 
     def get_length(self):
-        length = 1
-        effect = self.root
-        while effect.output_amt > 0:
-            length += 1
-            effect.o
+        ls = self.get_as_list()
+        length_list = []
+        for effect in ls:
+            length_list.append(effect.x_pos)
+        return max(length_list)
+
+    def get_as_list(self):        
+        return list(set(self.root.get_as_list()))
+
+    def get_as_2d(self):
+        ls = self.root.get_as_list()
+        self.get_height()
+        array = [[]]*self.get_length()
+        for l in ls:
+            array[l.x_pos].append(l)
 
 
-    def render(self, canvas_x):
-        effects = self.tree_to_list()
-        x_slot_length = canvas_x / len(effects)
-        current_x = 0
-        for effect in effects:
-            effect.draw_node(current_x, x_slot_length)
-            effect.draw_connectors(current_x, x_slot_length)
-            current_x += x_slot_length
+def render(effect_tree, canvas_x, canvas_y):
+    array = effect_tree.get_as_2d
+    i = 0
+    for x in array:
+        j = 0
+        for y in x:
+            draw(y, i, j, canvas_x, canvas_y)
+            j += 1
+        i += 1
+
+
+def draw(effect, x, y, canvas_x, canvas_y):
+    return
