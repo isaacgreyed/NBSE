@@ -229,6 +229,12 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
+    def update_player(self):
+        self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
+        
+
+    
+
     def play_video(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
             self.mediaPlayer.pause()
@@ -259,7 +265,10 @@ class Ui_MainWindow(QWidget):
         self.playSlider.setRange(0, duration)
 
     def reverb_simple(self):
-        effectFunctions.add_reverb(1000, 5, 2)
+        #effectFunctions.add_reverb(1000, 5, 2)
+        effectFunctions.add_distortion(0.6, 0.7)
+        effectFunctions.remove()
+        #self.update_player()
 
     def add_reverb(self):
         self.effect_list.append(("reverb", self.reverb_simple))
@@ -267,8 +276,10 @@ class Ui_MainWindow(QWidget):
         self.mainStage.update()
         
     def applyEffect(self):
+        self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         for (name, effect) in self.effect_list:
             effect()
+        self.update_player()
 
 
 if __name__ == "__main__":
