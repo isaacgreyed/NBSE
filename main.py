@@ -241,7 +241,7 @@ class Ui_MainWindow(QWidget):
         self.playSlider.setRange(0, duration)
 
     def reverb_simple(self):
-        return effectFunctions.add_reverb(1000, 5, 2)
+        effectFunctions.add_reverb(1000, 5, 2)
 
     def add_reverb(self):
         self.effect_list.append(self.reverb_simple)

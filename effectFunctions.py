@@ -3,18 +3,21 @@ import os
 
 
 def add_reverb(fre, qu, types):
-    tmpfile = "tmp.wav"
+    tmpfile = r"tmpfile.wav"
 
     s = Server(audio="offline").boot()
     filedur = sndinfo(tmpfile)[1]
 
-    s.recordOptions(dur=filedur, filename=tmpfile)
+    s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
     ifile = SfPlayer(tmpfile)
 
     filter = Biquad(ifile, freq=fre, q=qu, type=types).out()
     s.start()
 
     s.stop()
+
+    os.remove(tmpfile)
+    os.rename(r"tmpfile_working.wav", tmpfile)
 
 
 def add_distortion(byteArray, slo, mult):
