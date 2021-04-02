@@ -200,19 +200,8 @@ class Ui_MainWindow(QWidget):
             self, filter='WAV Files (*.wav)')
 
         if ok:
-            self._buffer.close()
-            with open(filename, 'rb') as stream:
-                global array
-                array = stream.read()
-                self._buffer.setData(array)
-
-            if self._buffer.open(QtCore.QIODevice.ReadOnly):
-                self.mediaPlayer.setMedia(QMediaContent(), self._buffer)
-                self.playButton.setEnabled(True)
-
-            source_node = EffectNode(self.get_byte_array, 0, 1)
-            self.tree.root = source_node
-            self.last_node = source_node
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
+            self.playButton.setEnabled(True)
 
     def play_video(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
