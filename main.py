@@ -30,8 +30,10 @@ class Ui_MainWindow(QWidget):
 
         videowidget = QVideoWidget()
 
-        self.tree = EffectTree(None) #makes default empty tree
-        self.last_node = None
+        #self.tree = EffectTree(None) #makes default empty tree
+        #self.last_node = None
+
+        self.effect_list = []
 
         videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
 
@@ -237,9 +239,11 @@ class Ui_MainWindow(QWidget):
         return effectFunctions.add_reverb(1000, 5, 2)
 
     def add_reverb(self):
-        reverb_node = EffectNode(self.reverb_simple, 1, 1)
-        connect(self.last_node, reverb_node, 0, 0)
-        self.last_node = reverb_node
+        self.effect_list.append(self.reverb_simple)
+        
+        #reverb_node = EffectNode(self.reverb_simple, 1, 1)
+        #connect(self.last_node, reverb_node, 0, 0)
+        #self.last_node = reverb_node
         #global 
         # global array
         # reverbAdded = effectFunctions.add_reverb(array, 1000, 5, 2)[0]
@@ -252,9 +256,11 @@ class Ui_MainWindow(QWidget):
         #     self.mediaPlayer.setMedia(QMediaContent(), self._buffer)
         #     self.playButton.setEnabled(True)
     def applyEffect(self):
-        mediaPlayerNode = EffectNode(self.setMediaPlayer, 1, 0)
-        connect(self.last_node, mediaPlayerNode, 0, 0)
-        mediaPlayerNode.apply()
+        for effect in self.effect_list:
+            effect()
+        # mediaPlayerNode = EffectNode(self.setMediaPlayer, 1, 0)
+        # connect(self.last_node, mediaPlayerNode, 0, 0)
+        # mediaPlayerNode.apply()
     
     def setMediaPlayer(self, byteArray):
         self._buffer.close()
