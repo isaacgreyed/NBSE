@@ -19,32 +19,48 @@ from PyQt5.QtGui import QIcon, QPalette
 from PyQt5.QtCore import Qt, QUrl
 import effectFunctions
 
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from EffectTree_examples import *
+
+
+
 class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
-        self.width  = 1550
+        self.width = 1550
         self.height = 915
-
+        self.setGeometry(379, 108, 1550, 915)
         self.setFixedSize(1550, 915)
-
         self.grid = QGridLayout()
         #self.grid.setSpacing(10)
-
-        self.setBaseSize(1550, 915)
-
         w = QHBoxLayout()
         w.addLayout(self.grid)
-
         self.setLayout(w)
 
         self.show()
 
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setPen(Qt.red)
+        painter.drawLine(10,50, 600, 750)
+
     def setGrid(self, effect_list):
+
         for i in range(0, len(effect_list)):
             (name, effect) = effect_list[i]
             label = QLabel(self)
             label.setText(name)
+            label.setFixedSize(75, 52)
+            if name == "reverb":
+                label.setStyleSheet("border: 3px solid black;\n"
+                                    "background-image: url(\"images/reverbnodebg.png\");")
+            elif name == "distortion":
+                label.setStyleSheet("border: 3px solid black;\n"
+                                    "background-image: url(\"images/distortnodebg.png\");")
+
             self.grid.addWidget(label, 1, i)
         print("grid set")
 
@@ -65,7 +81,7 @@ class Ui_MainWindow(QWidget):
 
     
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1091, 637)
+        MainWindow.resize(1920, 1080)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.titleText = QtWidgets.QLabel(self.centralwidget)
@@ -182,6 +198,7 @@ class Ui_MainWindow(QWidget):
         self.actionUpload_File.triggered.connect(self.open_file)
 
 
+
         # create hbox layout
         hboxLayout = QHBoxLayout()
         hboxLayout.setContentsMargins(0, 0, 0, 0)
@@ -200,6 +217,7 @@ class Ui_MainWindow(QWidget):
 
 
         #vboxLayout.addWidget(self.mainStage)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
