@@ -105,3 +105,21 @@ class EffectTree:
         for l in ls:
             array[l.x_pos-1].append(l)
         return array
+    
+    def to_connect_list(self):
+        grid = self.get_as_2d()
+        connect_list = []
+        for j in range(0, len(grid)):
+            for i in range(0, len(grid[j])):
+                begin = grid[j][i]
+                for (effect, n) in begin.outputs: 
+                    end = self.find(grid, j, i, effect)
+                    connect_list.append(((i,j), end))
+        return connect_list
+
+    def find(self, grid, start_x, start_y, target):
+        for k in range(start_x, len(grid)):
+            for l in range(start_y, len(grid[k])):
+                if grid[k][l] == target:
+                    return (k,l)
+        return (0,0)
