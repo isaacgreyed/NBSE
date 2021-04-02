@@ -200,6 +200,11 @@ class Ui_MainWindow(QWidget):
             self, filter='WAV Files (*.wav)')
 
         if ok:
+            f = open('tmpfile.wav', 'wb')
+            k = open(filename, 'rb')
+            f.write(k.read())
+            k.close()
+            f.close()
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
