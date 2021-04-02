@@ -24,6 +24,7 @@ class MainStage(QWidget):
         self.setLayout(w)
 
         self.import_grid(eff.get_as_2d())
+        self.connect_list = eff.to_connect_list()
         self.show()
 
     def import_grid(self, grid):
@@ -32,6 +33,18 @@ class MainStage(QWidget):
                 if grid[j][i]:
                     n = Node()
                     self.grid.addWidget(n, i, j)
+    
+    def paintEvent(self, event) -> None:
+        painter = QPainter()
+        painter.begin(self)
+        for ((i,j), (k,l)) in self.connect_list:
+            (start_x, start_y, a, b) = self.grid.getItemPosition(self.grid.indexOf(self.grid.itemAtPosition(i,j)))
+            (end_x, end_y, c, d)     = self.grid.getItemPosition(self.grid.indexOf(self.grid.itemAtPosition(k,l)))
+        painter.setPen(Qt.red)
+        painter.drawLine(start_x, start_y, end_x, end_y)
+        painter.end()
+            
+
 
     
 
