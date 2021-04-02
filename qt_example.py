@@ -7,13 +7,10 @@ import sys
 #from PyQt5.QtGui import (QImage, QPalette, QBrush, QFont)
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-<<<<<<< Updated upstream
 
-=======
-import effect
->>>>>>> Stashed changes
+import effectFunctions
+
 from PyQt5 import QtCore, QtWidgets
-
 from pyo import *
 from scipy.io.wavfile import read
 from EffectTree import *

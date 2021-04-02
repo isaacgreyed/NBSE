@@ -54,6 +54,8 @@ class Node(QWidget):
         super(Node, self).__init__(*args, **kwargs)
 
         self.setFixedSize(QSize(5, 5))
+        self.setStyleSheet("border: 3px solid black;\n"
+                           "background-image: url(\"images/effectTextbg.png\");")
 
     def paintEvent(self, event) -> None:
         painter = QPainter()
