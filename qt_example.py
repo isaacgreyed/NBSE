@@ -119,6 +119,7 @@ class NBSEWindow(QMainWindow):
         self.setWindowTitle('NBSE')
         self.show()
 
+# Adds a reverberation effect to audio.
 def reverb():
     # Apply Audio Effect
     s = Server(audio="offline").boot()
