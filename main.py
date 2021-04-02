@@ -90,7 +90,7 @@ class Ui_MainWindow(QWidget):
         self.addReverb.setObjectName("addReverb")
         self.addReverb.clicked.connect(self.add_reverb)
 
-        self.applyButton = QtWidgets.QPushButton(self.centralwidget)
+        self.applyButton = QtWidgets.QPushButton("Apply Effect", self.centralwidget)
         self.applyButton.setGeometry(QtCore.QRect(400, 200, 181, 71))
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
@@ -98,7 +98,6 @@ class Ui_MainWindow(QWidget):
         font.setBold(True)
         font.setWeight(75)
         self.applyButton.setFont(font)
-        self.applyButton.setObjectName("applyEffect")
         self.applyButton.clicked.connect(self.applyEffect)
 
         self.addDistortion = QtWidgets.QPushButton(self.centralwidget)
@@ -168,19 +167,9 @@ class Ui_MainWindow(QWidget):
         vboxLayout.addWidget(videowidget)
         vboxLayout.addLayout(hboxLayout)
 
-        # self.setLayout(vboxLayout)
-        #
-        # self.mediaPlayer.setVideoOutput(videowidget)
-
-        # media player signals
-
         self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
         self.mediaPlayer.positionChanged.connect(self.position_changed)
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
-
-        # self._buffer = QtCore.QBuffer()
-
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -217,7 +206,6 @@ class Ui_MainWindow(QWidget):
         else:
             self.mediaPlayer.play()
 
-
     def set_position(self, position):
         self.mediaPlayer.setPosition(position)
 
@@ -246,38 +234,9 @@ class Ui_MainWindow(QWidget):
     def add_reverb(self):
         self.effect_list.append(self.reverb_simple)
         
-        #reverb_node = EffectNode(self.reverb_simple, 1, 1)
-        #connect(self.last_node, reverb_node, 0, 0)
-        #self.last_node = reverb_node
-        #global 
-        # global array
-        # reverbAdded = effectFunctions.add_reverb(array, 1000, 5, 2)[0]
-        # self._buffer.close()
-
-        # self._buffer.setData(reverbAdded)
-
-
-        # if self._buffer.open(QtCore.QIODevice.ReadOnly):
-        #     self.mediaPlayer.setMedia(QMediaContent(), self._buffer)
-        #     self.playButton.setEnabled(True)
     def applyEffect(self):
         for effect in self.effect_list:
             effect()
-        # mediaPlayerNode = EffectNode(self.setMediaPlayer, 1, 0)
-        # connect(self.last_node, mediaPlayerNode, 0, 0)
-        # mediaPlayerNode.apply()
-    
-    def setMediaPlayer(self, byteArray):
-        self._buffer.close()
-        self._buffer.setData(byteArray)
-        if self._buffer.open(QtCore.QIODevice.ReadOnly):
-            self.mediaPlayer.setMedia(QMediaContent(), self._buffer)
-            self.playButton.setEnabled(True)
-    def get_byte_array():
-        global array
-        return array
-
-
 
 
 if __name__ == "__main__":
