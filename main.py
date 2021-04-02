@@ -46,7 +46,6 @@ class MainStage(QWidget):
             label = QLabel(self)
             label.setText(name)
             self.grid.addWidget(label, 1, i)
-        print("grid set")
 
 class Ui_MainWindow(QWidget):
 
