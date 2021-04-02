@@ -327,6 +327,15 @@ class Ui_MainWindow(QWidget):
             effect()
         self.update_player()
 
+    def removeLast(self):
+        self.effect_list.pop()
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
+
+    def removeAll(self):
+        self.effect_list = []
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
 
 if __name__ == "__main__":
     import sys
