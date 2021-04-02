@@ -118,6 +118,17 @@ class Ui_MainWindow(QWidget):
         self.addReverb.setObjectName("addReverb")
         self.addReverb.clicked.connect(self.add_reverb)
 
+        self.addDelay = QtWidgets.QPushButton(self.centralwidget)
+        self.addDelay.setGeometry(QtCore.QRect(100, 200, 181, 71))
+        font = QtGui.QFont()
+        font.setFamily("OCR A Extended")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.addDelay.setFont(font)
+        self.addDelay.setObjectName("addDelay")
+        self.addDelay.clicked.connect(self.add_delay)
+
         self.applyButton = QtWidgets.QPushButton("Apply Effect", self.centralwidget)
         self.applyButton.setGeometry(QtCore.QRect(400, 200, 181, 71))
         font = QtGui.QFont()
@@ -264,11 +275,36 @@ class Ui_MainWindow(QWidget):
     def duration_changed(self, duration):
         self.playSlider.setRange(0, duration)
 
-    def reverb_simple(self):
-        #effectFunctions.add_reverb(1000, 5, 2)
+    def delay_simple(self):
+        effectFunctions.add_delay(1.2, 1.6, 0.8, 0.9)
+        effectFunctions.remove()
+
+    def add_delay(self):
+        self.effect_list.append(("delay", self.delay_simple))
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
+
+    def chorus_simple(self):
+        effectFunctions.add_chorus(2, 4, 0.25, 0.8)
+        effectFunctions.remove()
+
+    def add_chorus(self):
+        self.effect_list.append(("chorus", self.chorus_simple))
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
+
+    def distortion_simple(self):
         effectFunctions.add_distortion(0.6, 0.7)
         effectFunctions.remove()
-        #self.update_player()
+
+    def add_distortion(self):
+        self.effect_list.append(("distortion", self.distortion_simple))
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
+
+    def reverb_simple(self):
+        effectFunctions.add_reverb(1000, 5, 2)
+        effectFunctions.remove()
 
     def add_reverb(self):
         self.effect_list.append(("reverb", self.reverb_simple))
