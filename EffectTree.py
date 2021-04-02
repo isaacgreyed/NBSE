@@ -11,8 +11,8 @@ class EffectNode:
         
         self.x_pos = None
 
-        self.inputs     = [None]*input_amt  #where inputs to pass to function come from, think of lower nodes lower in the graph. Should be [(EffectNode, int)] and tie directly to outputs
-        self.outputs    = [None]*output_amt #where function outputs go think of farther along in the graph. Should be [(EffectNode, int)] and tie directly to inputs
+        self.inputs     = []  #where inputs to pass to function come from, think of lower nodes lower in the graph. Should be [(EffectNode, int)] and tie directly to outputs
+        self.outputs    = [] #where function outputs go think of farther along in the graph. Should be [(EffectNode, int)] and tie directly to inputs
 
     def apply(self) -> list: #call function, should apply effect to audio
         args = []
@@ -34,13 +34,13 @@ class EffectNode:
                 effect.recalculate_x()
         for (effect, n) in self.inputs:
             if effect.x_pos > max_previous:
-                max_previous = effect.x
+                max_previous = effect.x_pos
         self.x_pos = max_previous+1
 
     def get_as_list(self):
         ls = [self]
-        for o in self.outputs:
-            ls.extend(o.get_as_list())
+        for (out, n) in self.outputs:
+            ls.extend(out.get_as_list())
         return ls
 
     #adds input to effect node
@@ -48,11 +48,11 @@ class EffectNode:
     #effect is the EffectNode or EffectParam to get the effect from
     #from_output_num tells us what number output we are getting, defaults to none for when it does not apply like in an EffectParam
     def add_input(self, argument_num, effect, from_output_num):
-        self.inputs[argument_num] = (effect, from_output_num)
+        self.inputs.insert(argument_num, (effect, from_output_num))
         self.recalculate_x()
 
     def add_output(self, return_num, effect, to_input_num):
-        self.outputs[return_num] = (effect, to_input_num)
+        self.outputs.insert(return_num, (effect, to_input_num))
 
 def connect(a, b, return_num, input_num):
     a.add_output(return_num, b, input_num)
@@ -61,13 +61,14 @@ def connect(a, b, return_num, input_num):
 class EffectParam: #class to pass values into EffectNode class without other effect nodes
     def __init__(self, value):
         self.value = value
-        self.output = []
+        self.outputs = []
+        self.x_pos = 0
 
     def get(self, value_num=None): #value_num is a placeholder value to allow calling from EffectNodes
         return self.value
 
     def add_output(self, return_num, effect, to_input_num):
-        self.outputs[return_num] = (effect, to_input_num)
+        self.outputs.insert(return_num, (effect, to_input_num))
 
     def recalculate_x(self):
         return 0
@@ -78,9 +79,12 @@ class EffectTree:
 
     def get_height(self):
         ls = self.get_as_list()
-        height_list = [0]*len(ls)
+        height_list = []
         for effect in ls:
-            height_list[effect.x_pos] += 1
+            if len(height_list) >= effect.x_pos:
+                height_list[effect.x_pos-1] += 1
+            else:
+                height_list.insert(effect.x_pos, 1)
         return max(height_list)
 
     def get_length(self):
@@ -95,22 +99,9 @@ class EffectTree:
 
     def get_as_2d(self):
         ls = self.root.get_as_list()
-        self.get_height()
-        array = [[]]*self.get_length()
+        array = []
+        for i in range(0, self.get_length()):
+            array.append([])
         for l in ls:
-            array[l.x_pos].append(l)
-
-
-def render(effect_tree, canvas_x, canvas_y):
-    array = effect_tree.get_as_2d
-    i = 0
-    for x in array:
-        j = 0
-        for y in x:
-            draw(y, i, j, canvas_x, canvas_y)
-            j += 1
-        i += 1
-
-
-def draw(effect, x, y, canvas_x, canvas_y):
-    return
+            array[l.x_pos-1].append(l)
+        return array
