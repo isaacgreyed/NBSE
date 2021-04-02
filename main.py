@@ -10,7 +10,7 @@
 
 from EffectTree import *
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, \
+from PyQt5.QtWidgets import QApplication, QGridLayout, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, \
     QSlider, QStyle, QSizePolicy, QFileDialog
 import sys
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
@@ -18,6 +18,35 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import QIcon, QPalette
 from PyQt5.QtCore import Qt, QUrl
 import effectFunctions
+
+class MainStage(QWidget):
+    def __init__(self, *args, **kwargs):
+        super(MainStage, self).__init__(*args, **kwargs)
+
+        self.width  = 1550
+        self.height = 915
+
+        self.setFixedSize(1550, 915)
+
+        self.grid = QGridLayout()
+        #self.grid.setSpacing(10)
+
+        self.setBaseSize(1550, 915)
+
+        w = QHBoxLayout()
+        w.addLayout(self.grid)
+
+        self.setLayout(w)
+
+        self.show()
+
+    def setGrid(self, effect_list):
+        for i in range(0, len(effect_list)):
+            (name, effect) = effect_list[i]
+            label = QLabel(self)
+            label.setText(name)
+            self.grid.addWidget(label, 1, i)
+        print("grid set")
 
 class Ui_MainWindow(QWidget):
 
@@ -30,14 +59,11 @@ class Ui_MainWindow(QWidget):
 
         videowidget = QVideoWidget()
 
-        #self.tree = EffectTree(None) #makes default empty tree
-        #self.last_node = None
-
         self.effect_list = []
 
         videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
 
-
+    
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1091, 637)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -53,6 +79,8 @@ class Ui_MainWindow(QWidget):
         self.titleText.setTextFormat(QtCore.Qt.AutoText)
         self.titleText.setObjectName("titleText")
 
+        self.mainStage = MainStage(self.centralwidget)
+        
         self.playSlider = QtWidgets.QSlider(self.centralwidget)
         self.playSlider.setGeometry(QtCore.QRect(310, 20, 721, 41))
         self.playSlider.setOrientation(QtCore.Qt.Horizontal)
@@ -159,7 +187,6 @@ class Ui_MainWindow(QWidget):
         hboxLayout.setContentsMargins(0, 0, 0, 0)
 
         # set widgets to the hbox layout
-
         hboxLayout.addWidget(self.playButton)
         hboxLayout.addWidget(self.playSlider)
 
@@ -170,6 +197,9 @@ class Ui_MainWindow(QWidget):
         self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
         self.mediaPlayer.positionChanged.connect(self.position_changed)
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
+
+
+        #vboxLayout.addWidget(self.mainStage)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -232,10 +262,12 @@ class Ui_MainWindow(QWidget):
         effectFunctions.add_reverb(1000, 5, 2)
 
     def add_reverb(self):
-        self.effect_list.append(self.reverb_simple)
+        self.effect_list.append(("reverb", self.reverb_simple))
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
         
     def applyEffect(self):
-        for effect in self.effect_list:
+        for (name, effect) in self.effect_list:
             effect()
 
 
@@ -247,5 +279,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-    
-
