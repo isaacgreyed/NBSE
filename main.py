@@ -360,7 +360,8 @@ class Ui_MainWindow(QWidget):
 
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
-        self.effect_list.pop()
+        if self.effect_list != []:
+            self.effect_list.pop()
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
         self.update_player()
