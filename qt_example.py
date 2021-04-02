@@ -7,7 +7,11 @@ import sys
 #from PyQt5.QtGui import (QImage, QPalette, QBrush, QFont)
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+<<<<<<< Updated upstream
 
+=======
+import effect
+>>>>>>> Stashed changes
 from PyQt5 import QtCore, QtWidgets
 
 from pyo import *
