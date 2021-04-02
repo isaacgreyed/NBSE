@@ -152,7 +152,7 @@ class Ui_MainWindow(QWidget):
         self.addChorus.clicked.connect(self.add_chorus)
 
         self.applyButton = QtWidgets.QPushButton("Apply Effect", self.centralwidget)
-        self.applyButton.setGeometry(QtCore.QRect(400, 200, 181, 71))
+        self.applyButton.setGeometry(QtCore.QRect(30, 510, 181, 71))
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(14)
