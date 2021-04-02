@@ -6,6 +6,9 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
 from PyQt5.QtGui import QFont
 from pyo import *
 from scipy.io.wavfile import read
+from EffectTree import *
+
+from MainStage import *
 
 file = r"sample.wav"
 
@@ -39,6 +42,15 @@ class Example(QWidget):
         #textbox = QLineEdit(self)
         #textbox.move(20, 80)
         #textbox.resize(140,20)
+
+        test = Node(self)
+        test.move(50, 50)
+        
+        m = MainStage(self)
+        test.move(100,100)
+        #test.update()
+
+        test.show()
 
         self.setGeometry(300, 300, 400, 400)
         self.setWindowTitle('NBSE')
@@ -82,6 +94,7 @@ def distortion():
     return f
 
 def main():
+    
 
     app = QApplication(sys.argv)
     ex = Example()
