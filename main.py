@@ -16,9 +16,13 @@ from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import QIcon, QPalette
 from PyQt5.QtCore import Qt, QUrl
+import effectFunctions
 
 class Ui_MainWindow(QWidget):
 
+    def __init__(self):
+        super().__init__()
+        self._buffer = QtCore.QBuffer()
 
     def setupUi(self, MainWindow):
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
@@ -68,6 +72,8 @@ class Ui_MainWindow(QWidget):
         font.setWeight(75)
         self.volumeLabel.setFont(font)
         self.volumeLabel.setObjectName("volumeLabel")
+
+
         self.addReverb = QtWidgets.QPushButton(self.centralwidget)
         self.addReverb.setGeometry(QtCore.QRect(30, 200, 181, 71))
         font = QtGui.QFont()
@@ -77,6 +83,8 @@ class Ui_MainWindow(QWidget):
         font.setWeight(75)
         self.addReverb.setFont(font)
         self.addReverb.setObjectName("addReverb")
+        self.addReverb.clicked.connect(self.add_reverb)
+
         self.addDistortion = QtWidgets.QPushButton(self.centralwidget)
         self.addDistortion.setGeometry(QtCore.QRect(30, 320, 191, 81))
         font = QtGui.QFont()
@@ -92,6 +100,7 @@ class Ui_MainWindow(QWidget):
         self.playButton.setGeometry(QtCore.QRect(210, 30, 75, 23))
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.setObjectName("playButton")
+        self.playButton.clicked.connect(self.play_video)
         MainWindow.setCentralWidget(self.centralwidget)
 
 
@@ -105,6 +114,7 @@ class Ui_MainWindow(QWidget):
         self.menuUpload = QtWidgets.QMenu(self.menubar)
         self.menuUpload.setObjectName("menuUpload")
         MainWindow.setMenuBar(self.menubar)
+
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -123,12 +133,11 @@ class Ui_MainWindow(QWidget):
         self.menubar.addAction(self.menuUpload.menuAction())
 
 
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.actionUpload_File.triggered.connect(self.open_file)
-        self._buffer = QtCore.QBuffer()
+
 
         # create hbox layout
         hboxLayout = QHBoxLayout()
@@ -153,6 +162,7 @@ class Ui_MainWindow(QWidget):
         self.mediaPlayer.positionChanged.connect(self.position_changed)
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
 
+        # self._buffer = QtCore.QBuffer()
 
 
 
@@ -173,13 +183,25 @@ class Ui_MainWindow(QWidget):
     def open_file(self):
         filename, ok = QtWidgets.QFileDialog.getOpenFileName(
             self, filter='WAV Files (*.wav)')
+
         if ok:
             self._buffer.close()
             with open(filename, 'rb') as stream:
-                self._buffer.setData(stream.read())
+                global array
+                array = stream.read()
+                self._buffer.setData(array)
+
             if self._buffer.open(QtCore.QIODevice.ReadOnly):
                 self.mediaPlayer.setMedia(QMediaContent(), self._buffer)
                 self.playButton.setEnabled(True)
+
+    def play_video(self):
+        if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.mediaPlayer.pause()
+
+        else:
+            self.mediaPlayer.play()
+
 
     def set_position(self, position):
         self.mediaPlayer.setPosition(position)
@@ -202,6 +224,20 @@ class Ui_MainWindow(QWidget):
 
     def duration_changed(self, duration):
         self.playSlider.setRange(0, duration)
+
+    def add_reverb(self):
+        global array
+        reverbAdded = effectFunctions.add_reverb(array, 1000, 5, 2)[0]
+        self._buffer.close()
+
+        self._buffer.setData(reverbAdded)
+
+
+        if self._buffer.open(QtCore.QIODevice.ReadOnly):
+            self.mediaPlayer.setMedia(QMediaContent(), self._buffer)
+            self.playButton.setEnabled(True)
+
+
 
 
 if __name__ == "__main__":
