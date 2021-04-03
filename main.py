@@ -24,9 +24,7 @@ class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
-        self.width  = 1550
-        self.height = 915
-
+        self.setGeometry(371, 166, 1550, 915)
         self.setFixedSize(1550, 915)
 
         self.grid = QGridLayout()
@@ -45,6 +43,20 @@ class MainStage(QWidget):
         for i in range(0, len(effect_list)):
             (name, effect) = effect_list[i]
             label = QLabel(self)
+            label.setFixedSize(100, 52)
+            label.setAlignment(QtCore.Qt.AlignCenter)
+            if name == "reverb":
+                label.setStyleSheet("border: 3px solid black;\n"
+                                    "background-image: url(\"images/reverbnodebg.png\");")
+            elif name == "distortion":
+                label.setStyleSheet("border: 3px solid black;\n"
+                                    "background-image: url(\"images/distortnodebg.png\");")
+            elif name == "chorus":
+                label.setStyleSheet("border: 3px solid black;\n"
+                                    "background-image: url(\"images/chorusnodebg.png\");")
+            elif name == "delay":
+                label.setStyleSheet("border: 3px solid black;\n"
+                                    "background-image: url(\"images/delaynodebg.png\");")
             label.setText(name)
             self.grid.addWidget(label, 1, i)
 
@@ -53,19 +65,23 @@ class Ui_MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self._buffer = QtCore.QBuffer()
+        winIcon = QIcon("images/icon.png")
+        MainWindow.setWindowIcon(winIcon)
 
     def setupUi(self, MainWindow):
-        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
-
-        videowidget = QVideoWidget()
-
+        # To hold list of added effects.
         self.effect_list = []
 
+        # Media Player Initialized
+        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+        videowidget = QVideoWidget()
         videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
 
-    
+        # Display Options for Window
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1091, 637)
+        MainWindow.setFixedSize(1920, 1080)
+        MainWindow.setStyleSheet("background-image: url(\"images/pgmtexture.png\");\n")
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.titleText = QtWidgets.QLabel(self.centralwidget)
@@ -78,17 +94,24 @@ class Ui_MainWindow(QWidget):
         self.titleText.setFont(font)
         self.titleText.setTextFormat(QtCore.Qt.AutoText)
         self.titleText.setObjectName("titleText")
+        MainWindow.setCentralWidget(self.centralwidget)
 
-        self.mainStage = MainStage(self.centralwidget)
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
-        
+        # Play Button to play or pause a selected audio file.
+        self.playButton = QtWidgets.QPushButton(self.centralwidget)
+        self.playButton.setEnabled(False)
+        self.playButton.setGeometry(QtCore.QRect(550, 15, 50, 50))
+        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.playButton.setObjectName("playButton")
+        self.playButton.clicked.connect(self.play_video)
+
+        # Slider for playing audio.
         self.playSlider = QtWidgets.QSlider(self.centralwidget)
-        self.playSlider.setGeometry(QtCore.QRect(310, 20, 721, 41))
+        self.playSlider.setGeometry(QtCore.QRect(600, 20, 721, 41))
         self.playSlider.setOrientation(QtCore.Qt.Horizontal)
         self.playSlider.setObjectName("playSlider")
         self.playSlider.sliderMoved.connect(self.set_position)
 
+        # Volume Adjuster to modify volume
         self.volumeAdjuster = QtWidgets.QSlider(self.centralwidget)
         self.volumeAdjuster.setEnabled(True)
         self.volumeAdjuster.setGeometry(QtCore.QRect(990, 340, 31, 201))
@@ -108,74 +131,74 @@ class Ui_MainWindow(QWidget):
         self.volumeLabel.setFont(font)
         self.volumeLabel.setObjectName("volumeLabel")
 
+        # Initilizes Effect Stage
+        self.mainStage = MainStage(self.centralwidget)
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
 
-        self.addReverb = QtWidgets.QPushButton(self.centralwidget)
-        self.addReverb.setGeometry(QtCore.QRect(30, 100, 181, 71))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.addReverb.setFont(font)
-        self.addReverb.setObjectName("addReverb")
+
+        # Reverb Button
+        self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
         self.addReverb.clicked.connect(self.add_reverb)
+        self.addReverb.clicked.connect(lambda: self.changeEffectText(1))
+        self.addReverb.setGeometry(30, 300, 125, 125)
+        self.addReverb.setStyleSheet("border-radius: 25px;\n"
+                                      "background: #73AD21;\n"
+                                      "padding: 20px;\n"
+                                      "width: 200px;\n"
+                                      "height: 150px;\n"
+                                      "background-image: url(\"images/btntexture.png\");")
 
-        self.addDelay = QtWidgets.QPushButton("Add Delay", self.centralwidget)
-        self.addDelay.setGeometry(QtCore.QRect(30, 200, 181, 71))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.addDelay.setFont(font)
-        self.addDelay.setObjectName("addDelay")
+        # Delay Button
+        self.addDelay = QtWidgets.QPushButton("Delay", self.centralwidget)
         self.addDelay.clicked.connect(self.add_delay)
+        self.addDelay.clicked.connect(lambda: self.changeEffectText(2))
+        self.addDelay.setGeometry(210, 300, 125, 125)
+        self.addDelay.setStyleSheet("border-radius: 25px;\n"
+                                       "background: #73AD21;\n"
+                                       "padding: 20px;\n"
+                                       "width: 200px;\n"
+                                       "height: 150px;\n"
+                                       "background-image: url(\"images/btntexture.png\");")
 
-        self.addDistortion = QtWidgets.QPushButton("Add Distortion", self.centralwidget)
-        self.addDistortion.setGeometry(QtCore.QRect(30, 300, 181, 71))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.addDistortion.setFont(font)
-        self.addDistortion.setObjectName("addDistortion")
+        # Distortion Button
+        self.addDistortion = QtWidgets.QPushButton("Distort", self.centralwidget)
         self.addDistortion.clicked.connect(self.add_distortion)
-
-        self.addChorus = QtWidgets.QPushButton("Add Chorus", self.centralwidget)
-        self.addChorus.setGeometry(QtCore.QRect(30, 400, 181, 71))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.addChorus.setFont(font)
-        self.addChorus.setObjectName("addChorus")
+        self.addDistortion.clicked.connect(lambda: self.changeEffectText(3))
+        self.addDistortion.setGeometry(30, 450, 125, 125)
+        self.addDistortion.setStyleSheet("border-radius: 25px;\n"
+                                     "background: #73AD21;\n"
+                                     "padding: 20px;\n"
+                                     "width: 200px;\n"
+                                     "height: 150px;\n"
+                                     "background-image: url(\"images/btntexture.png\");")
+        # Chorus Button
+        self.addChorus = QtWidgets.QPushButton("Chorus", self.centralwidget)
         self.addChorus.clicked.connect(self.add_chorus)
+        self.addChorus.clicked.connect(lambda: self.changeEffectText(4))
+        self.addChorus.setGeometry(210, 450, 125, 125)
+        self.addChorus.setStyleSheet("border-radius: 25px;\n"
+                                         "background: #73AD21;\n"
+                                         "padding: 20px;\n"
+                                         "width: 200px;\n"
+                                         "height: 150px;\n"
+                                         "background-image: url(\"images/btntexture.png\");")
 
+        # Apply Button
         self.applyButton = QtWidgets.QPushButton("Apply Effect", self.centralwidget)
-        self.applyButton.setGeometry(QtCore.QRect(30, 510, 181, 71))
+        self.applyButton.clicked.connect(self.applyEffect)
+        self.applyButton.setGeometry(400, 200, 181, 71)
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.applyButton.setFont(font)
-        self.applyButton.clicked.connect(self.applyEffect)
 
-        self.remove_All = QtWidgets.QPushButton("Remove All", self.centralwidget)
-        self.remove_All.setGeometry(QtCore.QRect(220, 510, 181, 71))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.remove_All.setFont(font)
-        self.remove_All.setObjectName("Remove All")
-        self.remove_All.clicked.connect(self.removeAll)
-
+        # Remove Effect Button
         self.remove_Last = QtWidgets.QPushButton("Remove Last", self.centralwidget)
-        self.remove_Last.setGeometry(QtCore.QRect(410, 510, 181, 71))
+        self.remove_Last.clicked.connect(self.removeLast)
+        self.remove_Last.setGeometry(600, 200, 181, 71)
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(14)
@@ -183,28 +206,47 @@ class Ui_MainWindow(QWidget):
         font.setWeight(75)
         self.remove_Last.setFont(font)
         self.remove_Last.setObjectName("Remove Last")
-        self.remove_Last.clicked.connect(self.removeLast)
 
-        self.playButton = QtWidgets.QPushButton(self.centralwidget)
-        self.playButton.setEnabled(False)
-        self.playButton.setGeometry(QtCore.QRect(210, 30, 75, 23))
-        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-        self.playButton.setObjectName("playButton")
-        self.playButton.clicked.connect(self.play_video)
-        MainWindow.setCentralWidget(self.centralwidget)
+        # Remove All Effects Button
+        self.remove_All = QtWidgets.QPushButton("Remove All", self.centralwidget)
+        self.remove_All.clicked.connect(self.removeAll)
+        self.remove_All.setGeometry(QtCore.QRect(800, 200, 181, 71))
+        font = QtGui.QFont()
+        font.setFamily("OCR A Extended")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.remove_All.setFont(font)
+        self.remove_All.setObjectName("Remove All")
 
+        # Effect text box
+        # png for background needs to be improved.
+        self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
+        self.effect_Textbox.setText("This is an example. ")
+        self.effect_Textbox.setGeometry(9, 600, 350, 400)
+        self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
+        self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
+                                          "background-image: url(\"images/effectTextbg.png\");")
 
+        # Upload, load, and save files.
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1091, 21))
         self.menubar.setObjectName("menubar")
+
+
+        # Save or Load a file.
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
 
-
+        # Upload a file
         self.menuUpload = QtWidgets.QMenu(self.menubar)
         self.menuUpload.setObjectName("menuUpload")
+
+
+        # Sets menu bar for file access.
         MainWindow.setMenuBar(self.menubar)
 
+        # Status Bar
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -241,15 +283,36 @@ class Ui_MainWindow(QWidget):
         vboxLayout.addWidget(videowidget)
         vboxLayout.addLayout(hboxLayout)
 
+        # Media player changes when files are added
         self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
         self.mediaPlayer.positionChanged.connect(self.position_changed)
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
 
+    # When a button is clicked, changes the effect.
+    def changeEffectText(self, func):
+        reverb = "Reverb\nThis creates a resounding effect " \
+                 "that simulates a resonance of sound off of a surface."
+        delay = "Delay\nThis delays the output, creating a pausing effect."
+
+        distortion = "Distortion\nThis creates an effect that simulates" \
+                         "a sine-wave of data being modified in a particular" \
+                         "direction."
+        chorus = "Chorus\nThis creates a resounding effect in the background."
+        if func == 1:
+            self.effect_Textbox.setText(reverb)
+        elif func == 2:
+            self.effect_Textbox.setText(delay)
+        elif func == 3:
+            self.effect_Textbox.setText(distortion)
+        elif func == 4:
+            self.effect_Textbox.setText(chorus)
+        else:
+            self.effect_Textbox.setText("Error")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.titleText.setText(_translate("MainWindow", "NBSE"))
+        #self.titleText.setText(_translate("MainWindow", "NBSE"))
         self.volumeLabel.setText(_translate("MainWindow", "Volume"))
         self.addReverb.setText(_translate("MainWindow", "Add Reverb"))
         self.playButton.setText(_translate("MainWindow", "Play"))
@@ -279,11 +342,10 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
+
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
-        
 
-    
 
     def play_video(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -292,8 +354,10 @@ class Ui_MainWindow(QWidget):
         else:
             self.mediaPlayer.play()
 
+
     def set_position(self, position):
         self.mediaPlayer.setPosition(position)
+
 
     def mediastate_changed(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -308,44 +372,55 @@ class Ui_MainWindow(QWidget):
 
             )
 
+
     def position_changed(self, position):
         self.playSlider.setValue(position)
 
+
     def duration_changed(self, duration):
         self.playSlider.setRange(0, duration)
+
 
     def delay_simple(self):
         effectFunctions.add_delay(1.2, 1.6, 0.8, 0.9)
         effectFunctions.remove()
 
+
     def add_delay(self):
         self.effect_list.append(("delay", self.delay_simple))
         self.updateGrid()
+
 
     def chorus_simple(self):
         effectFunctions.add_chorus(2, 4, 0.25, 0.8)
         effectFunctions.remove()
 
+
     def add_chorus(self):
         self.effect_list.append(("chorus", self.chorus_simple))
         self.updateGrid()
+
 
     def distortion_simple(self):
         effectFunctions.add_distortion(0.6, 0.7)
         effectFunctions.remove()
 
+
     def add_distortion(self):
         self.effect_list.append(("distortion", self.distortion_simple))
         self.updateGrid()
+
 
     def reverb_simple(self):
         effectFunctions.add_reverb(1000, 5, 2)
         effectFunctions.remove()
 
+
     def add_reverb(self):
         self.effect_list.append(("reverb", self.reverb_simple))
         self.updateGrid()
         
+
     def applyEffect(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         os.remove('tmpfile.wav')
@@ -354,18 +429,23 @@ class Ui_MainWindow(QWidget):
             effect()
         self.update_player()
 
+
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         if self.effect_list != []:
-            self.effect_list.pop()
+            self.effect_list.pop()[0]
         self.updateGrid()
         self.update_player()
+        self.effect_Textbox.setText("Effect has been removed.")
+
 
     def removeAll(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         self.effect_list = []
         self.updateGrid()
         self.update_player()
+        self.effect_Textbox.setText("All effects have been removed.")
+
 
     def updateGrid(self):
         if self.mainStage:
@@ -374,6 +454,7 @@ class Ui_MainWindow(QWidget):
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
         self.mainStage.lower()
+
 
 if __name__ == "__main__":
     import sys
