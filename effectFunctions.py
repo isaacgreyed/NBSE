@@ -16,108 +16,78 @@ def add_reverb(fre, qu, types):
 
     s.stop()
 
-    os.remove(tmpfile)
-    os.rename(r"tmpfile_working.wav", tmpfile)
+    #os.remove(tmpfile)
+    #os.rename(r"tmpfile_working.wav", tmpfile)
+    return None
+
+def remove():
+    os.remove('tmpfile.wav')
+    os.rename(r"tmpfile_working.wav", 'tmpfile.wav')
 
 
-def add_distortion(byteArray, slo, mult):
-    # slo from 0 to 1 and mult from 0 to 1
-
-    with open('tmp.wav', 'wb') as tmpfile:
-        tmpfile.write(byteArray)
-
-
-    tmpfile = r'tmp.wav'
+def add_distortion(slo, mult):
+    #slo from 0 to 1
+    #mult from 0 to 1
+    tmpfile = r"tmpfile.wav"
 
     s = Server(audio="offline").boot()
     filedur = sndinfo(tmpfile)[1]
 
-    s.recordOptions(dur=filedur, filename='tmpout.wav')
+    s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
     ifile = SfPlayer(tmpfile)
-
     lfo = Sine(freq=[.2, .25], mul=.5, add=.5)
     filter = Disto(ifile, drive=lfo, slope=slo, mul=mult).out()
+    
     s.start()
-
-    with open('tmp.wav', 'rb') as originalF:
-        with open('tmpout.wav', 'rb') as newF:
-            newFile= newF.read()
-            backpointer = originalF.read()
-
-            originalF.close()
-            newF.close()
 
     s.stop()
 
-    os.remove('tmpout.wav')
-    return newFile, backpointer
-
-def delay(byteArray, delay1, delay2, feed, mult):
+    return None
 
 
-    with open('tmp.wav', 'wb') as tmpfile:
-        tmpfile.write(byteArray)
+def add_delay(delay1, delay2, feed, mult):
+    #delay1 from 0 to 1
+    #delay2 from 0 to 1
+    #feed from 0 to 1
+    # mult form 0 to 1
 
-
-    tmpfile = r'tmp.wav'
+    tmpfile = r"tmpfile.wav"
 
     s = Server(audio="offline").boot()
     filedur = sndinfo(tmpfile)[1]
 
-    s.recordOptions(dur=filedur, filename='tmpout.wav')
+    s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
     ifile = SfPlayer(tmpfile)
 
-
-    d = Delay(ifile, delay=[.15, .2], feedback=.5, mul=.4).out()
-
+    d = Delay(ifile, delay=[delay1, delay2], feedback=feed, mul=mult).out()
     s.start()
-
-    with open('tmp.wav', 'rb') as originalF:
-        with open('tmpout.wav', 'rb') as newF:
-            newFile= newF.read()
-            backpointer = originalF.read()
-
-            originalF.close()
-            newF.close()
 
     s.stop()
 
-    os.remove('tmpout.wav')
-    return newFile, backpointer
+    return None
 
 
-def allPass(byteArray, slo, mult):
-    # slo from 0 to 1 and mult from 0 to 1
 
-    with open('tmp.wav', 'wb') as tmpfile:
-        tmpfile.write(byteArray)
+def add_chorus(d1, d2, feed, balance):
 
+    # d1 between 0 and 5
+    # d2 between 0 and 5
+    # feedback doesnt matter but defaults to 0.25
+    # bal from 0 to 1
 
-    tmpfile = r'tmp.wav'
+    tmpfile = r"tmpfile.wav"
 
     s = Server(audio="offline").boot()
     filedur = sndinfo(tmpfile)[1]
 
-    s.recordOptions(dur=filedur, filename='tmpout.wav')
+    s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
     ifile = SfPlayer(tmpfile)
 
-    gt = Gate(ifile, thresh=-24, risetime=0.005, falltime=0.01, lookahead=5, mul=.2)
-    rnd = Randi(min=.5, max=1.0, freq=[.13, .22, .155, .171])
-    rnd2 = Randi(min=.95, max=1.05, freq=[.145, .2002, .1055, .071])
-    fx = AllpassWG(gt, freq=rnd2 * [74.87, 75, 75.07, 75.21], feed=1, detune=rnd, mul=.15).out()
+    chor = Chorus(ifile, depth=[d1,d2], feedback=feed, bal=balance).out()
     s.start()
-
-    with open('tmp.wav', 'rb') as originalF:
-        with open('tmpout.wav', 'rb') as newF:
-            newFile= newF.read()
-            backpointer = originalF.read()
-
-            originalF.close()
-            newF.close()
 
     s.stop()
 
-    os.remove('tmpout.wav')
-    return newFile, backpointer
-
-
+    #os.remove(tmpfile)
+    #os.rename(r"tmpfile_working.wav", tmpfile)
+    return None
