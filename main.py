@@ -205,6 +205,7 @@ class Ui_MainWindow(QWidget):
         self.menuUpload.setObjectName("menuUpload")
         MainWindow.setMenuBar(self.menubar)
 
+
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -215,6 +216,8 @@ class Ui_MainWindow(QWidget):
         self.actionUpload_File = QtWidgets.QAction(MainWindow)
         self.actionUpload_File.setObjectName("actionUpload_File")
 
+        
+        self.actionSave.triggered.connect(self.save_file)
 
         self.menuFile.addAction(self.actionLoad)
         self.menuFile.addAction(self.actionSave)
@@ -278,6 +281,14 @@ class Ui_MainWindow(QWidget):
             f.close()
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
+
+    def save_file(self):
+        name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
+        
+        file = open(name[0]+'.wav','wb')
+        file2 = open(r'tmpfile.wav', 'rb')
+        file.write(file2.read())
+
 
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
