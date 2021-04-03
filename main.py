@@ -80,6 +80,8 @@ class Ui_MainWindow(QWidget):
         self.titleText.setObjectName("titleText")
 
         self.mainStage = MainStage(self.centralwidget)
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
         
         self.playSlider = QtWidgets.QSlider(self.centralwidget)
         self.playSlider.setGeometry(QtCore.QRect(310, 20, 721, 41))
@@ -244,8 +246,6 @@ class Ui_MainWindow(QWidget):
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
 
 
-        #vboxLayout.addWidget(self.mainStage)
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -320,8 +320,7 @@ class Ui_MainWindow(QWidget):
 
     def add_delay(self):
         self.effect_list.append(("delay", self.delay_simple))
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
+        self.updateGrid()
 
     def chorus_simple(self):
         effectFunctions.add_chorus(2, 4, 0.25, 0.8)
@@ -329,8 +328,7 @@ class Ui_MainWindow(QWidget):
 
     def add_chorus(self):
         self.effect_list.append(("chorus", self.chorus_simple))
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
+        self.updateGrid()
 
     def distortion_simple(self):
         effectFunctions.add_distortion(0.6, 0.7)
@@ -338,8 +336,7 @@ class Ui_MainWindow(QWidget):
 
     def add_distortion(self):
         self.effect_list.append(("distortion", self.distortion_simple))
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
+        self.updateGrid()
 
     def reverb_simple(self):
         effectFunctions.add_reverb(1000, 5, 2)
@@ -347,8 +344,7 @@ class Ui_MainWindow(QWidget):
 
     def add_reverb(self):
         self.effect_list.append(("reverb", self.reverb_simple))
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
+        self.updateGrid()
         
     def applyEffect(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
@@ -362,16 +358,22 @@ class Ui_MainWindow(QWidget):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         if self.effect_list != []:
             self.effect_list.pop()
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
+        self.updateGrid()
         self.update_player()
 
     def removeAll(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         self.effect_list = []
+        self.updateGrid()
+        self.update_player()
+
+    def updateGrid(self):
+        if self.mainStage:
+            self.mainStage.setParent(None)
+        self.mainStage = MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
-        self.update_player()
+        self.mainStage.lower()
 
 if __name__ == "__main__":
     import sys
