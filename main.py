@@ -114,7 +114,7 @@ class Ui_MainWindow(QWidget):
         # Volume Adjuster to modify volume
         self.volumeAdjuster = QtWidgets.QSlider(self.centralwidget)
         self.volumeAdjuster.setEnabled(True)
-        self.volumeAdjuster.setGeometry(QtCore.QRect(990, 340, 31, 201))
+        self.volumeAdjuster.setGeometry(QtCore.QRect(1350, -60, 31, 201))
         font = QtGui.QFont()
         font.setPointSize(8)
         self.volumeAdjuster.setFont(font)
@@ -122,7 +122,7 @@ class Ui_MainWindow(QWidget):
         self.volumeAdjuster.setOrientation(QtCore.Qt.Vertical)
         self.volumeAdjuster.setObjectName("volumeAdjuster")
         self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
-        self.volumeLabel.setGeometry(QtCore.QRect(970, 550, 61, 21))
+        self.volumeLabel.setGeometry(QtCore.QRect(1333, 135, 61, 21))
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(11)
