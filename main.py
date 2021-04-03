@@ -16,8 +16,9 @@ from PyQt5.QtWidgets import QApplication, QGridLayout, QWidget, QPushButton, QHB
 import sys
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtGui import QIcon, QPalette
-from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 import effectFunctions
 
 class MainStage(QWidget):
@@ -27,12 +28,12 @@ class MainStage(QWidget):
         self.width  = 1550
         self.height = 915
 
-        self.setFixedSize(1550, 915)
-
         self.grid = QGridLayout()
         #self.grid.setSpacing(10)
 
-        self.setBaseSize(1550, 915)
+        self.setFixedSize(800, 400)
+
+        self.move(200,100)
 
         w = QHBoxLayout()
         w.addLayout(self.grid)
@@ -44,9 +45,36 @@ class MainStage(QWidget):
     def setGrid(self, effect_list):
         for i in range(0, len(effect_list)):
             (name, effect) = effect_list[i]
-            label = QLabel(self)
-            label.setText(name)
-            self.grid.addWidget(label, 1, i)
+            n = Node(self, name)
+            # label = QLabel(self)
+            # label.setText(name)
+            self.grid.addWidget(n, 1, i)
+
+class Node(QWidget):
+    def __init__(self, parent, name, *args, **kwargs):
+        super(Node, self).__init__(parent, *args, **kwargs)
+        self.height = 200
+        self.width  = 200
+        self.setFixedSize(self.width, self.height)
+        self.name = name
+
+        label = QLabel(self)
+        label.setText(name)
+
+        self.setStyleSheet("border: 3px solid black;")
+
+    def paintEvent(self, event) -> None:
+        painter = QPainter()
+        painter.begin(self)
+        rect    = event.rect()
+        
+        pen = QPen(Qt.blue)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawLine(65, 10, 100, 10)
+        painter.drawLine(100, 10, 90, 0)
+        painter.drawLine(100, 10, 90, 20)
+        painter.end()
 
 class Ui_MainWindow(QWidget):
 
