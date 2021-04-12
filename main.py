@@ -137,7 +137,7 @@ class Ui_MainWindow(QWidget):
         # File name text box
         self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.file_Textbox.setText("Upload a .wav file!")
-        self.file_Textbox.setGeometry(800, -10, 200, 50)
+        self.file_Textbox.setGeometry(800, 0, 200, 50)
         self.file_Textbox.setAlignment(QtCore.Qt.AlignCenter)
         self.file_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")
@@ -207,14 +207,14 @@ class Ui_MainWindow(QWidget):
          # Play Button to play or pause a selected audio file.
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setEnabled(False)
-        self.playButton.setGeometry(QtCore.QRect(550, 15, 50, 50))
+        self.playButton.setGeometry(QtCore.QRect(550, 55, 50, 50))
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.setObjectName("playButton")
         self.playButton.clicked.connect(self.play_video)
 
         # Slider for playing audio.
         self.playSlider = QtWidgets.QSlider(self.centralwidget)
-        self.playSlider.setGeometry(QtCore.QRect(600, 20, 721, 41))
+        self.playSlider.setGeometry(QtCore.QRect(600, 60, 721, 41))
         self.playSlider.setOrientation(QtCore.Qt.Horizontal)
         self.playSlider.setObjectName("playSlider")
         self.playSlider.sliderMoved.connect(self.set_position)
@@ -223,7 +223,7 @@ class Ui_MainWindow(QWidget):
         self.volumeAdjuster = QtWidgets.QSlider(self.centralwidget)
         self.volumeAdjuster.setEnabled(True)
         self.volumeAdjuster.setRange(0,100)
-        self.volumeAdjuster.setGeometry(QtCore.QRect(1350, -60, 31, 201))
+        self.volumeAdjuster.setGeometry(QtCore.QRect(1350, 0, 31, 201))
         font = QtGui.QFont()
         font.setPointSize(8)
         self.volumeAdjuster.setFont(font)
@@ -233,7 +233,7 @@ class Ui_MainWindow(QWidget):
         self.volumeAdjuster.sliderMoved.connect(self.set_volume)
         
         self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
-        self.volumeLabel.setGeometry(QtCore.QRect(1333, 135, 61, 21))
+        self.volumeLabel.setGeometry(QtCore.QRect(1333, 200, 61, 21))
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(11)
