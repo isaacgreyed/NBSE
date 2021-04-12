@@ -26,19 +26,9 @@ class MainStage(QWidget):
         super(MainStage, self).__init__(*args, **kwargs)
 
 
-        self.setGeometry(371, 166, 1550, 915)
-        self.setFixedSize(1550, 915)
-
-        self.width  = 1550
-        self.height = 915
-
-
+        self.setGeometry(360, 150, 1550, 915)
         self.grid = QGridLayout()
         #self.grid.setSpacing(10)
-
-        self.setFixedSize(1550, 915)
-
-        self.move(200,100)
 
         w = QHBoxLayout()
         w.addLayout(self.grid)
