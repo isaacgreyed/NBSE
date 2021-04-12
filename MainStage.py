@@ -36,13 +36,17 @@ class MainStage(QWidget):
 class Node(QWidget):
     def __init__(self, parent, name, *args, **kwargs):
         super(Node, self).__init__(parent, *args, **kwargs)
-        self.height = 200
+        self.height = 600
         self.width  = 200
         self.setFixedSize(self.width, self.height)
         self.name = name
 
+        slider = QSlider(Qt.Horizontal, self)
+        slider.setGeometry(0, 0, 200, 30)
+
         label = QLabel(self)
         label.setText(name)
+        label.setGeometry(0, 100, 80, 80)
 
         self.setStyleSheet("border: 3px solid black;")
 
