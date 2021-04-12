@@ -16,21 +16,29 @@ from PyQt5.QtWidgets import QApplication, QGridLayout, QWidget, QPushButton, QHB
 import sys
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtGui import QIcon, QPalette
-from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 import effectFunctions
 
 class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
+
         self.setGeometry(371, 166, 1550, 915)
         self.setFixedSize(1550, 915)
+
+        self.width  = 1550
+        self.height = 915
+
 
         self.grid = QGridLayout()
         #self.grid.setSpacing(10)
 
-        self.setBaseSize(1550, 915)
+        self.setFixedSize(1550, 915)
+
+        self.move(200,100)
 
         w = QHBoxLayout()
         w.addLayout(self.grid)
@@ -42,6 +50,7 @@ class MainStage(QWidget):
     def setGrid(self, effect_list):
         for i in range(0, len(effect_list)):
             (name, effect) = effect_list[i]
+
             label = QLabel(self)
             label.setFixedSize(100, 52)
             label.setAlignment(QtCore.Qt.AlignCenter)
@@ -60,6 +69,38 @@ class MainStage(QWidget):
             label.setText(name)
             self.grid.addWidget(label, 1, i)
 
+            n = Node(self, name)
+            # label = QLabel(self)
+            # label.setText(name)
+            self.grid.addWidget(n, 1, i)
+
+class Node(QWidget):
+    def __init__(self, parent, name, *args, **kwargs):
+        super(Node, self).__init__(parent, *args, **kwargs)
+        self.height = 200
+        self.width = 200
+        self.setFixedSize(self.width, self.height)
+        self.name = name
+
+        label = QLabel(self)
+        label.setText(name)
+
+        self.setStyleSheet("border: 3px solid black;")
+
+    def paintEvent(self, event) -> None:
+        painter = QPainter()
+        painter.begin(self)
+        rect = event.rect()
+        
+        pen = QPen(Qt.blue)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawLine(65, 10, 100, 10)
+        painter.drawLine(100, 10, 90, 0)
+        painter.drawLine(100, 10, 90, 20)
+        painter.end()
+
+
 class Ui_MainWindow(QWidget):
 
     def __init__(self):
@@ -69,8 +110,16 @@ class Ui_MainWindow(QWidget):
         MainWindow.setWindowIcon(winIcon)
 
     def setupUi(self, MainWindow):
+
         # To hold list of added effects.
         self.effect_list = []
+
+        # To hold list of previously applied effects.
+        self.oldeffect_list = []
+
+        # To hold filepath of wav
+        self.filepath = ""
+
 
         # Media Player Initialized
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
@@ -78,22 +127,12 @@ class Ui_MainWindow(QWidget):
         videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
 
         # Display Options for Window
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("NBSE")
         MainWindow.setFixedSize(1920, 1080)
         MainWindow.setStyleSheet("background-image: url(\"images/pgmtexture.png\");\n")
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.titleText = QtWidgets.QLabel(self.centralwidget)
-        self.titleText.setGeometry(QtCore.QRect(30, 10, 151, 61))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(36)
-        font.setBold(True)
-        font.setWeight(75)
-        self.titleText.setFont(font)
-        self.titleText.setTextFormat(QtCore.Qt.AutoText)
-        self.titleText.setObjectName("titleText")
         MainWindow.setCentralWidget(self.centralwidget)
 
         # Play Button to play or pause a selected audio file.
@@ -185,54 +224,47 @@ class Ui_MainWindow(QWidget):
                                          "background-image: url(\"images/btntexture.png\");")
 
         # Apply Button
-        self.applyButton = QtWidgets.QPushButton("Apply Effect", self.centralwidget)
+        self.applyButton = QtWidgets.QPushButton(self.centralwidget)
         self.applyButton.clicked.connect(self.applyEffect)
         self.applyButton.setGeometry(400, 200, 181, 71)
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.applyButton.setFont(font)
+        self.applyButton.setStyleSheet("background-image: url(\"images/apply_btn.png\");")
+
 
         # Remove Effect Button
-        self.remove_Last = QtWidgets.QPushButton("Remove Last", self.centralwidget)
+        self.remove_Last = QtWidgets.QPushButton(self.centralwidget)
         self.remove_Last.clicked.connect(self.removeLast)
         self.remove_Last.setGeometry(600, 200, 181, 71)
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.remove_Last.setFont(font)
-        self.remove_Last.setObjectName("Remove Last")
+        self.remove_Last.setStyleSheet("background-image: url(\"images/removelast_btn.png\");")
 
         # Remove All Effects Button
-        self.remove_All = QtWidgets.QPushButton("Remove All", self.centralwidget)
+        self.remove_All = QtWidgets.QPushButton(self.centralwidget)
         self.remove_All.clicked.connect(self.removeAll)
         self.remove_All.setGeometry(QtCore.QRect(800, 200, 181, 71))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.remove_All.setFont(font)
-        self.remove_All.setObjectName("Remove All")
+        self.remove_All.setStyleSheet("background-image: url(\"images/removeall_btn.png\");")
 
         # Effect text box
         # png for background needs to be improved.
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
-        self.effect_Textbox.setText("This is an example. ")
+        self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
+                                    "uploading a .wav file first!")
         self.effect_Textbox.setGeometry(9, 600, 350, 400)
         self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
         self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
+                                          "background-image: url(\"images/effectTextbg.png\");")
+
+        # File name text box
+        self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
+        self.file_Textbox.setText("Upload a .wav file!")
+        self.file_Textbox.setGeometry(800, -10, 200, 50)
+        self.file_Textbox.setAlignment(QtCore.Qt.AlignCenter)
+        self.file_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")
 
         # Upload, load, and save files.
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1091, 21))
         self.menubar.setObjectName("menubar")
-
+        self.menubar.setStyleSheet("background-color: gray;")
 
         # Save or Load a file.
         self.menuFile = QtWidgets.QMenu(self.menubar)
@@ -257,6 +289,8 @@ class Ui_MainWindow(QWidget):
         self.actionUpload_File = QtWidgets.QAction(MainWindow)
         self.actionUpload_File.setObjectName("actionUpload_File")
 
+        
+        self.actionSave.triggered.connect(self.save_file)
 
         self.menuFile.addAction(self.actionLoad)
         self.menuFile.addAction(self.actionSave)
@@ -311,10 +345,10 @@ class Ui_MainWindow(QWidget):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "NBSE"))
         #self.titleText.setText(_translate("MainWindow", "NBSE"))
         self.volumeLabel.setText(_translate("MainWindow", "Volume"))
-        self.addReverb.setText(_translate("MainWindow", "Add Reverb"))
+        self.addReverb.setText(_translate("MainWindow", "Reverb"))
         self.playButton.setText(_translate("MainWindow", "Play"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuUpload.setTitle(_translate("MainWindow", "Upload"))
@@ -327,6 +361,9 @@ class Ui_MainWindow(QWidget):
         filename, ok = QtWidgets.QFileDialog.getOpenFileName(
             self, filter='WAV Files (*.wav)')
 
+        # Puts file path in universal variable.
+        self.filepath = filename
+        self.file_Textbox.setText(self.filepath.rsplit('/', 1)[-1])
         if ok:
             f = open('tmpfile.wav', 'wb')
             k = open(filename, 'rb')
@@ -341,6 +378,14 @@ class Ui_MainWindow(QWidget):
             f.close()
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
+
+
+    def save_file(self):
+        name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
+        
+        file = open(name[0]+'.wav','wb')
+        file2 = open(r'tmpfile.wav', 'rb')
+        file.write(file2.read())
 
 
     def update_player(self):
@@ -422,29 +467,58 @@ class Ui_MainWindow(QWidget):
         
 
     def applyEffect(self):
-        self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
-        os.remove('tmpfile.wav')
-        copyfile("original.wav", 'tmpfile.wav')
-        for (name, effect) in self.effect_list:
-            effect()
-        self.update_player()
+
+        if self.effect_list == []:
+            self.effect_Textbox.setText("No staged effects to apply.")
+        elif self.effect_list == self.oldeffect_list:
+            self.effect_Textbox.setText("Effects have not changed since last Apply.")
+        elif self.filepath == "":
+            self.effect_Textbox.setText("Please upload a file before applying effects.")
+        else:
+            if len(self.effect_list) == 1:
+                self.effect_Textbox.setText("Effect applied.")
+            else:
+                self.effect_Textbox.setText("Effects applied.")
+            self.oldeffect_list = self.effect_list
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
+            os.remove('tmpfile.wav')
+            copyfile("original.wav", 'tmpfile.wav')
+            for (name, effect) in self.effect_list:
+                effect()
+            self.update_player()
 
 
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
+
         if self.effect_list != []:
             self.effect_list.pop()[0]
-        self.updateGrid()
-        self.update_player()
-        self.effect_Textbox.setText("Effect has been removed.")
+            self.updateGrid()
+            self.update_player()
+            self.effect_Textbox.setText("Effect has been removed.")
+        else:
+            self.effect_Textbox.setText("No effects are staged.")
 
 
     def removeAll(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
-        self.effect_list = []
-        self.updateGrid()
-        self.update_player()
-        self.effect_Textbox.setText("All effects have been removed.")
+        if len(self.effect_list) == 0:
+            self.effect_Textbox.setText("No effects are staged.")
+        else:
+            reply = QMessageBox.information(
+                                            self,
+                                            "Remove All Effects",
+                                            "This will remove all effects, are you sure?",
+                                             QMessageBox.Yes | QMessageBox.Cancel
+                                            )
+            if reply == QtWidgets.QMessageBox.Yes:
+                self.effect_list = []
+                self.updateGrid()
+                self.update_player()
+                self.effect_Textbox.setText("All effects have been removed.")
+            else:
+                self.effect_Textbox.setText("Effects have been maintained.")
+
 
 
     def updateGrid(self):
