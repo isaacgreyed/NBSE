@@ -292,6 +292,9 @@ class Ui_MainWindow(QWidget):
         self.filepath = filename
         self.file_Textbox.setText(self.filepath.rsplit('/', 1)[-1])
         if ok:
+            self.effect_list = []
+            self.updateGrid()
+            os.remove('tmpfile.wav')
             f = open('tmpfile.wav', 'wb')
             k = open(filename, 'rb')
             f.write(k.read())
@@ -313,6 +316,8 @@ class Ui_MainWindow(QWidget):
         file = open(name[0]+'.wav','wb')
         file2 = open(r'tmpfile.wav', 'rb')
         file.write(file2.read())
+        file.close()
+        file2.close()
 
 
     def update_player(self):
