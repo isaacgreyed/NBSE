@@ -3,3 +3,4 @@
 tmpfile.wav
 original.wav
 *.wav
+*.pyc
