@@ -2,3 +2,5 @@
 **/.vscode
 tmpfile.wav
 original.wav
+*.wav
+*.pyc
