@@ -16,7 +16,7 @@ class MainStage(QWidget):
 
         self.setFixedSize(800, 400)
 
-        self.move(200,100)
+        self.move(400,200)
 
         w = QHBoxLayout()
         w.addLayout(self.grid)
