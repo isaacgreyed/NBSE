@@ -2,6 +2,4 @@
 **/.vscode
 tmpfile.wav
 original.wav
-sample.wav
-sample_distorted.wav
-sample_reverbed.wav
+*.wav
