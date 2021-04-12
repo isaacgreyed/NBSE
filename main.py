@@ -455,7 +455,7 @@ class Ui_MainWindow(QWidget):
     def updateGrid(self):
         if self.mainStage:
             self.mainStage.setParent(None)
-        self.mainStage = MainStage(self.centralwidget)
+        self.mainStage = MainStage.MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
         self.mainStage.lower()
