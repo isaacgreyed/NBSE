@@ -8,21 +8,11 @@ class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
-        self.width  = 1550
-        self.height = 915
-
+        self.setGeometry(360, 250, 1550, 915)
         self.grid = QGridLayout()
-        #self.grid.setSpacing(10)
-
-        self.setFixedSize(800, 400)
-
-        self.move(400,200)
-
         w = QHBoxLayout()
         w.addLayout(self.grid)
-
         self.setLayout(w)
-
         self.show()
 
     def setGrid(self, effect_list):
@@ -43,8 +33,18 @@ class Node(QWidget):
 
         label = QLabel(self)
         label.setText(name)
-
-        self.setStyleSheet("border: 3px solid black;")
+        if name == "reverb":
+            self.setStyleSheet("border: 3px solid black;\n"
+                               "background-image: url(\"images/reverb_node.png\");")
+        elif name == "distortion":
+            self.setStyleSheet("border: 3px solid black;\n"
+                               "background-image: url(\"images/distort_node.png\");")
+        elif name == "chorus":
+            self.setStyleSheet("border: 3px solid black;\n"
+                               "background-image: url(\"images/chorus_node.png\");")
+        elif name == "delay":
+            self.setStyleSheet("border: 3px solid black;\n"
+                               "background-image: url(\"images/delay_node.png\");")
 
     def paintEvent(self, event) -> None:
         painter = QPainter()

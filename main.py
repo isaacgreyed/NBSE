@@ -53,7 +53,7 @@ class Ui_MainWindow(QWidget):
         self.initMediaPlayerArea()
 
         self.initMainStage()
-        
+
         # Reverb Button
         self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
         self.addReverb.clicked.connect(self.add_reverb)
@@ -247,6 +247,7 @@ class Ui_MainWindow(QWidget):
         # Initilizes Effect Stage
         self.mainStage = MainStage.MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
+        self.mainStage.setGeometry(500, 500, 1000, 1000)
         self.mainStage.update()
 
 
