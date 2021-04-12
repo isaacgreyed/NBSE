@@ -56,35 +56,10 @@ class Ui_MainWindow(QWidget):
 
         self.initEffectButtons()
 
-        # Apply Button
-        self.applyButton = QtWidgets.QPushButton(self.centralwidget)
-        self.applyButton.clicked.connect(self.applyEffect)
-        self.applyButton.setGeometry(400, 200, 181, 71)
-        self.applyButton.setStyleSheet("background-image: url(\"images/apply_btn.png\");")
+        self.initActionButtons()
 
-
-        # Remove Effect Button
-        self.remove_Last = QtWidgets.QPushButton(self.centralwidget)
-        self.remove_Last.clicked.connect(self.removeLast)
-        self.remove_Last.setGeometry(600, 200, 181, 71)
-        self.remove_Last.setStyleSheet("background-image: url(\"images/removelast_btn.png\");")
-
-        # Remove All Effects Button
-        self.remove_All = QtWidgets.QPushButton(self.centralwidget)
-        self.remove_All.clicked.connect(self.removeAll)
-        self.remove_All.setGeometry(QtCore.QRect(800, 200, 181, 71))
-        self.remove_All.setStyleSheet("background-image: url(\"images/removeall_btn.png\");")
-
-        # Effect text box
-        # png for background needs to be improved.
-        self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
-        self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
-                                    "uploading a .wav file first!")
-        self.effect_Textbox.setGeometry(9, 600, 350, 400)
-        self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
-        self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
-                                          "background-image: url(\"images/effectTextbg.png\");")
-
+        self.initEffectTextBox()
+        
         # File name text box
         self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.file_Textbox.setText("Upload a .wav file!")
@@ -252,6 +227,37 @@ class Ui_MainWindow(QWidget):
                                          "width: 200px;\n"
                                          "height: 150px;\n"
                                          "background-image: url(\"images/btntexture.png\");")
+
+    def initActionButtons(self):
+        # Apply Button
+        self.applyButton = QtWidgets.QPushButton(self.centralwidget)
+        self.applyButton.clicked.connect(self.applyEffect)
+        self.applyButton.setGeometry(400, 200, 181, 71)
+        self.applyButton.setStyleSheet("background-image: url(\"images/apply_btn.png\");")
+
+
+        # Remove Effect Button
+        self.remove_Last = QtWidgets.QPushButton(self.centralwidget)
+        self.remove_Last.clicked.connect(self.removeLast)
+        self.remove_Last.setGeometry(600, 200, 181, 71)
+        self.remove_Last.setStyleSheet("background-image: url(\"images/removelast_btn.png\");")
+
+        # Remove All Effects Button
+        self.remove_All = QtWidgets.QPushButton(self.centralwidget)
+        self.remove_All.clicked.connect(self.removeAll)
+        self.remove_All.setGeometry(QtCore.QRect(800, 200, 181, 71))
+        self.remove_All.setStyleSheet("background-image: url(\"images/removeall_btn.png\");")
+
+    def initEffectTextBox(self):
+        # Effect text box
+        # png for background needs to be improved.
+        self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
+        self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
+                                    "uploading a .wav file first!")
+        self.effect_Textbox.setGeometry(9, 600, 350, 400)
+        self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
+        self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
+                                          "background-image: url(\"images/effectTextbg.png\");")
 
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
