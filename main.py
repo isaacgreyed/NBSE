@@ -153,6 +153,7 @@ class Ui_MainWindow(QWidget):
         # Volume Adjuster to modify volume
         self.volumeAdjuster = QtWidgets.QSlider(self.centralwidget)
         self.volumeAdjuster.setEnabled(True)
+        self.volumeAdjuster.setRange(0,100)
         self.volumeAdjuster.setGeometry(QtCore.QRect(1350, -60, 31, 201))
         font = QtGui.QFont()
         font.setPointSize(8)
@@ -160,6 +161,8 @@ class Ui_MainWindow(QWidget):
         self.volumeAdjuster.setSliderPosition(50)
         self.volumeAdjuster.setOrientation(QtCore.Qt.Vertical)
         self.volumeAdjuster.setObjectName("volumeAdjuster")
+        self.volumeAdjuster.sliderMoved.connect(self.set_volume)
+        
         self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
         self.volumeLabel.setGeometry(QtCore.QRect(1333, 135, 61, 21))
         font = QtGui.QFont()
@@ -417,6 +420,8 @@ class Ui_MainWindow(QWidget):
 
             )
 
+    def set_volume(self):
+        self.mediaPlayer.setVolume(self.volumeAdjuster.getValue())
 
     def position_changed(self, position):
         self.playSlider.setValue(position)
