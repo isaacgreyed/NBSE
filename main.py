@@ -20,7 +20,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import effectFunctions
-from MainStage import *
+import MainStage
 
 class Ui_MainWindow(QWidget):
     filename = r"sample.wav"
@@ -60,7 +60,7 @@ class Ui_MainWindow(QWidget):
         self.titleText.setObjectName("titleText")
         MainWindow.setCentralWidget(self.centralwidget)
 
-        self.mainStage = MainStage(self.centralwidget)
+        self.mainStage = MainStage.MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
         
@@ -248,12 +248,15 @@ class Ui_MainWindow(QWidget):
         self.actionSave.setObjectName("actionSave")
         self.actionUpload_File = QtWidgets.QAction(MainWindow)
         self.actionUpload_File.setObjectName("actionUpload_File")
-
+        self.actionQuit = QtWidgets.QAction(MainWindow)
+        self.actionQuit.triggered.connect(sys.exit)
+        self.actionQuit.setText("Quit")
         
         self.actionSave.triggered.connect(self.save_file)
 
         self.menuFile.addAction(self.actionLoad)
         self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionQuit)
         self.menuUpload.addAction(self.actionUpload_File)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuUpload.menuAction())
