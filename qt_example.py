@@ -8,8 +8,9 @@ import sys
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from PyQt5 import QtCore, QtWidgets
+import effectFunctions
 
+from PyQt5 import QtCore, QtWidgets
 from pyo import *
 from scipy.io.wavfile import read
 from EffectTree import *
@@ -119,6 +120,7 @@ class NBSEWindow(QMainWindow):
         self.setWindowTitle('NBSE')
         self.show()
 
+# Adds a reverberation effect to audio.
 def reverb():
     # Apply Audio Effect
     s = Server(audio="offline").boot()
