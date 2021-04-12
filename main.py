@@ -95,7 +95,7 @@ class Ui_MainWindow(QWidget):
         self.volumeLabel.setObjectName("volumeLabel")
 
         # Initilizes Effect Stage
-        self.mainStage = MainStage(self.centralwidget)
+        self.mainStage = MainStage.MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
 
