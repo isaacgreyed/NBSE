@@ -42,19 +42,26 @@ class Node(QWidget):
             p1_label.setText("Parameter 1")
             p1_label.setGeometry(50, 0, 120,30)
             param1 = QSlider(Qt.Horizontal, self)
+            param1.setMinimum(1)
+            param1.setMaximum(1000)
             param1.setGeometry(0, 30, 200, 30)
+
 
             p2_label = QLabel(self)
             p2_label.setText("Parameter 2")
             p2_label.setGeometry(50, 80, 120, 30)
             param2 = QSlider(Qt.Horizontal, self)
             param2.setGeometry(0, 110, 200, 30)
+            param2.setMinimum(1)
+            param2.setMaximum(5)
 
             p3_label = QLabel(self)
             p3_label.setText("Parameter 3")
             p3_label.setGeometry(50, 160, 120, 30)
             param3 = QSlider(Qt.Horizontal, self)
             param3.setGeometry(0, 190, 200, 30)
+            param3.setMinimum(0)
+            param3.setMaximum(2)
 
         elif name == "distortion":
             label.setStyleSheet("border: 3px solid black;\n"
