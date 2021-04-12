@@ -8,88 +8,53 @@ class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
-        self.height = 500#canvas_y
-        self.width = 500#canvas_x
+        self.width  = 1550
+        self.height = 915
 
-        self.setFixedSize(QSize(self.height, self.width))
         self.grid = QGridLayout()
-        self.grid.setSpacing(10)
+        #self.grid.setSpacing(10)
 
-        self.setFixedSize(250, 250)
+        self.setFixedSize(800, 400)
 
-        w = QVBoxLayout()
+        self.move(200,100)
+
+        w = QHBoxLayout()
         w.addLayout(self.grid)
 
         self.setLayout(w)
 
-        self.import_grid(eff.get_as_2d())
-        self.connect_list = eff.to_connect_list()
         self.show()
 
-    def import_grid(self, grid):
-        for j in range(0, len(grid)):
-            for i in range(0, len(grid[j])):
-                if grid[j][i]:
-                    n = Node()
-                    self.grid.addWidget(n, i, j)
-    
-    def paintEvent(self, event) -> None:
-        painter = QPainter(self)
-        painter.begin()
-        painter.setPen(Qt.red)
-        for ((i,j), (k,l)) in self.connect_list:
-            (start_x, start_y, a, b) = self.grid.getItemPosition(self.grid.indexOf(self.grid.itemAtPosition(i,j)))
-            (end_x, end_y, c, d)      = self.grid.getItemPosition(self.grid.indexOf(self.grid.itemAtPosition(k,l)))
-            painter.drawLine(start_x, start_y, end_x, end_y)
-        painter.end()
-            
-
-
-    
-
+    def setGrid(self, effect_list):
+        for i in range(0, len(effect_list)):
+            (name, effect) = effect_list[i]
+            n = Node(self, name)
+            # label = QLabel(self)
+            # label.setText(name)
+            self.grid.addWidget(n, 1, i)
 
 class Node(QWidget):
-    def __init__(self, *args, **kwargs):
-        super(Node, self).__init__(*args, **kwargs)
+    def __init__(self, parent, name, *args, **kwargs):
+        super(Node, self).__init__(parent, *args, **kwargs)
+        self.height = 200
+        self.width  = 200
+        self.setFixedSize(self.width, self.height)
+        self.name = name
 
-        self.setFixedSize(QSize(5, 5))
+        label = QLabel(self)
+        label.setText(name)
 
-    def connectNodes(self, event, x, y, a, b) -> None:
+        self.setStyleSheet("border: 3px solid black;")
+
+    def paintEvent(self, event) -> None:
         painter = QPainter()
         painter.begin(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        painter = setPen(QtCore.Qt.red)
-        painter.setBrush(QtCore.Qt.yellow)
-
-
-        if x != 0:
-            # Horizontal Line
-            painter.drawLine(x, y, a, b)
-
-            # Arrow Top Pointer
-            painter.drawLine(o, o, a, b)
-            # Arrow Bottom Pointer
-            painter.drawLine(o, p, a, b)
-
-            rect    = event.rect()
+        rect    = event.rect()
         
-            painter.fillRect(rect, QBrush(Qt.black))
-
-        #pen = QPen(Qt.red)
-        #pen.setWidth(2)
-        #painter.setPen(pen)
-        #painter.drawRect(rect)
-        #painter.end()
-        
-
-
-
-def render(effect_tree, canvas_x, canvas_y):
-    array = effect_tree.get_as_2d
-    i = 0
-    for x in array:
-        j = 0
-        for y in x:
-            #draw(y, i, j, canvas_x, canvas_y)
-            j += 1
-        i += 1
+        pen = QPen(Qt.blue)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        painter.drawLine(65, 10, 100, 10)
+        painter.drawLine(100, 10, 90, 0)
+        painter.drawLine(100, 10, 90, 20)
+        painter.end()
