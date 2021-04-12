@@ -35,20 +35,7 @@ class Ui_MainWindow(QWidget):
 
     def setupUi(self, MainWindow):
 
-
-        # Media Player Initialized
-        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
-        videowidget = QVideoWidget()
-        videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
-
-        # Display Options for Window
-        MainWindow.setObjectName("NBSE")
-        MainWindow.setFixedSize(1920, 1080)
-        MainWindow.setStyleSheet("background-image: url(\"images/pgmtexture.png\");\n")
-
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.initMainWindow()
 
         self.initMediaPlayerArea()
 
@@ -60,76 +47,29 @@ class Ui_MainWindow(QWidget):
 
         self.initEffectTextBox()
         
-        # File name text box
-        self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
-        self.file_Textbox.setText("Upload a .wav file!")
-        self.file_Textbox.setGeometry(800, -10, 200, 50)
-        self.file_Textbox.setAlignment(QtCore.Qt.AlignCenter)
-        self.file_Textbox.setStyleSheet("border: 3px solid black;\n"
-                                          "background-image: url(\"images/effectTextbg.png\");")
-
-        # Upload, load, and save files.
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1091, 21))
-        self.menubar.setObjectName("menubar")
-        self.menubar.setStyleSheet("background-color: gray;")
-
-        # Save or Load a file.
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-
-        # Upload a file
-        self.menuUpload = QtWidgets.QMenu(self.menubar)
-        self.menuUpload.setObjectName("menuUpload")
-
-
-        # Sets menu bar for file access.
-        MainWindow.setMenuBar(self.menubar)
-
-        # Status Bar
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionLoad = QtWidgets.QAction(MainWindow)
-        self.actionLoad.setObjectName("actionLoad")
-        self.actionSave = QtWidgets.QAction(MainWindow)
-        self.actionSave.setObjectName("actionSave")
-        self.actionUpload_File = QtWidgets.QAction(MainWindow)
-        self.actionUpload_File.setObjectName("actionUpload_File")
-        self.actionQuit = QtWidgets.QAction(MainWindow)
-        self.actionQuit.triggered.connect(sys.exit)
-        self.actionQuit.setText("Quit")
-        
-        self.actionSave.triggered.connect(self.save_file)
-
-        self.menuFile.addAction(self.actionLoad)
-        self.menuFile.addAction(self.actionSave)
-        self.menuFile.addAction(self.actionQuit)
-        self.menuUpload.addAction(self.actionUpload_File)
-        self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuUpload.menuAction())
-
+        self.initMenu()
 
         self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.actionUpload_File.triggered.connect(self.open_file)
+        self.initLayout()
+    
+    ### init ui functions, create and place elements
+    def initMainWindow(self):
+        # Display Options for Window
+        MainWindow.setObjectName("NBSE")
+        MainWindow.setFixedSize(1920, 1080)
+        MainWindow.setStyleSheet("background-image: url(\"images/pgmtexture.png\");\n")
 
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        MainWindow.setCentralWidget(self.centralwidget)
 
-        # create hbox layout
-        hboxLayout = QHBoxLayout()
-        hboxLayout.setContentsMargins(0, 0, 0, 0)
-
-        # set widgets to the hbox layout
-        hboxLayout.addWidget(self.playButton)
-        hboxLayout.addWidget(self.playSlider)
-
-        vboxLayout = QVBoxLayout()
-        vboxLayout.addWidget(videowidget)
-        vboxLayout.addLayout(hboxLayout)
-
-    # When a button is clicked, changes the effect.
     def initMediaPlayerArea(self):
+        # Media Player Initialized
+        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+        self.videowidget = QVideoWidget()
+        self.videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
+
          # Play Button to play or pause a selected audio file.
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setEnabled(False)
@@ -259,6 +199,74 @@ class Ui_MainWindow(QWidget):
         self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")
 
+    def initMenu(self):
+        # File name text box
+        self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
+        self.file_Textbox.setText("Upload a .wav file!")
+        self.file_Textbox.setGeometry(800, -10, 200, 50)
+        self.file_Textbox.setAlignment(QtCore.Qt.AlignCenter)
+        self.file_Textbox.setStyleSheet("border: 3px solid black;\n"
+                                          "background-image: url(\"images/effectTextbg.png\");")
+
+        # Upload, load, and save files.
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1091, 21))
+        self.menubar.setObjectName("menubar")
+        self.menubar.setStyleSheet("background-color: gray;")
+
+        # Save or Load a file.
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+
+        # Upload a file
+        self.menuUpload = QtWidgets.QMenu(self.menubar)
+        self.menuUpload.setObjectName("menuUpload")
+
+
+        # Sets menu bar for file access.
+        MainWindow.setMenuBar(self.menubar)
+
+        # Status Bar
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionLoad = QtWidgets.QAction(MainWindow)
+        self.actionLoad.setObjectName("actionLoad")
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionUpload_File = QtWidgets.QAction(MainWindow)
+        self.actionUpload_File.setObjectName("actionUpload_File")
+        self.actionQuit = QtWidgets.QAction(MainWindow)
+        self.actionQuit.triggered.connect(sys.exit)
+        self.actionQuit.setText("Quit")
+        
+        self.actionSave.triggered.connect(self.save_file)
+
+        self.menuFile.addAction(self.actionLoad)
+        self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionQuit)
+        self.menuUpload.addAction(self.actionUpload_File)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuUpload.menuAction())
+
+        self.actionUpload_File.triggered.connect(self.open_file)
+
+    def initLayout(self):
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        # create hbox layout
+        hboxLayout = QHBoxLayout()
+        hboxLayout.setContentsMargins(0, 0, 0, 0)
+
+        # set widgets to the hbox layout
+        hboxLayout.addWidget(self.playButton)
+        hboxLayout.addWidget(self.playSlider)
+
+        vboxLayout = QVBoxLayout()
+        vboxLayout.addWidget(self.videowidget)
+        vboxLayout.addLayout(hboxLayout)
+
+    #utility functions to create functionality
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
                  "that simulates a resonance of sound off of a surface."
@@ -292,7 +300,6 @@ class Ui_MainWindow(QWidget):
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionUpload_File.setText(_translate("MainWindow", "Upload File"))
 
-
     def open_file(self):
         filename, ok = QtWidgets.QFileDialog.getOpenFileName(
             self, filter='WAV Files (*.wav)')
@@ -315,7 +322,6 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
-
     def save_file(self):
         name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
         
@@ -323,10 +329,8 @@ class Ui_MainWindow(QWidget):
         file2 = open(r'tmpfile.wav', 'rb')
         file.write(file2.read())
 
-
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
-
 
     def play_video(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -335,10 +339,8 @@ class Ui_MainWindow(QWidget):
         else:
             self.mediaPlayer.play()
 
-
     def set_position(self, position):
         self.mediaPlayer.setPosition(position)
-
 
     def mediastate_changed(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -359,51 +361,41 @@ class Ui_MainWindow(QWidget):
     def position_changed(self, position):
         self.playSlider.setValue(position)
 
-
     def duration_changed(self, duration):
         self.playSlider.setRange(0, duration)
-
 
     def delay_simple(self):
         effectFunctions.add_delay(1.2, 1.6, 0.8, 0.9)
         effectFunctions.remove()
 
-
     def add_delay(self):
         self.effect_list.append(("delay", self.delay_simple))
         self.updateGrid()
-
 
     def chorus_simple(self):
         effectFunctions.add_chorus(2, 4, 0.25, 0.8)
         effectFunctions.remove()
 
-
     def add_chorus(self):
         self.effect_list.append(("chorus", self.chorus_simple))
         self.updateGrid()
-
 
     def distortion_simple(self):
         effectFunctions.add_distortion(0.6, 0.7)
         effectFunctions.remove()
 
-
     def add_distortion(self):
         self.effect_list.append(("distortion", self.distortion_simple))
         self.updateGrid()
-
 
     def reverb_simple(self):
         effectFunctions.add_reverb(1000, 5, 2)
         effectFunctions.remove()
 
-
     def add_reverb(self):
         self.effect_list.append(("reverb", self.reverb_simple))
         self.updateGrid()
         
-
     def applyEffect(self):
 
         if self.filepath == "":
@@ -427,7 +419,6 @@ class Ui_MainWindow(QWidget):
                 effect()
             self.update_player()
 
-
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
 
@@ -438,7 +429,6 @@ class Ui_MainWindow(QWidget):
             self.effect_Textbox.setText("Effect has been removed.")
         else:
             self.effect_Textbox.setText("No effects are staged.")
-
 
     def removeAll(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
@@ -459,8 +449,6 @@ class Ui_MainWindow(QWidget):
             else:
                 self.effect_Textbox.setText("Effects have been maintained.")
 
-
-
     def updateGrid(self):
         if self.mainStage:
             self.mainStage.setParent(None)
@@ -468,7 +456,6 @@ class Ui_MainWindow(QWidget):
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
         self.mainStage.lower()
-
 
 if __name__ == "__main__":
     import sys
