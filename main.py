@@ -29,24 +29,32 @@ class Ui_MainWindow(QWidget):
         self._buffer = QtCore.QBuffer()
         winIcon = QIcon("images/icon.png")
         MainWindow.setWindowIcon(winIcon)
+        self.effect_list = []    # To hold list of added effects.
+        self.oldeffect_list = [] # To hold list of previously applied effects.
+        self.filepath = ""       # To hold filepath of wav
 
     def setupUi(self, MainWindow):
 
-        # To hold list of added effects.
-        self.effect_list = []
+        self.initMainWindow()
 
-        # To hold list of previously applied effects.
-        self.oldeffect_list = []
+        self.initMediaPlayerArea()
 
-        # To hold filepath of wav
-        self.filepath = ""
+        self.initMainStage()
 
+        self.initEffectButtons()
 
-        # Media Player Initialized
-        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
-        videowidget = QVideoWidget()
-        videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
+        self.initActionButtons()
 
+        self.initEffectTextBox()
+        
+        self.initMenu()
+
+        self.retranslateUi(MainWindow)
+
+        self.initLayout()
+    
+    ### init ui functions, create and place elements
+    def initMainWindow(self):
         # Display Options for Window
         MainWindow.setObjectName("NBSE")
         MainWindow.setFixedSize(1920, 1080)
@@ -56,7 +64,13 @@ class Ui_MainWindow(QWidget):
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
 
-        # Play Button to play or pause a selected audio file.
+    def initMediaPlayerArea(self):
+        # Media Player Initialized
+        self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
+        self.videowidget = QVideoWidget()
+        self.videowidget.setGeometry(QtCore.QRect(200, 10, 871, 141))
+
+         # Play Button to play or pause a selected audio file.
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setEnabled(False)
         self.playButton.setGeometry(QtCore.QRect(550, 15, 50, 50))
@@ -94,12 +108,19 @@ class Ui_MainWindow(QWidget):
         self.volumeLabel.setFont(font)
         self.volumeLabel.setObjectName("volumeLabel")
 
+        # Media player changes when files are added
+        self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
+        self.mediaPlayer.positionChanged.connect(self.position_changed)
+        self.mediaPlayer.durationChanged.connect(self.duration_changed)
+
+    def initMainStage(self):
         # Initilizes Effect Stage
         self.mainStage = MainStage.MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
+        self.mainStage.setGeometry(500, 500, 1000, 1000)
         self.mainStage.update()
 
-
+    def initEffectButtons(self):
         # Reverb Button
         self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
         self.addReverb.clicked.connect(self.add_reverb)
@@ -147,6 +168,7 @@ class Ui_MainWindow(QWidget):
                                          "height: 150px;\n"
                                          "background-image: url(\"images/btntexture.png\");")
 
+    def initActionButtons(self):
         # Apply Button
         self.applyButton = QtWidgets.QPushButton(self.centralwidget)
         self.applyButton.clicked.connect(self.applyEffect)
@@ -166,6 +188,7 @@ class Ui_MainWindow(QWidget):
         self.remove_All.setGeometry(QtCore.QRect(800, 200, 181, 71))
         self.remove_All.setStyleSheet("background-image: url(\"images/removeall_btn.png\");")
 
+    def initEffectTextBox(self):
         # Effect text box
         # png for background needs to be improved.
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
@@ -176,6 +199,7 @@ class Ui_MainWindow(QWidget):
         self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")
 
+    def initMenu(self):
         # File name text box
         self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.file_Textbox.setText("Upload a .wav file!")
@@ -225,12 +249,10 @@ class Ui_MainWindow(QWidget):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuUpload.menuAction())
 
-
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
         self.actionUpload_File.triggered.connect(self.open_file)
 
+    def initLayout(self):
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         # create hbox layout
         hboxLayout = QHBoxLayout()
@@ -241,15 +263,10 @@ class Ui_MainWindow(QWidget):
         hboxLayout.addWidget(self.playSlider)
 
         vboxLayout = QVBoxLayout()
-        vboxLayout.addWidget(videowidget)
+        vboxLayout.addWidget(self.videowidget)
         vboxLayout.addLayout(hboxLayout)
 
-        # Media player changes when files are added
-        self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
-        self.mediaPlayer.positionChanged.connect(self.position_changed)
-        self.mediaPlayer.durationChanged.connect(self.duration_changed)
-
-    # When a button is clicked, changes the effect.
+    #utility functions to create functionality
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
                  "that simulates a resonance of sound off of a surface."
@@ -283,7 +300,6 @@ class Ui_MainWindow(QWidget):
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionUpload_File.setText(_translate("MainWindow", "Upload File"))
 
-
     def open_file(self):
         filename, ok = QtWidgets.QFileDialog.getOpenFileName(
             self, filter='WAV Files (*.wav)')
@@ -309,7 +325,6 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
-
     def save_file(self):
         name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
         
@@ -319,10 +334,8 @@ class Ui_MainWindow(QWidget):
         file.close()
         file2.close()
 
-
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
-
 
     def play_video(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -331,10 +344,8 @@ class Ui_MainWindow(QWidget):
         else:
             self.mediaPlayer.play()
 
-
     def set_position(self, position):
         self.mediaPlayer.setPosition(position)
-
 
     def mediastate_changed(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -355,51 +366,41 @@ class Ui_MainWindow(QWidget):
     def position_changed(self, position):
         self.playSlider.setValue(position)
 
-
     def duration_changed(self, duration):
         self.playSlider.setRange(0, duration)
-
 
     def delay_simple(self):
         effectFunctions.add_delay(1.2, 1.6, 0.8, 0.9)
         effectFunctions.remove()
 
-
     def add_delay(self):
         self.effect_list.append(("delay", self.delay_simple))
         self.updateGrid()
-
 
     def chorus_simple(self):
         effectFunctions.add_chorus(2, 4, 0.25, 0.8)
         effectFunctions.remove()
 
-
     def add_chorus(self):
         self.effect_list.append(("chorus", self.chorus_simple))
         self.updateGrid()
-
 
     def distortion_simple(self):
         effectFunctions.add_distortion(0.6, 0.7)
         effectFunctions.remove()
 
-
     def add_distortion(self):
         self.effect_list.append(("distortion", self.distortion_simple))
         self.updateGrid()
-
 
     def reverb_simple(self):
         effectFunctions.add_reverb(1000, 5, 2)
         effectFunctions.remove()
 
-
     def add_reverb(self):
         self.effect_list.append(("reverb", self.reverb_simple))
         self.updateGrid()
         
-
     def applyEffect(self):
 
         if self.filepath == "":
@@ -423,7 +424,6 @@ class Ui_MainWindow(QWidget):
                 effect()
             self.update_player()
 
-
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
 
@@ -434,7 +434,6 @@ class Ui_MainWindow(QWidget):
             self.effect_Textbox.setText("Effect has been removed.")
         else:
             self.effect_Textbox.setText("No effects are staged.")
-
 
     def removeAll(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
@@ -455,8 +454,6 @@ class Ui_MainWindow(QWidget):
             else:
                 self.effect_Textbox.setText("Effects have been maintained.")
 
-
-
     def updateGrid(self):
         if self.mainStage:
             self.mainStage.setParent(None)
@@ -464,7 +461,6 @@ class Ui_MainWindow(QWidget):
         self.mainStage.setGrid(self.effect_list)
         self.mainStage.update()
         self.mainStage.lower()
-
 
 if __name__ == "__main__":
     import sys
