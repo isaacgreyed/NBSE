@@ -421,7 +421,7 @@ class Ui_MainWindow(QWidget):
             )
 
     def set_volume(self):
-        self.mediaPlayer.setVolume(self.volumeAdjuster.getValue())
+        self.mediaPlayer.setVolume(self.volumeAdjuster.value())
 
     def position_changed(self, position):
         self.playSlider.setValue(position)
