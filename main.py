@@ -463,18 +463,20 @@ class Ui_MainWindow(QWidget):
 
     def applyEffect(self):
 
-        if self.effect_list == []:
-            self.effect_Textbox.setText("No staged effects to apply.")
-        elif self.effect_list == self.oldeffect_list:
-            self.effect_Textbox.setText("Effects have not changed since last Apply.")
-        elif self.filepath == "":
+        if self.filepath == "":
             self.effect_Textbox.setText("Please upload a file before applying effects.")
+        #elif self.effect_list == self.oldeffect_list:
+        #    self.effect_Textbox.setText("Effects have not changed since last Apply.")
         else:
-            if len(self.effect_list) == 1:
+            if len(self.effect_list) == 0:
+                self.effect_Textbox.setText("No effects applied.")
+            elif len(self.effect_list) == 1:
                 self.effect_Textbox.setText("Effect applied.")
             else:
                 self.effect_Textbox.setText("Effects applied.")
+
             self.oldeffect_list = self.effect_list
+
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
             os.remove('tmpfile.wav')
             copyfile("original.wav", 'tmpfile.wav')
