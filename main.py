@@ -52,12 +52,8 @@ class Ui_MainWindow(QWidget):
 
         self.initMediaPlayerArea()
 
-        # Initilizes Effect Stage
-        self.mainStage = MainStage.MainStage(self.centralwidget)
-        self.mainStage.setGrid(self.effect_list)
-        self.mainStage.update()
-
-
+        self.initMainStage()
+        
         # Reverb Button
         self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
         self.addReverb.clicked.connect(self.add_reverb)
@@ -246,6 +242,14 @@ class Ui_MainWindow(QWidget):
         self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
         self.mediaPlayer.positionChanged.connect(self.position_changed)
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
+
+    def initMainStage(self):
+        # Initilizes Effect Stage
+        self.mainStage = MainStage.MainStage(self.centralwidget)
+        self.mainStage.setGrid(self.effect_list)
+        self.mainStage.update()
+
+
 
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
