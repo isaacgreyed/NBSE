@@ -50,7 +50,7 @@ class Ui_MainWindow(QWidget):
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
 
-        self.initPlayArea()
+        self.initMediaPlayerArea()
 
         # Initilizes Effect Stage
         self.mainStage = MainStage.MainStage(self.centralwidget)
@@ -202,13 +202,8 @@ class Ui_MainWindow(QWidget):
         vboxLayout.addWidget(videowidget)
         vboxLayout.addLayout(hboxLayout)
 
-        # Media player changes when files are added
-        self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
-        self.mediaPlayer.positionChanged.connect(self.position_changed)
-        self.mediaPlayer.durationChanged.connect(self.duration_changed)
-
     # When a button is clicked, changes the effect.
-    def initPlayArea(self):
+    def initMediaPlayerArea(self):
          # Play Button to play or pause a selected audio file.
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setEnabled(False)
@@ -246,6 +241,11 @@ class Ui_MainWindow(QWidget):
         font.setWeight(75)
         self.volumeLabel.setFont(font)
         self.volumeLabel.setObjectName("volumeLabel")
+
+        # Media player changes when files are added
+        self.mediaPlayer.stateChanged.connect(self.mediastate_changed)
+        self.mediaPlayer.positionChanged.connect(self.position_changed)
+        self.mediaPlayer.durationChanged.connect(self.duration_changed)
 
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
