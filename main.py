@@ -54,52 +54,7 @@ class Ui_MainWindow(QWidget):
 
         self.initMainStage()
 
-        # Reverb Button
-        self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
-        self.addReverb.clicked.connect(self.add_reverb)
-        self.addReverb.clicked.connect(lambda: self.changeEffectText(1))
-        self.addReverb.setGeometry(30, 300, 125, 125)
-        self.addReverb.setStyleSheet("border-radius: 25px;\n"
-                                      "background: #73AD21;\n"
-                                      "padding: 20px;\n"
-                                      "width: 200px;\n"
-                                      "height: 150px;\n"
-                                      "background-image: url(\"images/btntexture.png\");")
-
-        # Delay Button
-        self.addDelay = QtWidgets.QPushButton("Delay", self.centralwidget)
-        self.addDelay.clicked.connect(self.add_delay)
-        self.addDelay.clicked.connect(lambda: self.changeEffectText(2))
-        self.addDelay.setGeometry(210, 300, 125, 125)
-        self.addDelay.setStyleSheet("border-radius: 25px;\n"
-                                       "background: #73AD21;\n"
-                                       "padding: 20px;\n"
-                                       "width: 200px;\n"
-                                       "height: 150px;\n"
-                                       "background-image: url(\"images/btntexture.png\");")
-
-        # Distortion Button
-        self.addDistortion = QtWidgets.QPushButton("Distort", self.centralwidget)
-        self.addDistortion.clicked.connect(self.add_distortion)
-        self.addDistortion.clicked.connect(lambda: self.changeEffectText(3))
-        self.addDistortion.setGeometry(30, 450, 125, 125)
-        self.addDistortion.setStyleSheet("border-radius: 25px;\n"
-                                     "background: #73AD21;\n"
-                                     "padding: 20px;\n"
-                                     "width: 200px;\n"
-                                     "height: 150px;\n"
-                                     "background-image: url(\"images/btntexture.png\");")
-        # Chorus Button
-        self.addChorus = QtWidgets.QPushButton("Chorus", self.centralwidget)
-        self.addChorus.clicked.connect(self.add_chorus)
-        self.addChorus.clicked.connect(lambda: self.changeEffectText(4))
-        self.addChorus.setGeometry(210, 450, 125, 125)
-        self.addChorus.setStyleSheet("border-radius: 25px;\n"
-                                         "background: #73AD21;\n"
-                                         "padding: 20px;\n"
-                                         "width: 200px;\n"
-                                         "height: 150px;\n"
-                                         "background-image: url(\"images/btntexture.png\");")
+        self.initEffectButtons()
 
         # Apply Button
         self.applyButton = QtWidgets.QPushButton(self.centralwidget)
@@ -250,7 +205,53 @@ class Ui_MainWindow(QWidget):
         self.mainStage.setGeometry(500, 500, 1000, 1000)
         self.mainStage.update()
 
+    def initEffectButtons(self):
+        # Reverb Button
+        self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
+        self.addReverb.clicked.connect(self.add_reverb)
+        self.addReverb.clicked.connect(lambda: self.changeEffectText(1))
+        self.addReverb.setGeometry(30, 300, 125, 125)
+        self.addReverb.setStyleSheet("border-radius: 25px;\n"
+                                      "background: #73AD21;\n"
+                                      "padding: 20px;\n"
+                                      "width: 200px;\n"
+                                      "height: 150px;\n"
+                                      "background-image: url(\"images/btntexture.png\");")
 
+        # Delay Button
+        self.addDelay = QtWidgets.QPushButton("Delay", self.centralwidget)
+        self.addDelay.clicked.connect(self.add_delay)
+        self.addDelay.clicked.connect(lambda: self.changeEffectText(2))
+        self.addDelay.setGeometry(210, 300, 125, 125)
+        self.addDelay.setStyleSheet("border-radius: 25px;\n"
+                                       "background: #73AD21;\n"
+                                       "padding: 20px;\n"
+                                       "width: 200px;\n"
+                                       "height: 150px;\n"
+                                       "background-image: url(\"images/btntexture.png\");")
+
+        # Distortion Button
+        self.addDistortion = QtWidgets.QPushButton("Distort", self.centralwidget)
+        self.addDistortion.clicked.connect(self.add_distortion)
+        self.addDistortion.clicked.connect(lambda: self.changeEffectText(3))
+        self.addDistortion.setGeometry(30, 450, 125, 125)
+        self.addDistortion.setStyleSheet("border-radius: 25px;\n"
+                                     "background: #73AD21;\n"
+                                     "padding: 20px;\n"
+                                     "width: 200px;\n"
+                                     "height: 150px;\n"
+                                     "background-image: url(\"images/btntexture.png\");")
+        # Chorus Button
+        self.addChorus = QtWidgets.QPushButton("Chorus", self.centralwidget)
+        self.addChorus.clicked.connect(self.add_chorus)
+        self.addChorus.clicked.connect(lambda: self.changeEffectText(4))
+        self.addChorus.setGeometry(210, 450, 125, 125)
+        self.addChorus.setStyleSheet("border-radius: 25px;\n"
+                                         "background: #73AD21;\n"
+                                         "padding: 20px;\n"
+                                         "width: 200px;\n"
+                                         "height: 150px;\n"
+                                         "background-image: url(\"images/btntexture.png\");")
 
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
