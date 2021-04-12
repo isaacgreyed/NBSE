@@ -56,43 +56,7 @@ class Ui_MainWindow(QWidget):
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
 
-        # Play Button to play or pause a selected audio file.
-        self.playButton = QtWidgets.QPushButton(self.centralwidget)
-        self.playButton.setEnabled(False)
-        self.playButton.setGeometry(QtCore.QRect(550, 15, 50, 50))
-        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
-        self.playButton.setObjectName("playButton")
-        self.playButton.clicked.connect(self.play_video)
-
-        # Slider for playing audio.
-        self.playSlider = QtWidgets.QSlider(self.centralwidget)
-        self.playSlider.setGeometry(QtCore.QRect(600, 20, 721, 41))
-        self.playSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.playSlider.setObjectName("playSlider")
-        self.playSlider.sliderMoved.connect(self.set_position)
-
-        # Volume Adjuster to modify volume
-        self.volumeAdjuster = QtWidgets.QSlider(self.centralwidget)
-        self.volumeAdjuster.setEnabled(True)
-        self.volumeAdjuster.setRange(0,100)
-        self.volumeAdjuster.setGeometry(QtCore.QRect(1350, -60, 31, 201))
-        font = QtGui.QFont()
-        font.setPointSize(8)
-        self.volumeAdjuster.setFont(font)
-        self.volumeAdjuster.setSliderPosition(50)
-        self.volumeAdjuster.setOrientation(QtCore.Qt.Vertical)
-        self.volumeAdjuster.setObjectName("volumeAdjuster")
-        self.volumeAdjuster.sliderMoved.connect(self.set_volume)
-        
-        self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
-        self.volumeLabel.setGeometry(QtCore.QRect(1333, 135, 61, 21))
-        font = QtGui.QFont()
-        font.setFamily("OCR A Extended")
-        font.setPointSize(11)
-        font.setBold(True)
-        font.setWeight(75)
-        self.volumeLabel.setFont(font)
-        self.volumeLabel.setObjectName("volumeLabel")
+        self.initPlayArea()
 
         # Initilizes Effect Stage
         self.mainStage = MainStage.MainStage(self.centralwidget)
@@ -250,6 +214,45 @@ class Ui_MainWindow(QWidget):
         self.mediaPlayer.durationChanged.connect(self.duration_changed)
 
     # When a button is clicked, changes the effect.
+    def initPlayArea(self):
+         # Play Button to play or pause a selected audio file.
+        self.playButton = QtWidgets.QPushButton(self.centralwidget)
+        self.playButton.setEnabled(False)
+        self.playButton.setGeometry(QtCore.QRect(550, 15, 50, 50))
+        self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+        self.playButton.setObjectName("playButton")
+        self.playButton.clicked.connect(self.play_video)
+
+        # Slider for playing audio.
+        self.playSlider = QtWidgets.QSlider(self.centralwidget)
+        self.playSlider.setGeometry(QtCore.QRect(600, 20, 721, 41))
+        self.playSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.playSlider.setObjectName("playSlider")
+        self.playSlider.sliderMoved.connect(self.set_position)
+
+        # Volume Adjuster to modify volume
+        self.volumeAdjuster = QtWidgets.QSlider(self.centralwidget)
+        self.volumeAdjuster.setEnabled(True)
+        self.volumeAdjuster.setRange(0,100)
+        self.volumeAdjuster.setGeometry(QtCore.QRect(1350, -60, 31, 201))
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.volumeAdjuster.setFont(font)
+        self.volumeAdjuster.setSliderPosition(50)
+        self.volumeAdjuster.setOrientation(QtCore.Qt.Vertical)
+        self.volumeAdjuster.setObjectName("volumeAdjuster")
+        self.volumeAdjuster.sliderMoved.connect(self.set_volume)
+        
+        self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
+        self.volumeLabel.setGeometry(QtCore.QRect(1333, 135, 61, 21))
+        font = QtGui.QFont()
+        font.setFamily("OCR A Extended")
+        font.setPointSize(11)
+        font.setBold(True)
+        font.setWeight(75)
+        self.volumeLabel.setFont(font)
+        self.volumeLabel.setObjectName("volumeLabel")
+
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
                  "that simulates a resonance of sound off of a surface."
