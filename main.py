@@ -97,6 +97,7 @@ class Ui_MainWindow(QWidget):
         # Initilizes Effect Stage
         self.mainStage = MainStage.MainStage(self.centralwidget)
         self.mainStage.setGrid(self.effect_list)
+        self.mainStage.setGeometry(500, 500, 1000, 1000)
         self.mainStage.update()
 
 
