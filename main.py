@@ -29,17 +29,11 @@ class Ui_MainWindow(QWidget):
         self._buffer = QtCore.QBuffer()
         winIcon = QIcon("images/icon.png")
         MainWindow.setWindowIcon(winIcon)
+        self.effect_list = []    # To hold list of added effects.
+        self.oldeffect_list = [] # To hold list of previously applied effects.
+        self.filepath = ""       # To hold filepath of wav
 
     def setupUi(self, MainWindow):
-
-        # To hold list of added effects.
-        self.effect_list = []
-
-        # To hold list of previously applied effects.
-        self.oldeffect_list = []
-
-        # To hold filepath of wav
-        self.filepath = ""
 
 
         # Media Player Initialized
