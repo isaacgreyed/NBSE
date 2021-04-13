@@ -28,24 +28,55 @@ class Node(QWidget):
         super(Node, self).__init__(parent, *args, **kwargs)
         self.height = 200
         self.width  = 200
-        self.setFixedSize(self.width, self.height)
+        #self.setFixedSize(self.width, self.height)
         self.name = name
 
         label = QLabel(self)
         label.setText(name)
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> main
         if name == "reverb":
-            self.setStyleSheet("border: 3px solid black;\n"
+            label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/reverb_node.png\");")
+<<<<<<< HEAD
+=======
+            p1_label = QLabel(self)
+            p1_label.setText("Parameter 1")
+            p1_label.setGeometry(50, 0, 120,30)
+            param1 = QSlider(Qt.Horizontal, self)
+            param1.setGeometry(0, 30, 200, 30)
+
+            p2_label = QLabel(self)
+            p2_label.setText("Parameter 2")
+            p2_label.setGeometry(50, 80, 120, 30)
+            param2 = QSlider(Qt.Horizontal, self)
+            param2.setGeometry(0, 110, 200, 30)
+
+            p3_label = QLabel(self)
+            p3_label.setText("Parameter 3")
+            p3_label.setGeometry(50, 160, 120, 30)
+            param3 = QSlider(Qt.Horizontal, self)
+            param3.setGeometry(0, 190, 200, 30)
+
+>>>>>>> main
         elif name == "distortion":
-            self.setStyleSheet("border: 3px solid black;\n"
+            label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/distort_node.png\");")
         elif name == "chorus":
-            self.setStyleSheet("border: 3px solid black;\n"
+            label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/chorus_node.png\");")
         elif name == "delay":
-            self.setStyleSheet("border: 3px solid black;\n"
+            label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/delay_node.png\");")
 
+<<<<<<< HEAD
+=======
+        label.setGeometry(0, 250, 100, 30)
+
+>>>>>>> main
     def paintEvent(self, event) -> None:
         painter = QPainter()
         painter.begin(self)
@@ -54,7 +85,16 @@ class Node(QWidget):
         pen = QPen(Qt.blue)
         pen.setWidth(2)
         painter.setPen(pen)
+<<<<<<< HEAD
         painter.drawLine(65, 10, 100, 10)
         painter.drawLine(100, 10, 90, 0)
         painter.drawLine(100, 10, 90, 20)
+=======
+        painter.drawLine(0, 265, -250, 265)  # Middle line
+        painter.drawLine(65, 265, 150, 265)   # Middle line
+        painter.setPen(QPen(Qt.blue, 5, Qt.SolidLine))
+        painter.setBrush(QBrush(Qt.blue, Qt.SolidPattern))
+        painter.drawEllipse(60, 260, 10, 10)
+        painter.drawEllipse(150, 260, 10, 10)
+>>>>>>> main
         painter.end()
