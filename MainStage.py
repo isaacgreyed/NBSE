@@ -33,11 +33,9 @@ class Node(QWidget):
 
         label = QLabel(self)
         label.setText(name)
-
         if name == "reverb":
             self.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/reverb_node.png\");")
-
         elif name == "distortion":
             self.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/distort_node.png\");")
@@ -48,7 +46,6 @@ class Node(QWidget):
             self.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/delay_node.png\");")
 
-
     def paintEvent(self, event) -> None:
         painter = QPainter()
         painter.begin(self)
@@ -57,10 +54,7 @@ class Node(QWidget):
         pen = QPen(Qt.blue)
         pen.setWidth(2)
         painter.setPen(pen)
-        painter.drawLine(0, 15, -250, 15)  # Middle line
-        painter.drawLine(65, 15, 150, 15)   # Middle line
-        painter.setPen(QPen(Qt.blue, 5, Qt.SolidLine))
-        painter.setBrush(QBrush(Qt.blue, Qt.SolidPattern))
-        painter.drawEllipse(60, 10, 10, 10)
-        painter.drawEllipse(150, 10, 10, 10)
+        painter.drawLine(65, 10, 100, 10)
+        painter.drawLine(100, 10, 90, 0)
+        painter.drawLine(100, 10, 90, 20)
         painter.end()
