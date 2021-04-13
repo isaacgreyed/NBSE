@@ -33,16 +33,11 @@ class Node(QWidget):
 
         label = QLabel(self)
         label.setText(name)
-<<<<<<< HEAD
-=======
 
 
->>>>>>> main
         if name == "reverb":
             label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/reverb_node.png\");")
-<<<<<<< HEAD
-=======
             p1_label = QLabel(self)
             p1_label.setText("Parameter 1")
             p1_label.setGeometry(50, 0, 120,30)
@@ -61,7 +56,6 @@ class Node(QWidget):
             param3 = QSlider(Qt.Horizontal, self)
             param3.setGeometry(0, 190, 200, 30)
 
->>>>>>> main
         elif name == "distortion":
             label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/distort_node.png\");")
@@ -72,11 +66,8 @@ class Node(QWidget):
             label.setStyleSheet("border: 3px solid black;\n"
                                "background-image: url(\"images/delay_node.png\");")
 
-<<<<<<< HEAD
-=======
         label.setGeometry(0, 250, 100, 30)
 
->>>>>>> main
     def paintEvent(self, event) -> None:
         painter = QPainter()
         painter.begin(self)
@@ -85,16 +76,10 @@ class Node(QWidget):
         pen = QPen(Qt.blue)
         pen.setWidth(2)
         painter.setPen(pen)
-<<<<<<< HEAD
-        painter.drawLine(65, 10, 100, 10)
-        painter.drawLine(100, 10, 90, 0)
-        painter.drawLine(100, 10, 90, 20)
-=======
         painter.drawLine(0, 265, -250, 265)  # Middle line
         painter.drawLine(65, 265, 150, 265)   # Middle line
         painter.setPen(QPen(Qt.blue, 5, Qt.SolidLine))
         painter.setBrush(QBrush(Qt.blue, Qt.SolidPattern))
         painter.drawEllipse(60, 260, 10, 10)
         painter.drawEllipse(150, 260, 10, 10)
->>>>>>> main
         painter.end()
