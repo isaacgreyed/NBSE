@@ -1,37 +1,20 @@
 from pyo import *
 import os
 
-<<<<<<< HEAD
-def delay(arg1, arg2, arg3, arg4):
-    add_delay(arg1, arg2, arg3, arg4)
+def delay(delay1, delay2, feed, mult):
+    add_delay(delay1, delay2, feed, mult)
     remove()
 
-def chorus(arg1, arg2, arg3, arg4):
-    add_chorus(arg1, arg2, arg3, arg4)
+def chorus(d1, d2, feed, balance):
+    add_chorus(d1, d2, feed, balance)
     remove()
 
-def distortion(arg1, arg2):
-    add_distortion(arg1, arg2)
+def distortion(slo, mult):
+    add_distortion(slo, mult)
     remove()
 
-def reverb(arg1, arg2, arg3):
-    add_reverb(arg1, arg2, arg3)
-=======
-def delay():
-    add_delay(1.2, 1.6, 0.8, 0.9)
-    remove()
-
-def chorus():
-    add_chorus(2, 4, 0.25, 0.8)
-    remove()
-
-def distortion():
-    add_distortion(0.6, 0.7)
-    remove()
-
-def reverb():
-    add_reverb(1000, 5, 2)
->>>>>>> main
+def reverb(fre, qu, types):
+    add_reverb(fre, qu, types)
     remove()
 
 def add_reverb(fre, qu, types):

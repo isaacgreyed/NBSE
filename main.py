@@ -365,7 +365,6 @@ class Ui_MainWindow(QWidget):
         self.playSlider.setRange(0, duration)
 
     def add_delay(self):
-<<<<<<< HEAD
         args = [1.2, 1.6, 0.8, 0.9]
         self.effect_list.append(("delay", delay, args))
         self.updateGrid()
@@ -383,21 +382,6 @@ class Ui_MainWindow(QWidget):
     def add_reverb(self):
         args = [1000, 5, 2]
         self.effect_list.append(("reverb", reverb, args))
-=======
-        self.effect_list.append(("delay", delay))
-        self.updateGrid()
-
-    def add_chorus(self):
-        self.effect_list.append(("chorus", chorus))
-        self.updateGrid()
-
-    def add_distortion(self):
-        self.effect_list.append(("distortion", distortion))
-        self.updateGrid()
-
-    def add_reverb(self):
-        self.effect_list.append(("reverb", reverb))
->>>>>>> main
         self.updateGrid()
         
     def applyEffect(self):
