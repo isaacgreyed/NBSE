@@ -1,6 +1,21 @@
 from pyo import *
 import os
 
+def delay(arg1, arg2, arg3, arg4):
+    add_delay(1.2, 1.6, 0.8, 0.9)
+    remove()
+
+def chorus(arg1, arg2, arg3, arg4):
+    add_chorus(2, 4, 0.25, 0.8)
+    remove()
+
+def distortion(arg1, arg2):
+    add_distortion(0.6, 0.7)
+    remove()
+
+def reverb(arg1, arg2, arg3):
+    add_reverb(1000, 5, 2)
+    remove()
 
 def add_reverb(fre, qu, types):
     tmpfile = r"tmpfile.wav"
