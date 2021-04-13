@@ -365,19 +365,23 @@ class Ui_MainWindow(QWidget):
         self.playSlider.setRange(0, duration)
 
     def add_delay(self):
-        self.effect_list.append(("delay", delay))
+        args = [1.2, 1.6, 0.8, 0.9]
+        self.effect_list.append(("delay", delay, args))
         self.updateGrid()
 
     def add_chorus(self):
-        self.effect_list.append(("chorus", chorus))
+        args = [2, 4, 0.25, 0.8]
+        self.effect_list.append(("chorus", chorus, args))
         self.updateGrid()
 
     def add_distortion(self):
-        self.effect_list.append(("distortion", distortion))
+        args = [0.6, 0.7]
+        self.effect_list.append(("distortion", distortion, args))
         self.updateGrid()
 
     def add_reverb(self):
-        self.effect_list.append(("reverb", reverb))
+        args = [1000, 5, 2]
+        self.effect_list.append(("reverb", reverb, args))
         self.updateGrid()
         
     def applyEffect(self):
@@ -399,8 +403,8 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
             os.remove('tmpfile.wav')
             copyfile("original.wav", 'tmpfile.wav')
-            for (name, effect) in self.effect_list:
-                effect()
+            for (_, effect, args) in self.effect_list:
+                effect(*args)
             self.update_player()
 
     def removeLast(self):
