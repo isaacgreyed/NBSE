@@ -19,7 +19,7 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-import effectFunctions
+from effectFunctions import delay, chorus, distortion, reverb
 import MainStage
 
 class Ui_MainWindow(QWidget):
@@ -369,36 +369,20 @@ class Ui_MainWindow(QWidget):
     def duration_changed(self, duration):
         self.playSlider.setRange(0, duration)
 
-    def delay_simple(self):
-        effectFunctions.add_delay(1.2, 1.6, 0.8, 0.9)
-        effectFunctions.remove()
-
     def add_delay(self):
-        self.effect_list.append(("delay", self.delay_simple))
+        self.effect_list.append(("delay", delay))
         self.updateGrid()
-
-    def chorus_simple(self):
-        effectFunctions.add_chorus(2, 4, 0.25, 0.8)
-        effectFunctions.remove()
 
     def add_chorus(self):
-        self.effect_list.append(("chorus", self.chorus_simple))
+        self.effect_list.append(("chorus", chorus))
         self.updateGrid()
-
-    def distortion_simple(self):
-        effectFunctions.add_distortion(0.6, 0.7)
-        effectFunctions.remove()
 
     def add_distortion(self):
-        self.effect_list.append(("distortion", self.distortion_simple))
+        self.effect_list.append(("distortion", distortion))
         self.updateGrid()
 
-    def reverb_simple(self):
-        effectFunctions.add_reverb(1000, 5, 2)
-        effectFunctions.remove()
-
     def add_reverb(self):
-        self.effect_list.append(("reverb", self.reverb_simple))
+        self.effect_list.append(("reverb", reverb))
         self.updateGrid()
         
     def applyEffect(self):
