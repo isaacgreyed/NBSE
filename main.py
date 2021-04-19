@@ -417,8 +417,10 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
             os.remove('tmpfile.wav')
             copyfile("original.wav", 'tmpfile.wav')
+            i = 0
             for (_, effect, args) in self.effect_list:
-                effect(*args)
+                i += 1
+                effect(*MainStage.slider_list[i])
             self.update_player()
 
     def removeLast(self):
@@ -459,7 +461,7 @@ class Ui_MainWindow(QWidget):
         self.mainStage = MainStage.MainStage(self.centralwidget)
         node_list_temp = [] 
         for i in range(0, len(self.effect_list)):
-            (name, effect) = self.effect_list[i]
+            (name, effect, args) = self.effect_list[i]
             n = MainStage.Node(self, name, i)
             node_list_temp.append(n)
         
