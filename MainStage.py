@@ -287,8 +287,7 @@ class Node(QWidget):
     def paintEvent(self, event) -> None:
         painter = QPainter()
         painter.begin(self)
-        rect    = event.rect()
-        
+                
         pen = QPen(Qt.blue)
         pen.setWidth(2)
         painter.setPen(pen)
