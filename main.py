@@ -30,6 +30,7 @@ class Ui_MainWindow(QWidget):
         winIcon = QIcon("images/icon.png")
         MainWindow.setWindowIcon(winIcon)
         self.effect_list = []    # To hold list of added effects.
+        self.node_list   = []
         self.oldeffect_list = [] # To hold list of previously applied effects.
         self.filepath = ""       # To hold filepath of wav
 
@@ -421,6 +422,7 @@ class Ui_MainWindow(QWidget):
 
         if self.effect_list != []:
             self.effect_list.pop()[0]
+            self.node_list.pop()
             self.updateGrid()
             self.update_player()
             self.effect_Textbox.setText("Effect has been removed.")
@@ -440,6 +442,7 @@ class Ui_MainWindow(QWidget):
                                             )
             if reply == QtWidgets.QMessageBox.Yes:
                 self.effect_list = []
+                self.node_list   = []
                 self.updateGrid()
                 self.update_player()
                 self.effect_Textbox.setText("All effects have been removed.")
@@ -450,7 +453,14 @@ class Ui_MainWindow(QWidget):
         if self.mainStage:
             self.mainStage.setParent(None)
         self.mainStage = MainStage.MainStage(self.centralwidget)
-        self.mainStage.setGrid(self.effect_list)
+        node_list_temp = [] 
+        for i in range(0, len(self.effect_list)):
+            (name, effect) = self.effect_list[i]
+            n = MainStage.Node(self, name)
+            node_list_temp.append(n)
+        
+        self.mainStage.setGrid(node_list_temp)
+        self.node_list = node_list_temp
         self.mainStage.update()
         self.mainStage.lower()
 

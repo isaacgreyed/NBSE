@@ -15,13 +15,9 @@ class MainStage(QWidget):
         self.setLayout(w)
         self.show()
 
-    def setGrid(self, effect_list):
-        for i in range(0, len(effect_list)):
-            (name, effect) = effect_list[i]
-            n = Node(self, name)
-            # label = QLabel(self)
-            # label.setText(name)
-            self.grid.addWidget(n, 1, i)
+    def setGrid(self, node_list):
+        for i in range(0, len(node_list)):
+            self.grid.addWidget(node_list[i], 1, i)
 
 class Node(QWidget):
     def __init__(self, parent, name, *args, **kwargs):
