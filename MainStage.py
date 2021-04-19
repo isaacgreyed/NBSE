@@ -19,9 +19,9 @@ class MainStage(QWidget):
     def setGrid(self, node_list):
         for i in range(0, len(node_list)):
             row = 1
-            while i > 6:
-                row += 1
-                i -= 7
+            # while i > 6:
+            #    row += 1
+            #   i -= 7
             self.grid.addWidget(node_list[i], row, i)
 
 class Node(QWidget):
@@ -50,7 +50,8 @@ class Node(QWidget):
             p1_label.setStyleSheet("background-image: url(\"images/reverblabel.png\");")
             param1 = QSlider(Qt.Horizontal, self)
             param1.setMinimum(1)
-            param1.setMaximum(defaults[0])
+            param1.setMaximum(1000)
+            param1.setValue(defaults[0])
             param1.setGeometry(0, 30, 200, 30)
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param1.setTickPosition(QSlider.TicksBelow)
@@ -103,7 +104,7 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param1.setMinimum(0)
             param1.setMaximum(100)
-            param1.setValue(int(defaults[0]))
+            param1.setValue(int(defaults[0]*100))
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param1, 100))
@@ -119,7 +120,7 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param2.setMinimum(0)
             param2.setMaximum(100)
-            param2.setValue(int(defaults[0]))
+            param2.setValue(int(defaults[1]*100))
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param2, 100))
