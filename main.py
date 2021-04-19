@@ -458,7 +458,7 @@ class Ui_MainWindow(QWidget):
         node_list_temp = [] 
         for i in range(0, len(self.effect_list)):
             (name, effect) = self.effect_list[i]
-            n = MainStage.Node(self, name)
+            n = MainStage.Node(self, name, i)
             node_list_temp.append(n)
         
         self.mainStage.setGrid(node_list_temp)

@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from EffectTree_examples import *
 
+slider_list = []
 
 class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
@@ -17,22 +18,25 @@ class MainStage(QWidget):
 
     def setGrid(self, node_list):
         for i in range(0, len(node_list)):
-            self.grid.addWidget(node_list[i], 1, i)
+            row = 1
+            while i > 6:
+                row += 1
+                i -= 7
+            self.grid.addWidget(node_list[i], row, i)
 
 class Node(QWidget):
-    def __init__(self, parent, name, *args, **kwargs):
+    def __init__(self, parent, name, position, *args, **kwargs):
         super(Node, self).__init__(parent, *args, **kwargs)
-        self.height = 600
+        self.height = 150
         self.width  = 200
         #self.setFixedSize(self.width, self.height)
         self.name = name
-
-
-
+        self.position = position
         label = QLabel(self)
         label.setText(name)
         label.setGeometry(0, 100, 80, 80)
 
+        self.param_list = []
 
         if name == "reverb":
             label.setStyleSheet("border: 3px solid black;\n"
@@ -48,6 +52,8 @@ class Node(QWidget):
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param1.setTickPosition(QSlider.TicksBelow)
             param1.setTickInterval(100)
+            param1.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param1, 1))
 
             p2_label = QLabel(self)
             p2_label.setText("Parameter 2")
@@ -60,6 +66,8 @@ class Node(QWidget):
             param2.setMaximum(5)
             param2.setTickPosition(QSlider.TicksBelow)
             param2.setTickInterval(1)
+            param2.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param2, 1))
 
             p3_label = QLabel(self)
             p3_label.setText("Parameter 3")
@@ -71,6 +79,8 @@ class Node(QWidget):
             param3.setMinimum(0)
             param3.setMaximum(2)
             param3.setTickPosition(QSlider.TicksBelow)
+            param3.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param3, 1))
 
         elif name == "distortion":
             label.setStyleSheet("border: 3px solid black;\n"
@@ -87,6 +97,8 @@ class Node(QWidget):
             param1.setMaximum(100)
             param1.setValue(75)
             param1.setTickPosition(QSlider.TicksBelow)
+            param1.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param1, 100))
 
 
             p2_label = QLabel(self)
@@ -101,6 +113,8 @@ class Node(QWidget):
             param2.setMaximum(100)
             param2.setValue(50)
             param2.setTickPosition(QSlider.TicksBelow)
+            param2.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param2, 100))
 
         elif name == "chorus":
             label.setStyleSheet("border: 3px solid black;\n"
@@ -116,6 +130,8 @@ class Node(QWidget):
             param1.setMaximum(5)
             param1.setValue(1)
             param1.setTickPosition(QSlider.TicksBelow)
+            param1.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param1, 1))
 
 
             p2_label = QLabel(self)
@@ -130,6 +146,8 @@ class Node(QWidget):
             param2.setMaximum(100)
             param2.setValue(25)
             param2.setTickPosition(QSlider.TicksBelow)
+            param2.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param2, 100))
 
             p3_label = QLabel(self)
             p3_label.setText("Balance")
@@ -143,6 +161,8 @@ class Node(QWidget):
             param3.setMaximum(100)
             param3.setValue(50)
             param3.setTickPosition(QSlider.TicksBelow)
+            param3.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param3, 100))
 
         elif name == "delay":
             label.setStyleSheet("border: 3px solid black;\n"
@@ -159,6 +179,8 @@ class Node(QWidget):
             param1.setMaximum(100)
             param1.setValue(25)
             param1.setTickPosition(QSlider.TicksBelow)
+            param1.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param1, 100))
 
 
             p2_label = QLabel(self)
@@ -173,6 +195,8 @@ class Node(QWidget):
             param2.setMaximum(100)
             param2.setValue(0)
             param2.setTickPosition(QSlider.TicksBelow)
+            param2.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param2, 100))
 
             p3_label = QLabel(self)
             p3_label.setText("Max Delay")
@@ -183,11 +207,24 @@ class Node(QWidget):
             param3.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             # Must divide by 100 before passed to function
             param3.setMinimum(0)
-            param3.setMaximum(10)
+            param3.setMaximum(100)
             param3.setValue(1)
             param3.setTickPosition(QSlider.TicksBelow)
+            param3.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param3, 100))
 
         label.setGeometry(0, 250, 100, 30)
+        self.slider_changed()
+
+    def slider_changed(self):
+        global slider_list
+        slider_vals = []
+        for (p, m) in self.param_list:
+            slider_vals.append(p.value() / m)
+        if len(slider_list) > self.position:
+            slider_list.remove(slider_list[self.position]) 
+        slider_list.insert(self.position, slider_vals)
+        print(slider_list)
 
     def paintEvent(self, event) -> None:
         painter = QPainter()
