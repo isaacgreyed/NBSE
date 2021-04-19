@@ -2,8 +2,8 @@ from pyo import *
 import os
 
 
-def delay(delay1, delay2, feed, mult=1):
-    add_delay(delay1, delay2, feed, mult)
+def delay(delay1, delay2, feed):
+    add_delay(delay1, delay2, feed)
     remove()
 
 def chorus(d1, d2, feed, balance):
