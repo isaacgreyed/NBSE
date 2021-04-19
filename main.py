@@ -74,14 +74,15 @@ class Ui_MainWindow(QWidget):
          # Play Button to play or pause a selected audio file.
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setEnabled(False)
-        self.playButton.setGeometry(QtCore.QRect(550, 45, 50, 50))
+        self.playButton.setGeometry(QtCore.QRect(550, 75, 50, 50))
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.setObjectName("playButton")
         self.playButton.clicked.connect(self.play_video)
 
         # Slider for playing audio.
         self.playSlider = QtWidgets.QSlider(self.centralwidget)
-        self.playSlider.setGeometry(QtCore.QRect(600, 50, 721, 41))
+        self.playSlider.setGeometry(QtCore.QRect(600, 80, 721, 41))
+        self.playSlider.setStyleSheet("background-image: url(\"images/playslider.png\");\n")
         self.playSlider.setOrientation(QtCore.Qt.Horizontal)
         self.playSlider.setObjectName("playSlider")
         self.playSlider.sliderMoved.connect(self.set_position)
@@ -91,6 +92,7 @@ class Ui_MainWindow(QWidget):
         self.volumeAdjuster.setEnabled(True)
         self.volumeAdjuster.setRange(0,100)
         self.volumeAdjuster.setGeometry(QtCore.QRect(1350, 0, 15, 130))
+        self.volumeAdjuster.setStyleSheet("background-image: url(\"images/volslider.png\");\n")
         font = QtGui.QFont()
         font.setPointSize(8)
         self.volumeAdjuster.setFont(font)
@@ -101,6 +103,7 @@ class Ui_MainWindow(QWidget):
         
         self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
         self.volumeLabel.setGeometry(QtCore.QRect(1300, 135, 110, 21))
+        self.volumeLabel.setStyleSheet("background-image: url(\"images/vollabel.png\");\n")
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(11)
@@ -191,7 +194,6 @@ class Ui_MainWindow(QWidget):
 
     def initEffectTextBox(self):
         # Effect text box
-        # png for background needs to be improved.
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
                                     "uploading a .wav file first!")
@@ -204,10 +206,10 @@ class Ui_MainWindow(QWidget):
         # File name text box
         self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.file_Textbox.setText("Upload a .wav file!")
-        self.file_Textbox.setGeometry(800, -10, 200, 50)
+        self.file_Textbox.setGeometry(800, 0, 200, 70)
         self.file_Textbox.setAlignment(QtCore.Qt.AlignCenter)
         self.file_Textbox.setStyleSheet("border: 3px solid black;\n"
-                                          "background-image: url(\"images/effectTextbg.png\");")
+                                          "background-image: url(\"images/filelabel.png\");")
 
         # Upload, load, and save files.
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -307,7 +309,7 @@ class Ui_MainWindow(QWidget):
         #self.titleText.setText(_translate("MainWindow", "NBSE"))
         self.volumeLabel.setText(_translate("MainWindow", "Volume"))
         self.addReverb.setText(_translate("MainWindow", "Reverb"))
-        self.playButton.setText(_translate("MainWindow", "Play"))
+        self.playButton.setText(_translate("MainWindow", ""))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuUpload.setTitle(_translate("MainWindow", "Upload"))
         self.actionLoad.setText(_translate("MainWindow", "Load"))
