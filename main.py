@@ -129,7 +129,7 @@ class Ui_MainWindow(QWidget):
         self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
         self.addReverb.clicked.connect(self.add_reverb)
         self.addReverb.clicked.connect(lambda: self.changeEffectText(1))
-        self.addReverb.setGeometry(30, 300, 125, 125)
+        self.addReverb.setGeometry(30, 240, 125, 125)
         self.addReverb.setStyleSheet("border-radius: 25px;\n"
                                       "background: #73AD21;\n"
                                       "padding: 20px;\n"
@@ -141,7 +141,7 @@ class Ui_MainWindow(QWidget):
         self.addDelay = QtWidgets.QPushButton("Delay", self.centralwidget)
         self.addDelay.clicked.connect(self.add_delay)
         self.addDelay.clicked.connect(lambda: self.changeEffectText(2))
-        self.addDelay.setGeometry(210, 300, 125, 125)
+        self.addDelay.setGeometry(210, 240, 125, 125)
         self.addDelay.setStyleSheet("border-radius: 25px;\n"
                                        "background: #73AD21;\n"
                                        "padding: 20px;\n"
@@ -153,7 +153,7 @@ class Ui_MainWindow(QWidget):
         self.addDistortion = QtWidgets.QPushButton("Distort", self.centralwidget)
         self.addDistortion.clicked.connect(self.add_distortion)
         self.addDistortion.clicked.connect(lambda: self.changeEffectText(3))
-        self.addDistortion.setGeometry(30, 450, 125, 125)
+        self.addDistortion.setGeometry(30, 390, 125, 125)
         self.addDistortion.setStyleSheet("border-radius: 25px;\n"
                                      "background: #73AD21;\n"
                                      "padding: 20px;\n"
@@ -164,7 +164,7 @@ class Ui_MainWindow(QWidget):
         self.addChorus = QtWidgets.QPushButton("Chorus", self.centralwidget)
         self.addChorus.clicked.connect(self.add_chorus)
         self.addChorus.clicked.connect(lambda: self.changeEffectText(4))
-        self.addChorus.setGeometry(210, 450, 125, 125)
+        self.addChorus.setGeometry(210, 390, 125, 125)
         self.addChorus.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
                                          "padding: 20px;\n"
@@ -176,7 +176,7 @@ class Ui_MainWindow(QWidget):
         self.addHarm = QtWidgets.QPushButton("Harmonizer", self.centralwidget)
         self.addHarm.clicked.connect(self.add_harm)
         self.addHarm.clicked.connect(lambda: self.changeEffectText(5))
-        self.addHarm.setGeometry(30, 600, 125, 125)
+        self.addHarm.setGeometry(30, 540, 125, 125)
         self.addHarm.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
                                          "padding: 20px;\n"
@@ -188,7 +188,7 @@ class Ui_MainWindow(QWidget):
         self.addConvolve = QtWidgets.QPushButton("Convolution", self.centralwidget)
         self.addConvolve.clicked.connect(self.add_convolve)
         self.addConvolve.clicked.connect(lambda: self.changeEffectText(6))
-        self.addConvolve.setGeometry(210, 600, 125, 125)
+        self.addConvolve.setGeometry(210, 540, 125, 125)
         self.addConvolve.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
                                          "padding: 20px;\n"
@@ -221,7 +221,7 @@ class Ui_MainWindow(QWidget):
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
                                     "uploading a .wav file first!")
-        self.effect_Textbox.setGeometry(9, 750, 350, 400)
+        self.effect_Textbox.setGeometry(9, 670, 350, 400)
         self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
         self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")

@@ -9,7 +9,7 @@ class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
-        self.setGeometry(360, 250, 1550, 915)
+        self.setGeometry(360, 330, 1550, 915)
         self.grid = QGridLayout()
         w = QHBoxLayout()
         w.addLayout(self.grid)
