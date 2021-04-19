@@ -19,8 +19,8 @@ def reverb(fre, qu, types):
     add_reverb(fre, qu, types)
     remove()
 
-def harmonizer():
-    add_harmonizer(2)
+def harmonizer(pitch):
+    add_harmonizer(pitch)
     remove()
 
 def convolve():
