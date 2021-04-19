@@ -74,14 +74,15 @@ class Ui_MainWindow(QWidget):
          # Play Button to play or pause a selected audio file.
         self.playButton = QtWidgets.QPushButton(self.centralwidget)
         self.playButton.setEnabled(False)
-        self.playButton.setGeometry(QtCore.QRect(550, 45, 50, 50))
+        self.playButton.setGeometry(QtCore.QRect(550, 75, 50, 50))
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.setObjectName("playButton")
         self.playButton.clicked.connect(self.play_video)
 
         # Slider for playing audio.
         self.playSlider = QtWidgets.QSlider(self.centralwidget)
-        self.playSlider.setGeometry(QtCore.QRect(600, 50, 721, 41))
+        self.playSlider.setGeometry(QtCore.QRect(600, 80, 721, 41))
+        self.playSlider.setStyleSheet("background-image: url(\"images/playslider.png\");\n")
         self.playSlider.setOrientation(QtCore.Qt.Horizontal)
         self.playSlider.setObjectName("playSlider")
         self.playSlider.sliderMoved.connect(self.set_position)
@@ -91,6 +92,7 @@ class Ui_MainWindow(QWidget):
         self.volumeAdjuster.setEnabled(True)
         self.volumeAdjuster.setRange(0,100)
         self.volumeAdjuster.setGeometry(QtCore.QRect(1350, 0, 15, 130))
+        self.volumeAdjuster.setStyleSheet("background-image: url(\"images/volslider.png\");\n")
         font = QtGui.QFont()
         font.setPointSize(8)
         self.volumeAdjuster.setFont(font)
@@ -101,6 +103,7 @@ class Ui_MainWindow(QWidget):
         
         self.volumeLabel = QtWidgets.QLabel(self.centralwidget)
         self.volumeLabel.setGeometry(QtCore.QRect(1300, 135, 110, 21))
+        self.volumeLabel.setStyleSheet("background-image: url(\"images/vollabel.png\");\n")
         font = QtGui.QFont()
         font.setFamily("OCR A Extended")
         font.setPointSize(11)
@@ -215,7 +218,6 @@ class Ui_MainWindow(QWidget):
 
     def initEffectTextBox(self):
         # Effect text box
-        # png for background needs to be improved.
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
                                     "uploading a .wav file first!")
@@ -228,10 +230,10 @@ class Ui_MainWindow(QWidget):
         # File name text box
         self.file_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.file_Textbox.setText("Upload a .wav file!")
-        self.file_Textbox.setGeometry(800, -10, 200, 50)
+        self.file_Textbox.setGeometry(800, 0, 200, 70)
         self.file_Textbox.setAlignment(QtCore.Qt.AlignCenter)
         self.file_Textbox.setStyleSheet("border: 3px solid black;\n"
-                                          "background-image: url(\"images/effectTextbg.png\");")
+                                          "background-image: url(\"images/filelabel.png\");")
 
         # Upload, load, and save files.
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -331,7 +333,7 @@ class Ui_MainWindow(QWidget):
         #self.titleText.setText(_translate("MainWindow", "NBSE"))
         self.volumeLabel.setText(_translate("MainWindow", "Volume"))
         self.addReverb.setText(_translate("MainWindow", "Reverb"))
-        self.playButton.setText(_translate("MainWindow", "Play"))
+        self.playButton.setText(_translate("MainWindow", ""))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuUpload.setTitle(_translate("MainWindow", "Upload"))
         self.actionLoad.setText(_translate("MainWindow", "Load"))
@@ -372,6 +374,7 @@ class Ui_MainWindow(QWidget):
         file.close()
         file2.close()
 
+    
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
 
@@ -408,19 +411,23 @@ class Ui_MainWindow(QWidget):
         self.playSlider.setRange(0, duration)
 
     def add_delay(self):
-        self.effect_list.append(("delay", delay))
+        args = [1.2, 1.6, 0.8, 0.9]
+        self.effect_list.append(("delay", delay, args))
         self.updateGrid()
 
     def add_chorus(self):
-        self.effect_list.append(("chorus", chorus))
+        args = [2, 4, 0.25, 0.8]
+        self.effect_list.append(("chorus", chorus, args))
         self.updateGrid()
 
     def add_distortion(self):
-        self.effect_list.append(("distortion", distortion))
+        args = [0.6, 0.7]
+        self.effect_list.append(("distortion", distortion, args))
         self.updateGrid()
 
     def add_reverb(self):
-        self.effect_list.append(("reverb", reverb))
+        args = [1000, 5, 2]
+        self.effect_list.append(("reverb", reverb, args))
         self.updateGrid()
 
     def add_harm(self):
@@ -450,13 +457,15 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
             os.remove('tmpfile.wav')
             copyfile("original.wav", 'tmpfile.wav')
-            for (name, effect) in self.effect_list:
-                effect()
+            i = 0
+            for (_, effect, args) in self.effect_list:
+                effect(*MainStage.slider_list[i])
+                i += 1
             self.update_player()
 
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
-
+        MainStage.slider_list.pop()
         if self.effect_list != []:
             self.effect_list.pop()[0]
             self.node_list.pop()
@@ -467,6 +476,7 @@ class Ui_MainWindow(QWidget):
             self.effect_Textbox.setText("No effects are staged.")
 
     def removeAll(self):
+        MainStage.slider_list = []
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         if len(self.effect_list) == 0:
             self.effect_Textbox.setText("No effects are staged.")
@@ -492,8 +502,8 @@ class Ui_MainWindow(QWidget):
         self.mainStage = MainStage.MainStage(self.centralwidget)
         node_list_temp = [] 
         for i in range(0, len(self.effect_list)):
-            (name, effect) = self.effect_list[i]
-            n = MainStage.Node(self, name)
+            (name, effect, args) = self.effect_list[i]
+            n = MainStage.Node(self, name, i)
             node_list_temp.append(n)
         
         self.mainStage.setGrid(node_list_temp)
