@@ -126,75 +126,75 @@ class Ui_MainWindow(QWidget):
 
     def initEffectButtons(self):
         # Reverb Button
-        self.addReverb = QtWidgets.QPushButton("Reverb", self.centralwidget)
+        self.addReverb = QtWidgets.QPushButton(self.centralwidget)
         self.addReverb.clicked.connect(self.add_reverb)
         self.addReverb.clicked.connect(lambda: self.changeEffectText(1))
-        self.addReverb.setGeometry(30, 300, 125, 125)
+        self.addReverb.setGeometry(30, 240, 125, 125)
         self.addReverb.setStyleSheet("border-radius: 25px;\n"
                                       "background: #73AD21;\n"
                                       "padding: 20px;\n"
                                       "width: 200px;\n"
                                       "height: 150px;\n"
-                                      "background-image: url(\"images/btntexture.png\");")
+                                      "background-image: url(\"images/reverb_btn.png\");")
 
         # Delay Button
-        self.addDelay = QtWidgets.QPushButton("Delay", self.centralwidget)
+        self.addDelay = QtWidgets.QPushButton(self.centralwidget)
         self.addDelay.clicked.connect(self.add_delay)
         self.addDelay.clicked.connect(lambda: self.changeEffectText(2))
-        self.addDelay.setGeometry(210, 300, 125, 125)
+        self.addDelay.setGeometry(210, 240, 125, 125)
         self.addDelay.setStyleSheet("border-radius: 25px;\n"
                                        "background: #73AD21;\n"
                                        "padding: 20px;\n"
                                        "width: 200px;\n"
                                        "height: 150px;\n"
-                                       "background-image: url(\"images/btntexture.png\");")
+                                       "background-image: url(\"images/delay_btn.png\");")
 
         # Distortion Button
-        self.addDistortion = QtWidgets.QPushButton("Distort", self.centralwidget)
+        self.addDistortion = QtWidgets.QPushButton(self.centralwidget)
         self.addDistortion.clicked.connect(self.add_distortion)
         self.addDistortion.clicked.connect(lambda: self.changeEffectText(3))
-        self.addDistortion.setGeometry(30, 450, 125, 125)
+        self.addDistortion.setGeometry(30, 390, 125, 125)
         self.addDistortion.setStyleSheet("border-radius: 25px;\n"
                                      "background: #73AD21;\n"
                                      "padding: 20px;\n"
                                      "width: 200px;\n"
                                      "height: 150px;\n"
-                                     "background-image: url(\"images/btntexture.png\");")
+                                     "background-image: url(\"images/distort_btn.png\");")
         # Chorus Button
-        self.addChorus = QtWidgets.QPushButton("Chorus", self.centralwidget)
+        self.addChorus = QtWidgets.QPushButton(self.centralwidget)
         self.addChorus.clicked.connect(self.add_chorus)
         self.addChorus.clicked.connect(lambda: self.changeEffectText(4))
-        self.addChorus.setGeometry(210, 450, 125, 125)
+        self.addChorus.setGeometry(210, 390, 125, 125)
         self.addChorus.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
                                          "padding: 20px;\n"
                                          "width: 200px;\n"
                                          "height: 150px;\n"
-                                         "background-image: url(\"images/btntexture.png\");")
+                                         "background-image: url(\"images/chorus_btn.png\");")
 
         # Harmonizer Button
-        self.addHarm = QtWidgets.QPushButton("Harmonizer", self.centralwidget)
+        self.addHarm = QtWidgets.QPushButton(self.centralwidget)
         self.addHarm.clicked.connect(self.add_harm)
-        self.addHarm.clicked.connect(lambda: self.changeEffectText(4))
-        self.addHarm.setGeometry(30, 600, 125, 125)
+        self.addHarm.clicked.connect(lambda: self.changeEffectText(5))
+        self.addHarm.setGeometry(30, 540, 125, 125)
         self.addHarm.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
                                          "padding: 20px;\n"
                                          "width: 200px;\n"
                                          "height: 150px;\n"
-                                         "background-image: url(\"images/btntexture.png\");")
+                                         "background-image: url(\"images/harmonize_btn.png\");")
 
         # Convolve Button
-        self.addConvolve = QtWidgets.QPushButton("Convolution", self.centralwidget)
+        self.addConvolve = QtWidgets.QPushButton(self.centralwidget)
         self.addConvolve.clicked.connect(self.add_convolve)
-        self.addConvolve.clicked.connect(lambda: self.changeEffectText(4))
-        self.addConvolve.setGeometry(210, 600, 125, 125)
+        self.addConvolve.clicked.connect(lambda: self.changeEffectText(6))
+        self.addConvolve.setGeometry(210, 540, 125, 125)
         self.addConvolve.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
                                          "padding: 20px;\n"
                                          "width: 200px;\n"
                                          "height: 150px;\n"
-                                         "background-image: url(\"images/btntexture.png\");")
+                                         "background-image: url(\"images/convolve_btn.png\");")
 
     def initActionButtons(self):
         # Apply Button
@@ -221,7 +221,7 @@ class Ui_MainWindow(QWidget):
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
                                     "uploading a .wav file first!")
-        self.effect_Textbox.setGeometry(9, 750, 350, 400)
+        self.effect_Textbox.setGeometry(9, 670, 350, 400)
         self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
         self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")
@@ -316,6 +316,14 @@ class Ui_MainWindow(QWidget):
                  "\nDepth: default 1"\
                  "\n\nFeedback(amount of singal sent back to delay): default 0.25"\
                  "\n\nBalance(between wet and dry signals): default 0.5"
+
+        harmonize = "Harmonize\nCreates harmonizing voices with sound input." \
+                    "\n\n--------------Parameters--------------" \
+                    "\nPitch(octaves up or down from source): default 0"
+
+        convolution = "Convolve\nFilters the audio using integral multiplication." \
+                       "\n\n--------------Parameters--------------\nNone"
+
         if func == 1:
             self.effect_Textbox.setText(reverb)
         elif func == 2:
@@ -324,6 +332,10 @@ class Ui_MainWindow(QWidget):
             self.effect_Textbox.setText(distortion)
         elif func == 4:
             self.effect_Textbox.setText(chorus)
+        elif func == 5:
+            self.effect_Textbox.setText(harmonize)
+        elif func == 6:
+            self.effect_Textbox.setText(convolution)
         else:
             self.effect_Textbox.setText("Error")
 
@@ -332,7 +344,6 @@ class Ui_MainWindow(QWidget):
         MainWindow.setWindowTitle(_translate("MainWindow", "NBSE"))
         #self.titleText.setText(_translate("MainWindow", "NBSE"))
         self.volumeLabel.setText(_translate("MainWindow", "Volume"))
-        self.addReverb.setText(_translate("MainWindow", "Reverb"))
         self.playButton.setText(_translate("MainWindow", ""))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuUpload.setTitle(_translate("MainWindow", "Upload"))
