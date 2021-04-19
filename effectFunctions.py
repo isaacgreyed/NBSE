@@ -2,7 +2,7 @@ from pyo import *
 import os
 
 def delay():
-    add_delay(1.2, 1.6, 0.8, 0.9)
+    add_delay(1.2, 1.6, 0.8)
     remove()
 
 def chorus():
@@ -10,11 +10,19 @@ def chorus():
     remove()
 
 def distortion():
-    add_distortion(0.6, 0.7)
+    add_distortion(0.6, 0.75)
     remove()
 
 def reverb():
     add_reverb(1000, 5, 2)
+    remove()
+
+def harmonizer():
+    add_harmonizer(2)
+    remove()
+
+def convolve():
+    add_convolve()
     remove()
 
 def add_reverb(fre, qu, types):
@@ -40,9 +48,9 @@ def remove():
     os.rename(r"tmpfile_working.wav", 'tmpfile.wav')
 
 
-def add_distortion(slo, mult):
+def add_distortion(slo, hard):
     #slo from 0 to 1
-    #mult from 0 to 1
+    #hard from 0 to 1
     tmpfile = r"tmpfile.wav"
 
     s = Server(audio="offline").boot()
@@ -50,8 +58,7 @@ def add_distortion(slo, mult):
 
     s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
     ifile = SfPlayer(tmpfile)
-    lfo = Sine(freq=[.2, .25], mul=.5, add=.5)
-    filter = Disto(ifile, drive=lfo, slope=slo, mul=mult).out()
+    filter = Disto(ifile, drive=hard, slope=slo, mul=0.15).out()
     
     s.start()
 
@@ -60,11 +67,11 @@ def add_distortion(slo, mult):
     return None
 
 
-def add_delay(delay1, delay2, feed, mult):
+def add_delay(delay1, delay2, feed):
     #delay1 from 0 to 1
     #delay2 from 0 to 1
     #feed from 0 to 1
-    # mult form 0 to 1
+    
 
     tmpfile = r"tmpfile.wav"
 
@@ -74,7 +81,7 @@ def add_delay(delay1, delay2, feed, mult):
     s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
     ifile = SfPlayer(tmpfile)
 
-    d = Delay(ifile, delay=[delay1, delay2], feedback=feed, mul=mult).out()
+    d = Delay(ifile, delay=[delay1, delay2], feedback=feed, mul=0.4).out()
     s.start()
 
     s.stop()
@@ -106,3 +113,46 @@ def add_chorus(d1, d2, feed, balance):
     #os.remove(tmpfile)
     #os.rename(r"tmpfile_working.wav", tmpfile)
     return None
+
+
+
+def add_harmonizer(trans):
+
+    tmpfile = r"tmpfile.wav"
+
+    s = Server(audio="offline").boot()
+    filedur = sndinfo(tmpfile)[1]
+
+    s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
+    ifile = SfPlayer(tmpfile)
+
+    harm = Harmonizer(ifile, transpo=trans, winsize=0.05).out(1)
+    s.start()
+
+    s.stop()
+
+    #os.remove(tmpfile)
+    #os.rename(r"tmpfile_working.wav", tmpfile)
+    return None
+
+
+
+def add_convolve():
+    tmpfile = r"tmpfile.wav"
+
+    s = Server(audio="offline").boot()
+    filedur = sndinfo(tmpfile)[1]
+
+    s.recordOptions(dur=filedur, filename=r"tmpfile_working.wav")
+    ifile = SfPlayer(tmpfile,speed=[.999,1])
+
+    a = Convolve(ifile, SndTable(SNDS_PATH+'/accord.aif'), size=100, mul=.2).out()
+    s.start()
+
+    s.stop()
+
+    #os.remove(tmpfile)
+    #os.rename(r"tmpfile_working.wav", tmpfile)
+    return None
+
+
