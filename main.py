@@ -269,13 +269,26 @@ class Ui_MainWindow(QWidget):
     #utility functions to create functionality
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
-                 "that simulates a resonance of sound off of a surface."
-        delay = "Delay\nThis delays the output, creating a pausing effect."
+                 "that simulates a resonance of sound off of a surface."\
+                 "\n\n--------------Parameters--------------"
 
-        distortion = "Distortion\nThis creates an effect that simulates" \
-                         "a sine-wave of data being modified in a particular" \
-                         "direction."
-        chorus = "Chorus\nThis creates a resounding effect in the background."
+        delay = "Delay\nRecursively takes audio and plays it back after a period of time." \
+                "\n\n--------------Parameters--------------" \
+                "\nDelay Time(seconds): default 0.25" \
+                "\n\nFeedback (amount of signal sent back into delay): default 0" \
+                "\n\nMax Delay(seconds): default 1"
+
+        distortion = "Distortion\nThis creates an effect that simulates a sine-wave of audio" \
+                     " being modified in a particular direction." \
+                     "\n\n--------------Parameters--------------" \
+                     "\nDrive(amount of distortion applied): default 0.75"\
+                    "\n\nSlope(slope of lowpass filter): default 0.5"
+
+        chorus = "Chorus\nSounds with nearly the same patch converge as one." \
+                 "\n\n--------------Parameters--------------" \
+                 "\nDepth: default 1"\
+                 "\n\nFeedback(amount of singal sent back to delay): default 0.25"\
+                 "\n\nBalance(between wet and dry signals): default 0.5"
         if func == 1:
             self.effect_Textbox.setText(reverb)
         elif func == 2:
