@@ -30,6 +30,7 @@ class Ui_MainWindow(QWidget):
         winIcon = QIcon("images/icon.png")
         MainWindow.setWindowIcon(winIcon)
         self.effect_list = []    # To hold list of added effects.
+        self.node_list   = []
         self.oldeffect_list = [] # To hold list of previously applied effects.
         self.filepath = ""       # To hold filepath of wav
 
@@ -269,13 +270,26 @@ class Ui_MainWindow(QWidget):
     #utility functions to create functionality
     def changeEffectText(self, func):
         reverb = "Reverb\nThis creates a resounding effect " \
-                 "that simulates a resonance of sound off of a surface."
-        delay = "Delay\nThis delays the output, creating a pausing effect."
+                 "that simulates a resonance of sound off of a surface."\
+                 "\n\n--------------Parameters--------------"
 
-        distortion = "Distortion\nThis creates an effect that simulates" \
-                         "a sine-wave of data being modified in a particular" \
-                         "direction."
-        chorus = "Chorus\nThis creates a resounding effect in the background."
+        delay = "Delay\nRecursively takes audio and plays it back after a period of time." \
+                "\n\n--------------Parameters--------------" \
+                "\nDelay Time(seconds): default 0.25" \
+                "\n\nFeedback (amount of signal sent back into delay): default 0" \
+                "\n\nMax Delay(seconds): default 1"
+
+        distortion = "Distortion\nThis creates an effect that simulates a sine-wave of audio" \
+                     " being modified in a particular direction." \
+                     "\n\n--------------Parameters--------------" \
+                     "\nDrive(amount of distortion applied): default 0.75"\
+                    "\n\nSlope(slope of lowpass filter): default 0.5"
+
+        chorus = "Chorus\nSounds with nearly the same patch converge as one." \
+                 "\n\n--------------Parameters--------------" \
+                 "\nDepth: default 1"\
+                 "\n\nFeedback(amount of singal sent back to delay): default 0.25"\
+                 "\n\nBalance(between wet and dry signals): default 0.5"
         if func == 1:
             self.effect_Textbox.setText(reverb)
         elif func == 2:
@@ -413,6 +427,7 @@ class Ui_MainWindow(QWidget):
 
         if self.effect_list != []:
             self.effect_list.pop()[0]
+            self.node_list.pop()
             self.updateGrid()
             self.update_player()
             self.effect_Textbox.setText("Effect has been removed.")
@@ -432,6 +447,7 @@ class Ui_MainWindow(QWidget):
                                             )
             if reply == QtWidgets.QMessageBox.Yes:
                 self.effect_list = []
+                self.node_list   = []
                 self.updateGrid()
                 self.update_player()
                 self.effect_Textbox.setText("All effects have been removed.")
@@ -442,7 +458,14 @@ class Ui_MainWindow(QWidget):
         if self.mainStage:
             self.mainStage.setParent(None)
         self.mainStage = MainStage.MainStage(self.centralwidget)
-        self.mainStage.setGrid(self.effect_list)
+        node_list_temp = [] 
+        for i in range(0, len(self.effect_list)):
+            (name, effect) = self.effect_list[i]
+            n = MainStage.Node(self, name)
+            node_list_temp.append(n)
+        
+        self.mainStage.setGrid(node_list_temp)
+        self.node_list = node_list_temp
         self.mainStage.update()
         self.mainStage.lower()
 
