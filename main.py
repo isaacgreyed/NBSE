@@ -435,11 +435,13 @@ class Ui_MainWindow(QWidget):
         self.updateGrid()
 
     def add_harm(self):
-        self.effect_list.append(("harmonizer", harmonizer))
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("harmonizer", harmonizer, []))
         self.updateGrid()
 
     def add_convolve(self):
-        self.effect_list.append(("convolve", convolve))
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("convolve", convolve, []))
         self.updateGrid()
         
     def applyEffect(self):
