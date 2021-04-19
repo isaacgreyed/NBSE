@@ -374,6 +374,7 @@ class Ui_MainWindow(QWidget):
         file.close()
         file2.close()
 
+    
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
 
