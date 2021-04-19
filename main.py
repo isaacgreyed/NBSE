@@ -259,18 +259,23 @@ class Ui_MainWindow(QWidget):
         MainWindow.setStatusBar(self.statusbar)
         self.actionLoad = QtWidgets.QAction(MainWindow)
         self.actionLoad.setObjectName("actionLoad")
-        self.actionSave = QtWidgets.QAction(MainWindow)
-        self.actionSave.setObjectName("actionSave")
+
+        
+        self.actionExport = QtWidgets.QAction(MainWindow)
+        self.actionExport.setObjectName("actionExport")
+        self.actionExport.triggered.connect(self.export_file)
+
         self.actionUpload_File = QtWidgets.QAction(MainWindow)
         self.actionUpload_File.setObjectName("actionUpload_File")
+        
         self.actionQuit = QtWidgets.QAction(MainWindow)
         self.actionQuit.triggered.connect(sys.exit)
         self.actionQuit.setText("Quit")
         
-        self.actionSave.triggered.connect(self.save_file)
+        self.actionExport.triggered.connect(self.export_file)
 
         self.menuFile.addAction(self.actionLoad)
-        self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionExport)
         self.menuFile.addAction(self.actionQuit)
         self.menuUpload.addAction(self.actionUpload_File)
         self.menubar.addAction(self.menuFile.menuAction())
@@ -337,7 +342,7 @@ class Ui_MainWindow(QWidget):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuUpload.setTitle(_translate("MainWindow", "Upload"))
         self.actionLoad.setText(_translate("MainWindow", "Load"))
-        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionExport.setText(_translate("MainWindow", "Export"))
         self.actionUpload_File.setText(_translate("MainWindow", "Upload File"))
 
     def open_file(self):
@@ -365,7 +370,8 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
-    def save_file(self):
+
+    def export_file(self):
         name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
         
         file = open(name[0]+'.wav','wb')
