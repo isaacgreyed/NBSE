@@ -19,9 +19,9 @@ class MainStage(QWidget):
     def setGrid(self, node_list):
         for i in range(0, len(node_list)):
             row = 1
-            while i > 6:
-                row += 1
-                i -= 7
+            # while i > 6:
+            #    row += 1
+            #   i -= 7
             self.grid.addWidget(node_list[i], row, i)
 
 class Node(QWidget):
