@@ -1,7 +1,7 @@
 from pyo import *
 import os
 
-def delay(delay1, delay2, feed, mult):
+def delay(delay1, delay2, feed, mult=1):
     add_delay(delay1, delay2, feed, mult)
     remove()
 
@@ -9,7 +9,7 @@ def chorus(d1, d2, feed, balance):
     add_chorus(d1, d2, feed, balance)
     remove()
 
-def distortion(slo, mult):
+def distortion(slo, mult=1):
     add_distortion(slo, mult)
     remove()
 

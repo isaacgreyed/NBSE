@@ -419,13 +419,13 @@ class Ui_MainWindow(QWidget):
             copyfile("original.wav", 'tmpfile.wav')
             i = 0
             for (_, effect, args) in self.effect_list:
-                i += 1
                 effect(*MainStage.slider_list[i])
+                i += 1
             self.update_player()
 
     def removeLast(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
-
+        MainStage.slider_list = []
         if self.effect_list != []:
             self.effect_list.pop()[0]
             self.node_list.pop()
@@ -436,6 +436,7 @@ class Ui_MainWindow(QWidget):
             self.effect_Textbox.setText("No effects are staged.")
 
     def removeAll(self):
+        MainStage.slider_list = []
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('sample_distorted.wav')))
         if len(self.effect_list) == 0:
             self.effect_Textbox.setText("No effects are staged.")

@@ -133,36 +133,49 @@ class Node(QWidget):
             param1.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param1, 1))
 
-
             p2_label = QLabel(self)
-            p2_label.setText("Feedback")
-            p2_label.setGeometry(50, 80, 120, 30)
+            p2_label.setText("Depth")
+            p2_label.setGeometry(50, 0, 120, 30)
             p2_label.setStyleSheet("background-image: url(\"images/choruslabel.png\");")
             param2 = QSlider(Qt.Horizontal, self)
-            param2.setGeometry(0, 110, 200, 30)
+            param2.setGeometry(0, 60, 200, 30)
             param2.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
-            # Must divide by 100 before passed to function
             param2.setMinimum(0)
-            param2.setMaximum(100)
-            param2.setValue(25)
+            param2.setMaximum(5)
+            param2.setValue(1)
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
-            self.param_list.append((param2, 100))
+            self.param_list.append((param2, 1))
 
             p3_label = QLabel(self)
-            p3_label.setText("Balance")
-            p3_label.setGeometry(50, 160, 120, 30)
+            p3_label.setText("Feedback")
+            p3_label.setGeometry(50, 80, 120, 30)
             p3_label.setStyleSheet("background-image: url(\"images/choruslabel.png\");")
             param3 = QSlider(Qt.Horizontal, self)
-            param3.setGeometry(0, 190, 200, 30)
+            param3.setGeometry(0, 110, 200, 30)
             param3.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             # Must divide by 100 before passed to function
             param3.setMinimum(0)
             param3.setMaximum(100)
-            param3.setValue(50)
+            param3.setValue(25)
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param3, 100))
+
+            p4_label = QLabel(self)
+            p4_label.setText("Balance")
+            p4_label.setGeometry(50, 160, 120, 30)
+            p4_label.setStyleSheet("background-image: url(\"images/choruslabel.png\");")
+            param4 = QSlider(Qt.Horizontal, self)
+            param4.setGeometry(0, 190, 200, 30)
+            param4.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
+            # Must divide by 100 before passed to function
+            param4.setMinimum(0)
+            param4.setMaximum(100)
+            param4.setValue(50)
+            param4.setTickPosition(QSlider.TicksBelow)
+            param4.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param4, 100))
 
         elif name == "delay":
             label.setStyleSheet("border: 3px solid black;\n"
@@ -220,7 +233,10 @@ class Node(QWidget):
         global slider_list
         slider_vals = []
         for (p, m) in self.param_list:
-            slider_vals.append(p.value() / m)
+            if m != 1:
+                slider_vals.append(p.value() / m)
+            else:
+                slider_vals.append(p.value())
         if len(slider_list) > self.position:
             slider_list.remove(slider_list[self.position]) 
         slider_list.insert(self.position, slider_vals)
