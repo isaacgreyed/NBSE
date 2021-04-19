@@ -387,22 +387,26 @@ class Ui_MainWindow(QWidget):
 
     def add_delay(self):
         args = [1.2, 1.6, 0.8, 0.9]
-        self.effect_list.append(("delay", delay, args))
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("delay", delay, args))
         self.updateGrid()
 
     def add_chorus(self):
         args = [2, 4, 0.25, 0.8]
-        self.effect_list.append(("chorus", chorus, args))
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("chorus", chorus, args))
         self.updateGrid()
 
     def add_distortion(self):
         args = [0.6, 0.7]
-        self.effect_list.append(("distortion", distortion, args))
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("distortion", distortion, args))
         self.updateGrid()
 
     def add_reverb(self):
         args = [1000, 5, 2]
-        self.effect_list.append(("reverb", reverb, args))
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("reverb", reverb, args))
         self.updateGrid()
         
     def applyEffect(self):
