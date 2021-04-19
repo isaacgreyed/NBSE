@@ -17,12 +17,16 @@ class MainStage(QWidget):
 
     def setGrid(self, node_list):
         for i in range(0, len(node_list)):
-            self.grid.addWidget(node_list[i], 1, i)
+            row = 1
+            while i > 6:
+                row += 1
+                i -= 7
+            self.grid.addWidget(node_list[i], row, i)
 
 class Node(QWidget):
     def __init__(self, parent, name, *args, **kwargs):
         super(Node, self).__init__(parent, *args, **kwargs)
-        self.height = 600
+        self.height = 150
         self.width  = 200
         #self.setFixedSize(self.width, self.height)
         self.name = name
