@@ -19,7 +19,7 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from effectFunctions import delay, chorus, distortion, reverb
+from effectFunctions import delay, chorus, distortion, reverb, harmonizer, convolve
 import MainStage
 
 class Ui_MainWindow(QWidget):
@@ -172,6 +172,30 @@ class Ui_MainWindow(QWidget):
                                          "height: 150px;\n"
                                          "background-image: url(\"images/btntexture.png\");")
 
+        # Harmonizer Button
+        self.addHarm = QtWidgets.QPushButton("Harmonizer", self.centralwidget)
+        self.addHarm.clicked.connect(self.add_harm)
+        self.addHarm.clicked.connect(lambda: self.changeEffectText(4))
+        self.addHarm.setGeometry(30, 600, 125, 125)
+        self.addHarm.setStyleSheet("border-radius: 25px;\n"
+                                         "background: #73AD21;\n"
+                                         "padding: 20px;\n"
+                                         "width: 200px;\n"
+                                         "height: 150px;\n"
+                                         "background-image: url(\"images/btntexture.png\");")
+
+        # Convolve Button
+        self.addConvolve = QtWidgets.QPushButton("Convolution", self.centralwidget)
+        self.addConvolve.clicked.connect(self.add_convolve)
+        self.addConvolve.clicked.connect(lambda: self.changeEffectText(4))
+        self.addConvolve.setGeometry(210, 600, 125, 125)
+        self.addConvolve.setStyleSheet("border-radius: 25px;\n"
+                                         "background: #73AD21;\n"
+                                         "padding: 20px;\n"
+                                         "width: 200px;\n"
+                                         "height: 150px;\n"
+                                         "background-image: url(\"images/btntexture.png\");")
+
     def initActionButtons(self):
         # Apply Button
         self.applyButton = QtWidgets.QPushButton(self.centralwidget)
@@ -197,7 +221,7 @@ class Ui_MainWindow(QWidget):
         self.effect_Textbox = QLabel(self.centralwidget, wordWrap=True)
         self.effect_Textbox.setText("Please check the guide to learn everything you need to know about NBSE. Try "
                                     "uploading a .wav file first!")
-        self.effect_Textbox.setGeometry(9, 600, 350, 400)
+        self.effect_Textbox.setGeometry(9, 750, 350, 400)
         self.effect_Textbox.setAlignment(QtCore.Qt.AlignLeft)
         self.effect_Textbox.setStyleSheet("border: 3px solid black;\n"
                                           "background-image: url(\"images/effectTextbg.png\");")
@@ -350,6 +374,7 @@ class Ui_MainWindow(QWidget):
         file.close()
         file2.close()
 
+    
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
 
@@ -407,6 +432,16 @@ class Ui_MainWindow(QWidget):
         args = [1000, 5, 2]
         if len(self.effect_list) < 7:
             self.effect_list.append(("reverb", reverb, args))
+        self.updateGrid()
+
+    def add_harm(self):
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("harmonizer", harmonizer, []))
+        self.updateGrid()
+
+    def add_convolve(self):
+        if len(self.effect_list) < 7:
+            self.effect_list.append(("convolve", convolve, []))
         self.updateGrid()
         
     def applyEffect(self):
