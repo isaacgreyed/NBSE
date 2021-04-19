@@ -245,11 +245,11 @@ class Node(QWidget):
             if len(slider_list) > self.position:
                 defaults = slider_list[self.position]
             label.setStyleSheet("border: 3px solid black;\n"
-                               "background-image: url(\"images/delay_node.png\");")
+                               "background-image: url(\"images/harmonizenode.png\");")
             p1_label = QLabel(self)
             p1_label.setText("Harmonizer")
             p1_label.setGeometry(50, 0, 120, 30)
-            p1_label.setStyleSheet("background-image: url(\"images/delaylabel.png\");")
+            p1_label.setStyleSheet("background-image: url(\"images/harmonizelabel.png\");")
             param1 = QSlider(Qt.Horizontal, self)
             param1.setGeometry(0, 30, 200, 30)
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
@@ -263,12 +263,13 @@ class Node(QWidget):
         
         elif name == "convolve":
             label.setStyleSheet("border: 3px solid black;\n"
-                               "background-image: url(\"images/delay_node.png\");")
+                               "background-image: url(\"images/convolve_node.png\");")
             p1_label = QLabel(self)
             p1_label.setText("Convolve")
             p1_label.setGeometry(50, 0, 120, 30)
-            p1_label.setStyleSheet("background-image: url(\"images/delaylabel.png\");")
-        label.setGeometry(0, 250, 100, 30)
+            p1_label.setStyleSheet("background-image: url(\"images/convolvelabel.png\");")
+
+        label.setGeometry(0, 250, 110, 30)
         self.slider_changed()
 
     def slider_changed(self):

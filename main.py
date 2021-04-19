@@ -175,7 +175,7 @@ class Ui_MainWindow(QWidget):
         # Harmonizer Button
         self.addHarm = QtWidgets.QPushButton("Harmonizer", self.centralwidget)
         self.addHarm.clicked.connect(self.add_harm)
-        self.addHarm.clicked.connect(lambda: self.changeEffectText(4))
+        self.addHarm.clicked.connect(lambda: self.changeEffectText(5))
         self.addHarm.setGeometry(30, 600, 125, 125)
         self.addHarm.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
@@ -187,7 +187,7 @@ class Ui_MainWindow(QWidget):
         # Convolve Button
         self.addConvolve = QtWidgets.QPushButton("Convolution", self.centralwidget)
         self.addConvolve.clicked.connect(self.add_convolve)
-        self.addConvolve.clicked.connect(lambda: self.changeEffectText(4))
+        self.addConvolve.clicked.connect(lambda: self.changeEffectText(6))
         self.addConvolve.setGeometry(210, 600, 125, 125)
         self.addConvolve.setStyleSheet("border-radius: 25px;\n"
                                          "background: #73AD21;\n"
@@ -316,6 +316,14 @@ class Ui_MainWindow(QWidget):
                  "\nDepth: default 1"\
                  "\n\nFeedback(amount of singal sent back to delay): default 0.25"\
                  "\n\nBalance(between wet and dry signals): default 0.5"
+
+        harmonize = "Harmonize\nCreates harmonizing voices with sound input." \
+                    "\n\n--------------Parameters--------------" \
+                    "\nPitch(octaves up or down from source): default 0"
+
+        convolution = "Convolve\nFilters the audio using integral multiplication." \
+                       "\n\n--------------Parameters--------------\nNone"
+
         if func == 1:
             self.effect_Textbox.setText(reverb)
         elif func == 2:
@@ -324,6 +332,10 @@ class Ui_MainWindow(QWidget):
             self.effect_Textbox.setText(distortion)
         elif func == 4:
             self.effect_Textbox.setText(chorus)
+        elif func == 5:
+            self.effect_Textbox.setText(harmonize)
+        elif func == 6:
+            self.effect_Textbox.setText(convolution)
         else:
             self.effect_Textbox.setText("Error")
 
