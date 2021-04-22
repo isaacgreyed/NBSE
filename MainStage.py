@@ -9,7 +9,7 @@ class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
         super(MainStage, self).__init__(*args, **kwargs)
 
-        self.setGeometry(360, 250, 1550, 915)
+        self.setGeometry(360, 330, 1550, 915)
         self.grid = QGridLayout()
         w = QHBoxLayout()
         w.addLayout(self.grid)
@@ -19,9 +19,9 @@ class MainStage(QWidget):
     def setGrid(self, node_list):
         for i in range(0, len(node_list)):
             row = 1
-            while i > 6:
-                row += 1
-                i -= 7
+            # while i > 6:
+            #    row += 1
+            #   i -= 7
             self.grid.addWidget(node_list[i], row, i)
 
 class Node(QWidget):
@@ -50,7 +50,8 @@ class Node(QWidget):
             p1_label.setStyleSheet("background-image: url(\"images/reverblabel.png\");")
             param1 = QSlider(Qt.Horizontal, self)
             param1.setMinimum(1)
-            param1.setMaximum(defaults[0])
+            param1.setMaximum(1000)
+            param1.setValue(defaults[0])
             param1.setGeometry(0, 30, 200, 30)
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param1.setTickPosition(QSlider.TicksBelow)
@@ -103,7 +104,7 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param1.setMinimum(0)
             param1.setMaximum(100)
-            param1.setValue(int(defaults[0]))
+            param1.setValue(int(defaults[0]*100))
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param1, 100))
@@ -119,7 +120,7 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param2.setMinimum(0)
             param2.setMaximum(100)
-            param2.setValue(int(defaults[0]))
+            param2.setValue(int(defaults[1]*100))
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param2, 100))
@@ -239,8 +240,36 @@ class Node(QWidget):
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param3, 100))
+        elif name == "harmonizer":
+            defaults = [0]
+            if len(slider_list) > self.position:
+                defaults = slider_list[self.position]
+            label.setStyleSheet("border: 3px solid black;\n"
+                               "background-image: url(\"images/harmonizenode.png\");")
+            p1_label = QLabel(self)
+            p1_label.setText("Harmonizer")
+            p1_label.setGeometry(50, 0, 120, 30)
+            p1_label.setStyleSheet("background-image: url(\"images/harmonizelabel.png\");")
+            param1 = QSlider(Qt.Horizontal, self)
+            param1.setGeometry(0, 30, 200, 30)
+            param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
+            param1.setMinimum(-10)
+            param1.setValue(defaults[0])
+            param1.setMaximum(10)
+            param1.setValue(int(defaults[0]))
+            param1.setTickPosition(QSlider.TicksBelow)
+            param1.sliderReleased.connect(self.slider_changed)
+            self.param_list.append((param1, 1))
+        
+        elif name == "convolve":
+            label.setStyleSheet("border: 3px solid black;\n"
+                               "background-image: url(\"images/convolve_node.png\");")
+            p1_label = QLabel(self)
+            p1_label.setText("Convolve")
+            p1_label.setGeometry(50, 0, 120, 30)
+            p1_label.setStyleSheet("background-image: url(\"images/convolvelabel.png\");")
 
-        label.setGeometry(0, 250, 100, 30)
+        label.setGeometry(0, 250, 110, 30)
         self.slider_changed()
 
     def slider_changed(self):
@@ -259,8 +288,7 @@ class Node(QWidget):
     def paintEvent(self, event) -> None:
         painter = QPainter()
         painter.begin(self)
-        rect    = event.rect()
-        
+                
         pen = QPen(Qt.blue)
         pen.setWidth(2)
         painter.setPen(pen)
