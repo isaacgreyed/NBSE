@@ -54,7 +54,7 @@ class Node(QWidget):
             param1.setMaximum(1000)
             try:
                 param1.setValue(defaults[0])
-            finally:
+            except:
                 param1.setValue(1000)
             param1.setGeometry(0, 30, 200, 30)
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
@@ -74,7 +74,7 @@ class Node(QWidget):
             param2.setMaximum(5)
             try:
                 param2.setValue(defaults[1])
-            finally:
+            except:
                 param2.setValue(5)
             param2.setTickPosition(QSlider.TicksBelow)
             param2.setTickInterval(1)
@@ -92,7 +92,7 @@ class Node(QWidget):
             param3.setMaximum(2)
             try:
                 param3.setValue(defaults[2])
-            finally:
+            except:
                 param3.setValue(2)
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
@@ -116,7 +116,7 @@ class Node(QWidget):
             param1.setMaximum(100)
             try:
                 param1.setValue(int(defaults[0]*100))
-            finally:
+            except:
                 param1.setValue(int(0.6*100))
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
@@ -135,7 +135,7 @@ class Node(QWidget):
             param2.setMaximum(100)
             try:
                 param2.setValue(int(defaults[1]*100))
-            finally:
+            except:
                 param2.setValue(int(0.7*100))
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
@@ -158,7 +158,7 @@ class Node(QWidget):
             param1.setMaximum(5)
             try:
                 param1.setValue(defaults[0])
-            finally:
+            except:
                 param1.setValue(2)
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
@@ -175,7 +175,7 @@ class Node(QWidget):
             param2.setMaximum(5)
             try:
                 param2.setValue(defaults[1])
-            finally:
+            except:
                 param2.setValue(4)
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
@@ -193,7 +193,7 @@ class Node(QWidget):
             param3.setMaximum(100)
             try:
                 param3.setValue(int(defaults[2]*100))
-            finally:
+            except:
                 param3.setValue(int(0.25*100))
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
@@ -211,7 +211,7 @@ class Node(QWidget):
             param4.setMaximum(100)
             try:
                 param4.setValue(defaults[3]*100)
-            finally:
+            except:
                 param4.setValue(int(0.8*100))
             param4.setTickPosition(QSlider.TicksBelow)
             param4.sliderReleased.connect(self.slider_changed)
@@ -235,7 +235,7 @@ class Node(QWidget):
             param1.setMaximum(500)
             try:
                 param1.setValue(int(defaults[0]*100))
-            finally:
+            except:
                 param1.setValue(int(0.15*100))
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
@@ -254,7 +254,7 @@ class Node(QWidget):
             param2.setMaximum(500)
             try:
                 param2.setValue(int(defaults[1]*100))
-            finally:
+            except:
                 param2.setValue(int(0.2*100))
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
@@ -272,7 +272,7 @@ class Node(QWidget):
             param3.setMaximum(100)
             try:
                 param3.setValue(int(defaults[2]*100))
-            finally:
+            except:
                 param3.setValue(int(0.8*100))
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
@@ -293,7 +293,7 @@ class Node(QWidget):
             param1.setMinimum(-10)
             try:
                 param1.setValue(defaults[0])
-            finally:
+            except:
                 param1.setValue(0)
             param1.setMaximum(10)
             param1.setValue(int(defaults[0]))
