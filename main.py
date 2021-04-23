@@ -9,6 +9,7 @@
 
 from shutil import copyfile
 import os
+import ast
 from EffectTree import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QGridLayout, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, \
@@ -259,24 +260,35 @@ class Ui_MainWindow(QWidget):
         MainWindow.setStatusBar(self.statusbar)
         self.actionLoad = QtWidgets.QAction(MainWindow)
         self.actionLoad.setObjectName("actionLoad")
+        self.actionLoad.triggered.connect(self.load_file)
+
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
+        self.actionSave.triggered.connect(self.save_file)
+                
+        self.actionExport = QtWidgets.QAction(MainWindow)
+        self.actionExport.setObjectName("actionExport")
+        self.actionExport.triggered.connect(self.export_file)
+
         self.actionUpload_File = QtWidgets.QAction(MainWindow)
         self.actionUpload_File.setObjectName("actionUpload_File")
+        self.actionUpload_File.triggered.connect(self.open_file)
+
         self.actionQuit = QtWidgets.QAction(MainWindow)
         self.actionQuit.triggered.connect(sys.exit)
         self.actionQuit.setText("Quit")
         
-        self.actionSave.triggered.connect(self.save_file)
+        
 
         self.menuFile.addAction(self.actionLoad)
         self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionExport)
         self.menuFile.addAction(self.actionQuit)
         self.menuUpload.addAction(self.actionUpload_File)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuUpload.menuAction())
 
-        self.actionUpload_File.triggered.connect(self.open_file)
+        
 
     def initLayout(self):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -348,6 +360,7 @@ class Ui_MainWindow(QWidget):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuUpload.setTitle(_translate("MainWindow", "Upload"))
         self.actionLoad.setText(_translate("MainWindow", "Load"))
+        self.actionExport.setText(_translate("MainWindow", "Export"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionUpload_File.setText(_translate("MainWindow", "Upload File"))
 
@@ -376,8 +389,9 @@ class Ui_MainWindow(QWidget):
             self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
             self.playButton.setEnabled(True)
 
-    def save_file(self):
-        name = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
+
+    def export_file(self):
+        name = QtWidgets.QFileDialog.getSaveFileName(self, 'Export File')
         
         file = open(name[0]+'.wav','wb')
         file2 = open(r'tmpfile.wav', 'rb')
@@ -385,7 +399,92 @@ class Ui_MainWindow(QWidget):
         file.close()
         file2.close()
 
-    
+
+    def load_file(self):
+        filename, ok = QtWidgets.QFileDialog.getOpenFileName(
+            self, filter='Text Files (*.txt)')
+
+        if ok:
+            with open(filename, 'r') as file:
+                f = file.read()
+                s = f.split('+++')
+                path = s[0]
+                effList = s[1]
+                params = s[2]
+
+            # updated filepath and display of fname
+            self.filepath = path
+            self.file_Textbox.setText(self.filepath.rsplit('/', 1)[-1])
+
+            os.remove('tmpfile.wav')
+            f = open('tmpfile.wav', 'wb')
+            k = open(path, 'rb')
+            f.write(k.read())
+            k.close()
+            f.close()
+            
+            f = open('original.wav', 'wb')
+            k = open(path, 'rb')
+            f.write(k.read())
+            k.close()
+            f.close()
+
+            # effect list updated
+            tmpL = effList
+            tmpL = tmpL.replace("[", "")
+            tmpL = tmpL.replace("]", "")
+            tmpL = tmpL.replace("'", "")
+            tmpL = tmpL.split(', ')
+
+
+            self.effectList = []
+            for i in tmpL:
+                if i == 'reverb':
+                    self.add_reverb()
+                elif i == 'delay':
+                    self.add_delay()
+                elif i == 'chorus':
+                    self.add_chorus()
+                elif i == 'distortion':
+                    self.add_distortion()
+                elif i == 'harmonizer':
+                    self.add_harm()
+                elif i == 'convolve':
+                    self.add_convolve()
+                else:
+                    pass
+                    
+            
+            # slider values updated
+            #params = params.replace('],', '+++')
+            #params = params.replace('[', '')
+            #params = params.replace(']', '')
+            #params = params.replace("'", '')
+            #params = params.split('+++')
+            #print(params)
+            original = ast.literal_eval(params)
+            #print(original)
+            MainStage.slider_list = original
+
+            self.updateGrid()
+            self.update_player()
+            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
+            self.playButton.setEnabled(True)
+            
+
+    def save_file(self):
+        name, ok = QtWidgets.QFileDialog.getSaveFileName(self, 'Save File')
+
+        if ok:
+            file = open(name +'.txt','w')
+            effList = []
+            for i in self.effect_list:
+                effList.append(i[0])
+            file.write(str(self.filepath) + '+++' + str(effList) + '+++' + str(MainStage.slider_list))
+            file.close()
+        
+
+        
     def update_player(self):
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile('tmpfile.wav')))
 
