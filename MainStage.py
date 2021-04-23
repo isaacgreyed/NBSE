@@ -1,3 +1,4 @@
+from typing import final
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -51,7 +52,10 @@ class Node(QWidget):
             param1 = QSlider(Qt.Horizontal, self)
             param1.setMinimum(1)
             param1.setMaximum(1000)
-            param1.setValue(defaults[0])
+            try:
+                param1.setValue(defaults[0])
+            finally:
+                param1.setValue(1000)
             param1.setGeometry(0, 30, 200, 30)
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param1.setTickPosition(QSlider.TicksBelow)
@@ -68,7 +72,10 @@ class Node(QWidget):
             param2.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param2.setMinimum(1)
             param2.setMaximum(5)
-            param2.setValue(defaults[1])
+            try:
+                param2.setValue(defaults[1])
+            finally:
+                param2.setValue(5)
             param2.setTickPosition(QSlider.TicksBelow)
             param2.setTickInterval(1)
             param2.sliderReleased.connect(self.slider_changed)
@@ -83,7 +90,10 @@ class Node(QWidget):
             param3.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param3.setMinimum(0)
             param3.setMaximum(2)
-            param3.setValue(defaults[2])
+            try:
+                param3.setValue(defaults[2])
+            finally:
+                param3.setValue(2)
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param3, 1))
@@ -104,7 +114,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param1.setMinimum(0)
             param1.setMaximum(100)
-            param1.setValue(int(defaults[0]*100))
+            try:
+                param1.setValue(int(defaults[0]*100))
+            finally:
+                param1.setValue(int(0.6*100))
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param1, 100))
@@ -120,7 +133,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param2.setMinimum(0)
             param2.setMaximum(100)
-            param2.setValue(int(defaults[1]*100))
+            try:
+                param2.setValue(int(defaults[1]*100))
+            finally:
+                param2.setValue(int(0.7*100))
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param2, 100))
@@ -140,7 +156,10 @@ class Node(QWidget):
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param1.setMinimum(0)
             param1.setMaximum(5)
-            param1.setValue(defaults[0])
+            try:
+                param1.setValue(defaults[0])
+            finally:
+                param1.setValue(2)
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param1, 1))
@@ -154,7 +173,10 @@ class Node(QWidget):
             param2.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param2.setMinimum(0)
             param2.setMaximum(5)
-            param2.setValue(defaults[1])
+            try:
+                param2.setValue(defaults[1])
+            finally:
+                param2.setValue(4)
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param2, 1))
@@ -169,7 +191,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param3.setMinimum(0)
             param3.setMaximum(100)
-            param3.setValue(int(defaults[2]*100))
+            try:
+                param3.setValue(int(defaults[2]*100))
+            finally:
+                param3.setValue(int(0.25*100))
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param3, 100))
@@ -184,7 +209,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param4.setMinimum(0)
             param4.setMaximum(100)
-            param4.setValue(defaults[3]*100)
+            try:
+                param4.setValue(defaults[3]*100)
+            finally:
+                param4.setValue(int(0.8*100))
             param4.setTickPosition(QSlider.TicksBelow)
             param4.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param4, 100))
@@ -205,7 +233,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param1.setMinimum(0)
             param1.setMaximum(500)
-            param1.setValue(int(defaults[0]*100))
+            try:
+                param1.setValue(int(defaults[0]*100))
+            finally:
+                param1.setValue(int(0.15*100))
             param1.setTickPosition(QSlider.TicksBelow)
             param1.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param1, 100))
@@ -221,7 +252,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param2.setMinimum(0)
             param2.setMaximum(500)
-            param2.setValue(int(defaults[1]*100))
+            try:
+                param2.setValue(int(defaults[1]*100))
+            finally:
+                param2.setValue(int(0.2*100))
             param2.setTickPosition(QSlider.TicksBelow)
             param2.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param2, 100))
@@ -236,7 +270,10 @@ class Node(QWidget):
             # Must divide by 100 before passed to function
             param3.setMinimum(0)
             param3.setMaximum(100)
-            param3.setValue(int(defaults[2]*100))
+            try:
+                param3.setValue(int(defaults[2]*100))
+            finally:
+                param3.setValue(int(0.8*100))
             param3.setTickPosition(QSlider.TicksBelow)
             param3.sliderReleased.connect(self.slider_changed)
             self.param_list.append((param3, 100))
@@ -254,7 +291,10 @@ class Node(QWidget):
             param1.setGeometry(0, 30, 200, 30)
             param1.setStyleSheet("background-image: url(\"images/sliderbg.png\");")
             param1.setMinimum(-10)
-            param1.setValue(defaults[0])
+            try:
+                param1.setValue(defaults[0])
+            finally:
+                param1.setValue(0)
             param1.setMaximum(10)
             param1.setValue(int(defaults[0]))
             param1.setTickPosition(QSlider.TicksBelow)
