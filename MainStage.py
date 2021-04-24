@@ -2,8 +2,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from EffectTree_examples import *
+from Node import NodeList
 
 slider_list = []
+
+Nodes = NodeList()
 
 class MainStage(QWidget):
     def __init__(self, *args, **kwargs):
