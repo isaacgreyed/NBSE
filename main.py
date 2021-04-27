@@ -424,7 +424,11 @@ class Ui_MainWindow(QWidget):
 
             os.remove('tmpfile.wav')
             f = open('tmpfile.wav', 'wb')
-            k = open(path, 'rb')
+            try:
+                k = open(path, 'rb')
+            except:
+                self.changeEffectText(8)
+                return None
             f.write(k.read())
             k.close()
             f.close()
