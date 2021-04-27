@@ -406,12 +406,18 @@ class Ui_MainWindow(QWidget):
 
         if ok:
             with open(filename, 'r') as file:
-                f = file.read()
-                s = f.split('+++')
-                path = s[0]
-                effList = s[1]
-                params = s[2]
+                try:
+                    f = file.read()
+                    s = f.split('+++')
+                    path = s[0]
+                    effList = s[1]
+                    params = s[2]
+                except:
+                    self.changeEffectText(8)
+                    return None
 
+            
+            
             # updated filepath and display of fname
             self.filepath = path
             self.file_Textbox.setText(self.filepath.rsplit('/', 1)[-1])
@@ -429,6 +435,7 @@ class Ui_MainWindow(QWidget):
             k.close()
             f.close()
 
+
             # effect list updated
             tmpL = effList
             tmpL = tmpL.replace("[", "")
@@ -437,7 +444,10 @@ class Ui_MainWindow(QWidget):
             tmpL = tmpL.split(', ')
 
 
-            self.effectList = []
+            self.effect_list = []
+            self.node_list = []
+            self.updateGrid()
+            
             for i in tmpL:
                 if i == 'reverb':
                     self.add_reverb()
